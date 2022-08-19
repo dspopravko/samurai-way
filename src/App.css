@@ -1,5 +1,5 @@
 * {
-  font-size: 34px;
+  font-size: 1.2rem;
 }
 
 .app-wrapper {
@@ -12,46 +12,4 @@
   grid-template-rows: 60px;
   grid-template-columns: 2fr 10fr;
   grid-gap: 10px;
-}
-
-.header {
-  display: flex;
-  flex-direction: row;
-  grid-area: header;
-  background-color: aqua;
-}
-
-.header img {
-  width: 50px;
-  height: 50px;
-  margin-top: auto;
-  margin-bottom: auto;
-  margin-left: 5px;
-}
-
-.header p {
-  display: block;
-  margin: 0 0 0 20px;
-}
-
-
-.navbar {
-  grid-area: navbar;
-  background-color: beige;
-}
-
-.content {
-  grid-area: content;
-  background-color: blanchedalmond;
-}
-
-.content-img-wrapper {
-  width: 100%;
-  height: 200px;
-}
-
-.content img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
 }
