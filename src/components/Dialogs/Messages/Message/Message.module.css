@@ -1,0 +1,85 @@
+:root {
+    --message_bg: #eaeaea;
+    --text_color: #2c2c2c;
+    --name_color: #8c5fbb;
+}
+
+.message_container {
+    border-radius: 15px 15px 15px 0;
+    padding: 7px 10px 10px 10px;
+    background-color: var(--message_bg);
+}
+.myMessage_container {
+    border-radius: 15px 15px 0 15px;
+    padding: 7px 10px 10px 10px;
+    background-color: var(--message_bg);
+}
+
+.message {
+    /*max-width: 500px;*/
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+}
+.myMessage {
+    /*max-width: 500px;*/
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    flex-direction: row-reverse;
+}
+
+.avatar_container {
+    width: 50px;
+    height: 50px;
+}
+
+.avatar_container img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+}
+
+.body_container {
+    display: flex;
+    flex-direction: row;
+}
+
+.time_container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end
+}
+
+.text {
+    color: var(--text_color);
+    margin: 0;
+}
+
+.time {
+    display: block;
+    padding-left: 10px;
+    color: var(--text_color);
+    font-size: 0.8em;
+}
+
+.name {
+    color: var(--name_color);
+    font-size: large;
+    font-weight: 600;
+}
+.svgWrapper {
+    flex: 0 0 15px;
+    display: flex;
+}
+.mySvgWrapper {
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+    flex: 0 0 15px;
+    display: flex;
+}
+.message svg {
+    fill: var(--message_bg);
+}
+.myMessage svg {
+    fill: var(--message_bg);
+}

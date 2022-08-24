@@ -1,15 +1,23 @@
 * {
-  font-size: 1.2rem;
+    font-size: 1.2rem;
+}
+
+:root {
+    --grey1: #1f1f1f;
 }
 
 .app-wrapper {
-  display: grid;
-  width: 1200px;
-  margin: 0 auto;
-  grid-template-areas:
+    display: grid;
+    width: 1200px;
+    margin: 0 auto;
+    grid-template-areas:
   "header header"
   "navbar content";
-  grid-template-rows: 60px;
-  grid-template-columns: 2fr 10fr;
-  grid-gap: 10px;
+    grid-template-rows: 60px;
+    grid-template-columns: 2fr 10fr;
+    grid-gap: 10px;
+}
+
+.app-wrapper-content {
+    grid-area: content;
 }

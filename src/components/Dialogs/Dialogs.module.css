@@ -1,0 +1,30 @@
+.dialogsWrapper {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+    grid-template-rows: 1fr min-content;
+    gap: 10px;
+}
+
+.chats {
+    display: flex;
+    flex-direction: column;
+    background-color: blanchedalmond;
+    padding: 10px;
+}
+
+.chats .chat {
+
+}
+
+.messagesPage {
+    background-color: blanchedalmond;
+    padding: 10px;
+}
+
+.messagesPage .message {
+
+}
+
+.active {
+    font-weight: 600;
+}

@@ -1,0 +1,14 @@
+.post_new {
+    margin-top: 10px;
+    margin-left: 10px;
+    display: flex;
+    gap: 10px;
+    color: #383b3f;
+}
+
+.myPostsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: blanchedalmond;
+}
