@@ -29,8 +29,8 @@ export default function MyPosts() {
     return (
         <div className={s.myPostsWrapper}>
             <div className={s.post_new}>
-                <textarea></textarea>
-                <button>Add post</button>
+                <textarea className={s.input}></textarea>
+                <button className={s.btn}>Add post</button>
             </div>
             {posts.map(post => {
                 return <Post

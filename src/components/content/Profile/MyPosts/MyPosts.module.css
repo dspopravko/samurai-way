@@ -1,6 +1,5 @@
 .post_new {
-    margin-top: 10px;
-    margin-left: 10px;
+    margin: 10px 10px 0 10px;
     display: flex;
     gap: 10px;
     color: #383b3f;
@@ -11,4 +10,12 @@
     flex-direction: column;
     gap: 10px;
     background-color: blanchedalmond;
+}
+
+.btn {
+    flex-basis: 150px;
+}
+
+.input {
+    flex-grow: 1;
 }

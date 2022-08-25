@@ -2,18 +2,22 @@
     display: flex;
     flex-direction: row;
     grid-area: header;
-    background-color: aqua;
+    align-items: center;
+    background-color: #c3f5e3;
 }
-
-.header img {
+.imgWrapper {
+    margin-left: 7px;
     width: 50px;
     height: 50px;
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: 5px;
 }
+.header img {
+    max-height:100%;
+}
+.titleWrapper {
 
-.header p {
+}
+.titleWrapper p {
+    font-weight: bold;
     display: block;
-    margin: 0 0 0 20px;
+    margin-left: 10px;
 }

@@ -17,6 +17,10 @@ a.active {
     color: #000000;
     font-weight: 600;
 }
+a.active > div {
+    background-color: #efefef;
+}
+
 .item:hover {
     background-color: #d9d6d6;
 }

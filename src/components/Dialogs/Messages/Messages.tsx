@@ -7,7 +7,6 @@ type MessagesPropsType = {
 }
 
 export default function Messages(props: MessagesPropsType) {
-    console.log(props.messages)
     return <div className={s.message}>
         {props.messages.map(m => {
             return <Message

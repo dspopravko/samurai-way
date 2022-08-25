@@ -1,0 +1,19 @@
+.note {
+    background-color: #d6f1e6;
+    flex-basis: 400px;
+    flex-grow: 1;
+    min-height: 200px;
+    border-radius: 10px;
+    padding: 15px;
+}
+button {
+    margin-left: 5px;
+    border: 0;
+    border-radius: 5px;
+    background-color: #f5e6e6;
+    transition: ease 0.2s;
+}
+button:hover {
+    margin-left: 6px;
+    background-color: #e8d2d2;
+}
