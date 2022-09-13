@@ -1,7 +1,12 @@
 import React from "react";
 import s from "./ProfileInfo.module.css"
+import {PageHeaderType} from "../../../../redux/state.js";
 
-export const ProfileInfo = () => {
+type ProfileInfoPropsType = {
+    pageHeader: PageHeaderType
+}
+
+export const ProfileInfo = (props: ProfileInfoPropsType) => {
     return (
         <div className={s.profileInfoWrapper}>
             <div className={s.contentImgWrapper}>

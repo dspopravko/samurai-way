@@ -1,46 +1,58 @@
 import s from "./MyPosts.module.css"
 import {Post} from "./Post/Post";
+import {PageHeaderType, PostType} from "../../../../redux/state.js";
+import React, {ChangeEvent, useState} from "react";
 
-const posts = [
-    {
-        name: "Artem Smirnov",
-        message: "Great wallpaper!",
-        avatar: "https://media.istockphoto.com/photos/headshot-portrait-of-smiling-ethnic-businessman-in-office-picture-id1300512215?k=20&m=1300512215&s=612x612&w=0&h=enNAE_K3bhFRebyOAPFdJtX9ru7Fo4S9BZUZZQD3v20=",
-        likes: 56,
-        date: "12.03.18 15:54"
-    },
-    {
-        name: "Artem Smirnov",
-        message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam facilisis ipsum sit amet semper faucibus. Aenean eu vestibulum orci, nec vestibulum nisi. Proin dapibus diam neque, sed malesuada ex euismod et. Quisque ex risus, consequat sit amet mi ac, lobortis tincidunt erat. Donec accumsan quis magna sed feugiat. Nulla elementum metus id odio dapibus consectetMaecenas vitae nibh in dolor malesuada bibendum aliquam ac leo.eu congue nulla feugiat sit amet. Duis at aliquet lacus.",
-        avatar: "https://media.istockphoto.com/photos/headshot-portrait-of-smiling-ethnic-businessman-in-office-picture-id1300512215?k=20&m=1300512215&s=612x612&w=0&h=enNAE_K3bhFRebyOAPFdJtX9ru7Fo4S9BZUZZQD3v20=",
-        likes: 45,
-        date: "12.03.18 15:54"
-    },
-    {
-        name: "Maisy Gibson",
-        message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam facilisis ipsum sit amet semper faucibus. Aenean eu vestibulum orci, nec vestibulum nisi. Proin dapibus diam neque, sed malesuada ex euismod et. Quisque ex risus, consequat sit amet mi ac, lobortis tincidunt erat. Donec accumsan quis magna sed feugiat. Nulla elementum metus id odio dapibus consectetMaecenas vitae nibh in dolor malesuada bibendum aliquam ac leo.eu congue nulla feugiat sit amet. Duis at aliquet lacus.",
-        avatar: "https://sun9-74.userapi.com/Ph-WiuOtF985il9AvN9JqiCWedmHtSGSSTXrSA/ltEB2Z2-YO4.jpg",
-        likes: 65,
-        date: "12.03.18 15:54"
+type MyPostsPropsType = {
+    pageHeader: PageHeaderType
+    posts: PostType[]
+    addPostCallback: () => void
+    addLikeCallback: (postID: number) => void
+    postInputHandler: (postMessage: string) => void
+}
+
+export default function MyPosts({
+                                    posts,
+                                    addPostCallback,
+                                    addLikeCallback,
+                                    pageHeader,
+                                    postInputHandler
+                                }: MyPostsPropsType) {
+
+    // const newPostElement = React.createRef<HTMLTextAreaElement>();
+    const [errorMsg, setErrorMsg] = useState("")
+
+    const postsList = posts.map((post, index) => {
+        return <Post key={index}
+                     props={post}
+                     likesCallback={addLikeCallback}
+        />
+    })
+
+    const addPostHandler = () => {
+        if (!pageHeader.postInput.trim()) setErrorMsg("Your post is empty!")
+        else {
+            addPostCallback()
+            setErrorMsg("")
+        }
     }
-]
 
-export default function MyPosts() {
+    const inputHander = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        postInputHandler(e.target.value)
+    }
+
     return (
         <div className={s.myPostsWrapper}>
             <div className={s.post_new}>
-                <textarea className={s.input}></textarea>
-                <button className={s.btn}>Add post</button>
+                <textarea
+                    onChange={inputHander}
+                    value={pageHeader.postInput}
+                    // ref={newPostElement}
+                    className={s.input}></textarea>
+                <button onClick={addPostHandler} className={s.btn}>Add post</button>
             </div>
-            {posts.map(post => {
-                return <Post
-                    message={post.message}
-                    likes={post.likes}
-                    avatar={post.avatar}
-                    name={post.name}
-                    date={post.date}
-                />
-            })}
+            <div>{errorMsg}</div>
+            {postsList}
         </div>
     )
 }

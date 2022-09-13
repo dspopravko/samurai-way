@@ -1,15 +1,14 @@
 import React from "react";
 import s from "./Messages.module.css"
 import {Message, MessagePropsType} from "./Message/Message";
+import {ChatType} from "../../../redux/state.js";
 
-type MessagesPropsType = {
-    messages: Array<MessagePropsType>
-}
 
-export default function Messages(props: MessagesPropsType) {
+export default function Messages(props: ChatType) {
+
     return <div className={s.message}>
-        {props.messages.map(m => {
-            return <Message
+        {props.chatMessages.map((m, index) => {
+            return <Message key={index}
                 id={m.id}
                 authorId={m.authorId}
                 avatar={m.avatar}

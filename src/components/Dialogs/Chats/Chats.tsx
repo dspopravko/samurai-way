@@ -1,22 +1,24 @@
 import React from "react";
 import s from "./Chats.module.css"
 import {NavLink} from "react-router-dom";
+import {ChatHeaderType} from "../../../redux/state.js";
 
-type ChatType = {
-    author: string
-    date: string
-    id: number
-}
 
-export default function Chats({author, date, id}: ChatType) {
-    let path = "/messages/" + id
+export default function Chats( {chatHeader} : { chatHeader: ChatHeaderType } ) {
+    let path = "/messages/" + chatHeader.id
     return (
-        <div className={s.message} >
-            <NavLink to={path}>
-                <div className={s.chat}>
-                    {author}
+        <NavLink to={path}>
+            <div className={s.message}>
+                <div className={s.logo}>
+                    <img src={chatHeader.chatLogo}/>
                 </div>
-            </NavLink>
-        </div>
+                <div className={s.chat}>
+                    {chatHeader.author}
+                    <div className={s.date}>
+                        {chatHeader.date}
+                    </div>
+                </div>
+            </div>
+        </NavLink>
     )
 }

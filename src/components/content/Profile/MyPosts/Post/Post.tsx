@@ -1,15 +1,18 @@
 import React from "react";
 import s from "./Post.module.css";
+import {PostType, ProfilePageType} from "../../../../../redux/state.js";
 
 type PostPropsType = {
-    date: string
-    name: string
-    message: string
-    avatar: string
-    likes: number
+    props: PostType
+    likesCallback: (postID: number) => void
 }
 
-export const Post = (props: PostPropsType) => {
+export const Post = ({props, likesCallback}: PostPropsType ) => {
+    const likeClickHandler = (event: React.MouseEvent<HTMLElement>) => {
+        likesCallback(props.id)
+    }
+    const likeClass = props.myLike ? `${s.likes} ${s.active}` : s.likes
+    const likeCount = props.myLike ? props.likes + 1 : props.likes
     return (
         <div className={s.post}>
             <div className={s.authorWrapper}>
@@ -23,7 +26,7 @@ export const Post = (props: PostPropsType) => {
                 {props.message}
             </div>
             <div className={s.postInteractions}>
-                <div className={s.likes}>
+                <div onClick={likeClickHandler} className={likeClass}>
                     <div className={s.likeSvgContainer}>
                         <svg viewBox="0 0 52 48.35">
                             <path
@@ -31,7 +34,7 @@ export const Post = (props: PostPropsType) => {
                                 transform="translate(0 -1.83)"/>
                         </svg>
                     </div>
-                    <div className={s.likes}>{props.likes}</div>
+                    <div className={s.likes}>{likeCount}</div>
                 </div>
             </div>
         </div>

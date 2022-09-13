@@ -2,63 +2,36 @@ import React from "react";
 import s from "./Dialogs.module.css"
 import Chats from "./Chats/Chats";
 import Messages from "./Messages/Messages";
+import {ChatType} from "../../redux/state.js";
+import {Route} from "react-router-dom";
 
-const chats = [
-    {id: 1, author: "Maisy Gibson", date: "12:34"},
-    {id: 2, author: "Ifrah Mason", date: "14:18"},
-    {id: 3, author: "Lani Owen", date: "14:18"},
-    {id: 4, author: "Cobie Houghton", date: "14:18"},
-    {id: 5, author: "Manahil Molloy", date: "14:18"},
-    {id: 6, author: "Misha Valencia", date: "14:18"},
-    {id: 7, author: "Juniper Watts", date: "14:18"},
+export const Dialogs = ( {chats} : {chats: ChatType[] } ) => {
 
-]
-const messages = [
-    {
-        id: 1,
-        authorId: 2645,
-        name: "Maisy",
-        message: "How are you?",
-        date: "12:45",
-        avatar: "https://sun9-74.userapi.com/Ph-WiuOtF985il9AvN9JqiCWedmHtSGSSTXrSA/ltEB2Z2-YO4.jpg"
-    },
-    {
-        id: 2,
-        authorId: 0,
-        name: "Author",
-        message: "Lorem ipsum dolor sit amet!",
-        date: "12:45",
-        avatar: "https://sun9-74.userapi.com/Ph-WiuOtF985il9AvN9JqiCWedmHtSGSSTXrSA/ltEB2Z2-YO4.jpg"
-    },
-    {
-        id: 3,
-        authorId: 2645,
-        name: "Maisy",
-        message: "erat est, eu lacin?",
-        date: "12:45",
-        avatar: "https://sun9-74.userapi.com/Ph-WiuOtF985il9AvN9JqiCWedmHtSGSSTXrSA/ltEB2Z2-YO4.jpg"
-    },
-    {
-        id: 4,
-        authorId: 2645,
-        name: "Maisy",
-        message: "lis viverra rhon!",
-        date: "12:45",
-        avatar: "https://sun9-74.userapi.com/Ph-WiuOtF985il9AvN9JqiCWedmHtSGSSTXrSA/ltEB2Z2-YO4.jpg"
-    }
-]
+    const chatHeaderItems = chats.map((chat, index) => {
+        return <Chats key={index} chatHeader={chat.chatHeader}/>
+    })
 
-export const Dialogs = () => {
+    const chatItems = chats.map((chat, index) => {
+        return <Route key={index}
+                      path={`/messages/${index + 1}`}
+                      render={() =>
+                          <Messages key={index}
+                                    chatMessages={chat.chatMessages}
+                                    chatHeader={chat.chatHeader}/>}/>
+    })
+
     return (
         <div className={s.dialogsWrapper}>
             <div className={s.chats}>
-                {chats.map(chat => {
-                    return <Chats id={chat.id} author={chat.author} date={chat.date}/>
-                })}
+                {chatHeaderItems}
             </div>
             <div className={s.messagesPage}>
                 <div className={s.message}>
-                    <Messages messages={messages}/>
+                    {chatItems}
+                </div>
+                <div className={s.inputWrapper}>
+                <input/>
+                    <button>Send</button>
                 </div>
             </div>
         </div>

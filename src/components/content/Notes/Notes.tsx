@@ -35,7 +35,7 @@ export const Notes = () => {
         }])
     }
     const deleteNote = (noteId: number, paleteId: number) => {
-        console.log("пока не знаю как почистить массив(")
+
     }
 
     return (
