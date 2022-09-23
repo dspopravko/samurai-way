@@ -1,15 +1,15 @@
 import React from "react";
 import s from "./Post.module.css";
-import {PostType, ProfilePageType} from "../../../../../redux/state.js";
+import {ActionsTypes, addLikeAC, PostType} from "../../../../../redux/state.js";
 
 type PostPropsType = {
     props: PostType
-    likesCallback: (postID: number) => void
+    dispatch: (actions: ActionsTypes) => void
 }
 
-export const Post = ({props, likesCallback}: PostPropsType ) => {
+export const Post = ({props, dispatch}: PostPropsType ) => {
     const likeClickHandler = (event: React.MouseEvent<HTMLElement>) => {
-        likesCallback(props.id)
+        dispatch(addLikeAC(props.id))
     }
     const likeClass = props.myLike ? `${s.likes} ${s.active}` : s.likes
     const likeCount = props.myLike ? props.likes + 1 : props.likes

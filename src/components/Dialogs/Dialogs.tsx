@@ -4,12 +4,21 @@ import Chats from "./Chats/Chats";
 import Messages from "./Messages/Messages";
 import {ChatType} from "../../redux/state.js";
 import {Route} from "react-router-dom";
+import {Button} from "../misc/Button/Button";
 
-export const Dialogs = ( {chats} : {chats: ChatType[] } ) => {
+export type DialogsPropsType = {
+    chats: ChatType[]
+}
+
+export const Dialogs = ( {chats} : DialogsPropsType ) => {
 
     const chatHeaderItems = chats.map((chat, index) => {
         return <Chats key={index} chatHeader={chat.chatHeader}/>
     })
+
+    const sendMessageHandler = () => {
+        console.log("Building functionality...")
+    }
 
     const chatItems = chats.map((chat, index) => {
         return <Route key={index}
@@ -31,7 +40,7 @@ export const Dialogs = ( {chats} : {chats: ChatType[] } ) => {
                 </div>
                 <div className={s.inputWrapper}>
                 <input/>
-                    <button>Send</button>
+                    <Button name={"Send"} onClick={sendMessageHandler}/>
                 </div>
             </div>
         </div>

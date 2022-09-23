@@ -1,22 +1,25 @@
 import s from "./MyPosts.module.css"
 import {Post} from "./Post/Post";
-import {PageHeaderType, PostType} from "../../../../redux/state.js";
+import {
+    ActionsTypes,
+    addPostAC,
+    PageHeaderType,
+    postInputHandlerAC,
+    PostType
+} from "../../../../redux/state.js";
 import React, {ChangeEvent, useState} from "react";
+import {Button} from "../../../misc/Button/Button";
 
 type MyPostsPropsType = {
     pageHeader: PageHeaderType
     posts: PostType[]
-    addPostCallback: () => void
-    addLikeCallback: (postID: number) => void
-    postInputHandler: (postMessage: string) => void
+    dispatch: (actions: ActionsTypes) => void
 }
 
 export default function MyPosts({
                                     posts,
-                                    addPostCallback,
-                                    addLikeCallback,
                                     pageHeader,
-                                    postInputHandler
+                                    dispatch
                                 }: MyPostsPropsType) {
 
     // const newPostElement = React.createRef<HTMLTextAreaElement>();
@@ -25,31 +28,31 @@ export default function MyPosts({
     const postsList = posts.map((post, index) => {
         return <Post key={index}
                      props={post}
-                     likesCallback={addLikeCallback}
+                     dispatch={dispatch}
         />
     })
 
     const addPostHandler = () => {
         if (!pageHeader.postInput.trim()) setErrorMsg("Your post is empty!")
         else {
-            addPostCallback()
+            dispatch(addPostAC())
             setErrorMsg("")
         }
     }
 
-    const inputHander = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        postInputHandler(e.target.value)
+    const inputHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        dispatch(postInputHandlerAC(e.target.value))
     }
 
     return (
         <div className={s.myPostsWrapper}>
             <div className={s.post_new}>
                 <textarea
-                    onChange={inputHander}
+                    onChange={inputHandler}
                     value={pageHeader.postInput}
                     // ref={newPostElement}
                     className={s.input}></textarea>
-                <button onClick={addPostHandler} className={s.btn}>Add post</button>
+                <Button name={"Add Post"} onClick={addPostHandler}></Button>
             </div>
             <div>{errorMsg}</div>
             {postsList}

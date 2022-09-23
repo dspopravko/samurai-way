@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import s from "./Note.module.css"
-import {Button} from "../../../misc/Button";
-import {Input} from "../../../misc/Input";
+import {Button} from "../../../misc/Button/Button";
+import {Input} from "../../../misc/Input/Input";
 
 type DataType = {
     data: NotePropsType
@@ -22,14 +22,18 @@ type OneNotePropsType = {
 
 export const Note = (props: DataType) => {
 
-    let [note, setNote] = useState([...props.data.notes])
+    const [note, setNote] = useState([...props.data.notes])
 
-    let [title, setTitle] = useState("")
+    const [title, setTitle] = useState("")
 
     const addNote = () => {
-        let newNote = {id: 0, text: title}
+        const newNote = {id: 0, text: title}
         setNote([...note, newNote])
         setTitle("")
+    }
+
+    const deleteTask = (id: number) => {
+        props.deleteNote(id, props.data.id)
     }
 
     return (
@@ -38,14 +42,19 @@ export const Note = (props: DataType) => {
                 {props.data.title}
                 {note.map(n => {
                     return (
-                            <li>
+                            <li key={n.id}>
                                 {n.text}
-                                <Button name={'x'} callback={()=>{props.deleteNote(n.id, props.data.id)}}/>
+                                <Button name={'x'} onClick={()=>{deleteTask(n.id)}}/>
                             </li>
                     )
                 })}
-                <Input title={title} setTitle={setTitle}/>
-                <Button name={'add'} callback={addNote}/>
+                <Input
+                    value={title}
+                    onChangeText={setTitle}
+                    placeholder="Type note title"/>
+                <Button
+                    name={'add'}
+                    onClick={addNote}/>
             </div>
         </>
 

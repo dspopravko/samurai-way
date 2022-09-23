@@ -10,11 +10,15 @@ import {Music} from "./components/content/Music/Music";
 import {News} from "./components/content/News/News";
 import {Settings} from "./components/content/Settings/Settings";
 import {Notes} from "./components/content/Notes/Notes";
-import state from "./redux/state.js";
-import {addPost, addLike, postInputHandler} from "./redux/state.js";
+import {StoreType} from "./redux/state.js";
 
+type AppPropsType = {
+    store: StoreType
+}
 
-function App() {
+function App({store}: AppPropsType) {
+
+    const state = store.getState()
 
     return (
         <BrowserRouter>
@@ -24,10 +28,9 @@ function App() {
                     <Route path={'/messages'} render={() => <Dialogs chats={state.chats}/>}/>
                     <Route path={'/profile'}
                            render={() => <MyProfile
-                               addLike={addLike}
-                               addPost={addPost}
-                               postInputHandler={postInputHandler}
-                               profilePage={state.profilePage}/>}/>
+                               profilePage={state.profilePage}
+                               dispatch={store.dispatch.bind(store)}
+                           />}/>
                     <Route path={'/music'} render={() => <Music/>}/>
                     <Route path={'/news'} render={() => <News/>}/>
                     <Route path={'/notes'} render={() => <Notes/>}/>

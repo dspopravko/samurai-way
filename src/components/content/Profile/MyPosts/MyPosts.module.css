@@ -12,10 +12,6 @@
     background-color: blanchedalmond;
 }
 
-.btn {
-    flex-basis: 150px;
-}
-
 .input {
     flex-grow: 1;
 }

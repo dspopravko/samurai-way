@@ -1,10 +1,14 @@
 import React from "react";
 import s from "./Chats.module.css"
 import {NavLink} from "react-router-dom";
-import {ChatHeaderType} from "../../../redux/state.js";
+import {ChatHeaderType, ChatType} from "../../../redux/state.js";
+
+export type ChatsPropsType = {
+    chatHeader: ChatHeaderType
+}
 
 
-export default function Chats( {chatHeader} : { chatHeader: ChatHeaderType } ) {
+export default function Chats( {chatHeader} : ChatsPropsType ) {
     let path = "/messages/" + chatHeader.id
     return (
         <NavLink to={path}>

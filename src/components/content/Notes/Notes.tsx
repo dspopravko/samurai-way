@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import s from "./Notes.module.css"
 import {Note} from "./Note/Note";
-import {Button} from "../../misc/Button";
+import {Button} from "../../misc/Button/Button";
 
 const notesData = [
     {
@@ -35,18 +35,21 @@ export const Notes = () => {
         }])
     }
     const deleteNote = (noteId: number, paleteId: number) => {
-
+ console.log('doesnt work yet')
     }
 
     return (
         <>
             <div className={s.notes}>
                 {notes.map(note => {
-                    return <Note data={note} deleteNote={deleteNote}/>
+                    return <Note
+                        key={note.id}
+                        data={note}
+                        deleteNote={deleteNote}/>
                 })}
 
             </div>
-            <Button name={"Add new palate"} callback={addNewPalete}/>
+            <Button name={"Add new palate"} onClick={addNewPalete}/>
         </>
 
     )
