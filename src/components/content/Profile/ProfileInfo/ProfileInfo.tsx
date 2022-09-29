@@ -1,6 +1,6 @@
 import React from "react";
 import s from "./ProfileInfo.module.css"
-import {PageHeaderType} from "../../../../redux/state.js";
+import {PageHeaderType} from "../../../../redux/store.js";
 
 type ProfileInfoPropsType = {
     pageHeader: PageHeaderType

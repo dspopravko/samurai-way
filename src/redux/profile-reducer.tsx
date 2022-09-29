@@ -1,4 +1,4 @@
-import {ActionsTypes, ProfilePageType} from "./state.js";
+import {ActionsTypes, ProfilePageType} from "./store";
 
 export type ProfileReducerACTypes =
     ReturnType<typeof addPostAC>
@@ -19,7 +19,41 @@ export const addLikeAC = (postID: number) => {
     } as const
 }
 
-export const profileReducer = (state: ProfilePageType, action: ActionsTypes) => {
+let initialState = {
+    pageHeader: {
+        id: 0,
+        avatar: "https://images.pexels.com/photos/792725/pexels-photo-792725.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        name: "Ellie Martins",
+        dateOfBirth: "12051996",
+        postInput: "This input field is state-controlled"
+    }, posts: [{
+        id: 1,
+        name: "Firat Arellano",
+        message: "Great wallpaper!",
+        avatar: "https://images.pexels.com/photos/428328/pexels-photo-428328.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        likes: 56,
+        myLike: false,
+        date: "12.03.18 15:54"
+    }, {
+        id: 2,
+        name: "Lance Munro",
+        message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam facilisis ipsum sit amet semper faucibus. Aenean eu vestibulum orci, nec vestibulum nisi. Proin dapibus diam neque, sed malesuada ex euismod et. Quisque ex risus, consequat sit amet mi ac, lobortis tincidunt erat. Donec accumsan quis magna sed feugiat. Nulla elementum metus id odio dapibus consectetMaecenas vitae nibh in dolor malesuada bibendum aliquam ac leo.eu congue nulla feugiat sit amet. Duis at aliquet lacus.",
+        avatar: "https://images.pexels.com/photos/2531551/pexels-photo-2531551.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        likes: 45,
+        myLike: true,
+        date: "12.03.18 15:54"
+    }, {
+        id: 3,
+        name: "Maisy Gibson",
+        message: "This post id is 3. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam facilisis ipsum sit amet semper faucibus. Aenean eu vestibulum orci, nec vestibulum nisi. Proin dapibus diam neque, sed malesuada ex euismod et. Quisque ex risus, consequat sit amet mi ac, lobortis tincidunt erat. Donec acc umsan quis magna sed feugiat. Nulla elementum metus id odio dapibus consectetMaecenas vitae nibh in dolor malesuada bibendum aliquam ac leo.eu congue nulla feugiat sit amet. Duis at aliquet lacus.",
+        avatar: "https://images.pexels.com/photos/7860704/pexels-photo-7860704.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        likes: 65,
+        myLike: false,
+        date: "12.03.18 15:54"
+    }]
+}
+
+export const profileReducer = (state: ProfilePageType = initialState, action: ActionsTypes) => {
     switch (action.type) {
         case "ADD-POST":
             const text = state.pageHeader.postInput.trim()
@@ -46,6 +80,7 @@ export const profileReducer = (state: ProfilePageType, action: ActionsTypes) => 
                 myLike: !p.myLike
             })
             return state
-        default: return state
+        default:
+            return state
     }
 }

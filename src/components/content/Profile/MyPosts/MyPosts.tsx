@@ -4,7 +4,7 @@ import {
     ActionsTypes,
     PageHeaderType,
     PostType
-} from "../../../../redux/state.js";
+} from "../../../../redux/store.js";
 import React, {ChangeEvent, useState} from "react";
 import {Button} from "../../../misc/Button/Button";
 import {addPostAC, postInputHandlerAC} from "../../../../redux/profile-reducer";

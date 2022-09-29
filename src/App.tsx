@@ -10,7 +10,7 @@ import {Music} from "./components/content/Music/Music";
 import {News} from "./components/content/News/News";
 import {Settings} from "./components/content/Settings/Settings";
 import {Notes} from "./components/content/Notes/Notes";
-import {StoreType} from "./redux/state.js";
+import {StoreType} from "./redux/redux-store";
 
 type AppPropsType = {
     store: StoreType
@@ -27,12 +27,12 @@ function App({store}: AppPropsType) {
                 <div className={'app-wrapper-content'}>
                     <Route path={'/messages'}
                            render={() => <Dialogs
-                               chats={state.chats}
+                               chats={state.chatsReducer}
                                dispatch={store.dispatch.bind(store)}
                            />}/>
                     <Route path={'/profile'}
                            render={() => <MyProfile
-                               profilePage={state.profilePage}
+                               profilePage={state.profileReducer}
                                dispatch={store.dispatch.bind(store)}
                            />}/>
                     <Route path={'/music'} render={() => <Music/>}/>

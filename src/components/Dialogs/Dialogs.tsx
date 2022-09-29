@@ -1,7 +1,7 @@
 import React from "react";
 import s from "./Dialogs.module.css"
 import Chats from "./Chats/Chats";
-import {ActionsTypes, ChatType} from "../../redux/state.js";
+import {ActionsTypes, ChatType} from "../../redux/store.js";
 import {Route} from "react-router-dom";
 import {Dialog} from "./Dialog/Dialog";
 

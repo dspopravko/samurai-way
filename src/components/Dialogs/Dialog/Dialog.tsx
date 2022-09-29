@@ -3,7 +3,7 @@ import {sendMessageAC, updateNewMessageAC} from "../../../redux/chats-reducer";
 import Messages from "../Messages/Messages";
 import s from "../Dialogs.module.css";
 import {Button} from "../../misc/Button/Button";
-import {ActionsTypes, ChatType} from "../../../redux/state.js.js";
+import {ActionsTypes, ChatType} from "../../../redux/store.js";
 
 type DialogType = {
     chat: ChatType

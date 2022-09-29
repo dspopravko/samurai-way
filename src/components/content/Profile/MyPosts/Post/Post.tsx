@@ -1,6 +1,6 @@
 import React from "react";
 import s from "./Post.module.css";
-import {ActionsTypes, PostType} from "../../../../../redux/state.js";
+import {ActionsTypes, PostType} from "../../../../../redux/store.js";
 import {addLikeAC} from "../../../../../redux/profile-reducer";
 
 type PostPropsType = {
