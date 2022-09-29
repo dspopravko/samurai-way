@@ -25,7 +25,11 @@ function App({store}: AppPropsType) {
             <div className={'app-wrapper'}>
                 <Header/>
                 <div className={'app-wrapper-content'}>
-                    <Route path={'/messages'} render={() => <Dialogs chats={state.chats}/>}/>
+                    <Route path={'/messages'}
+                           render={() => <Dialogs
+                               chats={state.chats}
+                               dispatch={store.dispatch.bind(store)}
+                           />}/>
                     <Route path={'/profile'}
                            render={() => <MyProfile
                                profilePage={state.profilePage}

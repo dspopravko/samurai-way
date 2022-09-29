@@ -1,32 +1,26 @@
 import React from "react";
 import s from "./Dialogs.module.css"
 import Chats from "./Chats/Chats";
-import Messages from "./Messages/Messages";
-import {ChatType} from "../../redux/state.js";
+import {ActionsTypes, ChatType} from "../../redux/state.js";
 import {Route} from "react-router-dom";
-import {Button} from "../misc/Button/Button";
+import {Dialog} from "./Dialog/Dialog";
 
 export type DialogsPropsType = {
     chats: ChatType[]
+    dispatch: (action: ActionsTypes) => void
 }
 
-export const Dialogs = ( {chats} : DialogsPropsType ) => {
+export const Dialogs = ({chats, dispatch}: DialogsPropsType) => {
 
     const chatHeaderItems = chats.map((chat, index) => {
         return <Chats key={index} chatHeader={chat.chatHeader}/>
     })
 
-    const sendMessageHandler = () => {
-        console.log("Building functionality...")
-    }
-
     const chatItems = chats.map((chat, index) => {
         return <Route key={index}
-                      path={`/messages/${index + 1}`}
-                      render={() =>
-                          <Messages key={index}
-                                    chatMessages={chat.chatMessages}
-                                    chatHeader={chat.chatHeader}/>}/>
+                      path={`/messages/${index}`}
+                      render={() => <Dialog chat={chat} dispatch={dispatch}/>
+                      }/>
     })
 
     return (
@@ -38,11 +32,10 @@ export const Dialogs = ( {chats} : DialogsPropsType ) => {
                 <div className={s.message}>
                     {chatItems}
                 </div>
-                <div className={s.inputWrapper}>
-                <input/>
-                    <Button name={"Send"} onClick={sendMessageHandler}/>
-                </div>
+
             </div>
         </div>
     )
 }
+
+

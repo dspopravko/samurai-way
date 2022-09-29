@@ -1,5 +1,5 @@
-import {access} from "fs";
-import {number} from "prop-types";
+import {profileReducer, ProfileReducerACTypes} from "./profile-reducer";
+import {chatsReducer, ChatsReducerACTypes} from "./chats-reducer";
 
 export type StoreType = {
     _state: RootStateType
@@ -8,21 +8,7 @@ export type StoreType = {
     getState: () => RootStateType
     dispatch: (action: ActionsTypes) => void
 }
-export type ActionsTypes = ReturnType<typeof addPostAC> | ReturnType<typeof postInputHandlerAC> | ReturnType<typeof addLikeAC>
-
-export const addPostAC = () => ({type: "ADD-POST"}) as const
-export const postInputHandlerAC = (postInput: string) => {
-    return {
-        type: "POST-INPUT-HANDLER",
-        postMessage: postInput
-    } as const
-}
-export const addLikeAC = (postID: number) => {
-    return {
-        type: "ADD-LIKE",
-        postID: postID
-    } as const
-}
+export type ActionsTypes = ProfileReducerACTypes | ChatsReducerACTypes
 
 const store: StoreType = {
     _state: {
@@ -62,7 +48,7 @@ const store: StoreType = {
         chats: [
             {
                 chatHeader: {
-                    id: 1,
+                    id: 0,
                     author: "Maisy Gibson",
                     date: "12:46",
                     chatLogo: "https://images.pexels.com/photos/7860704/pexels-photo-7860704.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -81,11 +67,14 @@ const store: StoreType = {
                     message: "I miss you",
                     date: "12:46",
                     avatar: "https://images.pexels.com/photos/7860704/pexels-photo-7860704.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                }]
+                }],
+                chatNewMessage: {
+                    message: "I'm fine, and you?"
+                }
             },
             {
                 chatHeader: {
-                    id: 2,
+                    id: 1,
                     author: "Reo Charles",
                     date: "09:14",
                     chatLogo: "https://images.pexels.com/photos/7646458/pexels-photo-7646458.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -104,10 +93,13 @@ const store: StoreType = {
                     message: "7pm is ok?",
                     date: "09:14",
                     avatar: "https://images.pexels.com/photos/7646458/pexels-photo-7646458.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                }]
+                }],
+                chatNewMessage: {
+                    message: "Still thinking about it.."
+                }
             }, {
                 chatHeader: {
-                    id: 3,
+                    id: 2,
                     author: "Loui Kay",
                     date: "13:10",
                     chatLogo: "https://images.pexels.com/photos/3209639/pexels-photo-3209639.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -126,7 +118,10 @@ const store: StoreType = {
                     message: "Choose that's best and chat me",
                     date: "13:10",
                     avatar: "https://images.pexels.com/photos/3209639/pexels-photo-3209639.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                }]
+                }],
+                chatNewMessage: {
+                    message: "Honestly I like all of them"
+                }
             },
         ]
     },
@@ -140,39 +135,9 @@ const store: StoreType = {
         return this._state
     },
     dispatch(action) {
-        switch (action.type) {
-            case "ADD-POST": {
-                const text = this._state.profilePage.pageHeader.postInput.trim()
-                if (text) {
-                    this._state.profilePage.posts.unshift({
-                        id: this._state.profilePage.posts.length,
-                        name: "My name",
-                        message: text,
-                        avatar: "myavatar",
-                        likes: 0,
-                        myLike: false,
-                        date: new Date().getTime().toString()
-                    })
-                    this._state.profilePage.pageHeader.postInput = ""
-                }
-                this._onChange()
-            }
-                break
-            case ("POST-INPUT-HANDLER"): {
-                if (action.type === "POST-INPUT-HANDLER") {
-                    this._state.profilePage.pageHeader.postInput = action.postMessage
-                    this._onChange()
-                }
-            }
-                break
-            case "ADD-LIKE": {
-                this._state.profilePage.posts = this._state.profilePage.posts.map(p => p.id !== action.postID ? p : {
-                    ...p,
-                    myLike: !p.myLike
-                })
-                this._onChange()
-            } break
-        }
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.chats = chatsReducer(this._state.chats, action);
+        this._onChange()
     }
 }
 
@@ -190,8 +155,12 @@ export type ChatHeaderType = {
     date: string
     chatLogo: string
 }
+export type ChatNewMessageTextType = {
+    message: string
+}
 export type ChatType = {
     chatHeader: ChatHeaderType
+    chatNewMessage: ChatNewMessageTextType
     chatMessages: ChatMessagesType[]
 }
 export type PostType = {

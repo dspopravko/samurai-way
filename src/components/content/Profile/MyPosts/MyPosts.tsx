@@ -2,13 +2,12 @@ import s from "./MyPosts.module.css"
 import {Post} from "./Post/Post";
 import {
     ActionsTypes,
-    addPostAC,
     PageHeaderType,
-    postInputHandlerAC,
     PostType
 } from "../../../../redux/state.js";
 import React, {ChangeEvent, useState} from "react";
 import {Button} from "../../../misc/Button/Button";
+import {addPostAC, postInputHandlerAC} from "../../../../redux/profile-reducer";
 
 type MyPostsPropsType = {
     pageHeader: PageHeaderType
@@ -41,7 +40,7 @@ export default function MyPosts({
     }
 
     const inputHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        dispatch(postInputHandlerAC(e.target.value))
+        dispatch(postInputHandlerAC(e.currentTarget.value))
     }
 
     return (

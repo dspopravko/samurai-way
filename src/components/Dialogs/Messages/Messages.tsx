@@ -1,6 +1,6 @@
 import React from "react";
 import s from "./Messages.module.css"
-import {Message, MessagePropsType} from "./Message/Message";
+import {Message} from "./Message/Message";
 import {ChatType} from "../../../redux/state.js";
 
 
