@@ -1,8 +1,20 @@
+:root {
+    --chatPage-height: 800px;
+    --chat-height: 690px
+}
+
 .dialogsWrapper {
     display: grid;
     grid-template-columns: 2fr 10fr;
     grid-template-rows: 1fr min-content;
     gap: 10px;
+    --chatPage-height: 800px;
+}
+.chatWrapper{
+    height: var(--chat-height);
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: scroll;
 }
 
 .chats {
@@ -19,9 +31,11 @@
 .messagesPage {
     background-color: blanchedalmond;
     padding: 10px;
+    height: var(--chatPage-height);
 }
 
 .messagesPage .message {
+    height: var(--chat-height);
 
 }
 
@@ -30,4 +44,7 @@
 }
 .inputWrapper {
     margin-top: 20px;
+}
+.inputWrapper textarea {
+    width: 500px;
 }

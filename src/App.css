@@ -1,6 +1,9 @@
 * {
     font-size: 1.2rem;
 }
+body > #root > div {
+    height: 100vh;
+}
 
 :root {
     --grey1: #1f1f1f;

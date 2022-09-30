@@ -24,17 +24,16 @@ export const Dialogs = ({chats, dispatch}: DialogsPropsType) => {
     })
 
     return (
-        <div className={s.dialogsWrapper}>
-            <div className={s.chats}>
-                {chatHeaderItems}
-            </div>
-            <div className={s.messagesPage}>
-                <div className={s.message}>
-                    {chatItems}
+            <div className={s.dialogsWrapper}>
+                <div className={s.chats}>
+                    {chatHeaderItems}
                 </div>
-
+                <div className={s.messagesPage}>
+                    <div className={s.message}>
+                        {chatItems}
+                    </div>
+                </div>
             </div>
-        </div>
     )
 }
 

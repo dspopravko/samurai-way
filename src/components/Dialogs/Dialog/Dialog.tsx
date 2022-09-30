@@ -17,20 +17,24 @@ export const Dialog = ({chat, dispatch}: DialogType) => {
         dispatch(sendMessageAC(index))
     }
 
-    return <>
-        <Messages key={chat.chatHeader.id}
-                  chatMessages={chat.chatMessages}
-                  chatHeader={chat.chatHeader}
-                  chatNewMessage={chat.chatNewMessage}
-        />
-        <div className={s.inputWrapper}>
+    return (
+        <>
+            <div className={s.chatWrapper}>
+                <Messages key={chat.chatHeader.id}
+                          chatMessages={chat.chatMessages}
+                          chatHeader={chat.chatHeader}
+                          chatNewMessage={chat.chatNewMessage}
+                />
+            </div>
+            <div className={s.inputWrapper}>
             <textarea
                 value={chat.chatNewMessage.message}
                 onChange={onChangeInputHandler}
             />
-            <Button name={"Send"} onClick={() => {
-                sendMessageHandler(chat.chatHeader.id)
-            }}/>
-        </div>
-    </>
+                <Button name={"Send"} onClick={() => {
+                    sendMessageHandler(chat.chatHeader.id)
+                }}/>
+            </div>
+        </>
+    )
 }
