@@ -1,16 +1,15 @@
 import React from "react";
 import s from "./Post.module.css";
-import {ActionsTypes, PostType} from "../../../../../redux/store.js";
-import {addLikeAC} from "../../../../../redux/profile-reducer";
+import {PostType} from "../../../../../redux/store.js";
 
 type PostPropsType = {
     props: PostType
-    dispatch: (actions: ActionsTypes) => void
+    addLikeHandler: (postId: number) => void
 }
 
-export const Post = ({props, dispatch}: PostPropsType ) => {
+export const Post = ({props, addLikeHandler}: PostPropsType ) => {
     const likeClickHandler = () => {
-        dispatch(addLikeAC(props.id))
+        addLikeHandler(props.id)
     }
     const likeClass = props.myLike ? `${s.likes} ${s.active}` : s.likes
     const likeCount = props.myLike ? props.likes + 1 : props.likes

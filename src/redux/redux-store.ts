@@ -1,16 +1,15 @@
-import {combineReducers, createStore, Store} from "redux";
+import {combineReducers, legacy_createStore as createStore, Store} from "redux";
 import {profileReducer, ProfileReducerACTypes} from "./profile-reducer";
 import {chatsReducer, ChatsReducerACTypes} from "./chats-reducer";
 
-export type ActionsTypes = ProfileReducerACTypes | ChatsReducerACTypes
-export type RootState = typeof reducers
-export type ReduxStateType = ReturnType<RootState>
+type ActionsTypes = ProfileReducerACTypes | ChatsReducerACTypes
+type ReduxStateType = ReturnType<typeof reducers>
 
 export type StoreType = Store<ReduxStateType, ActionsTypes>
 
-export let reducers = combineReducers({
+const reducers = combineReducers({
     profileReducer,
     chatsReducer
 })
 
-export let store: StoreType = createStore(reducers)
+export const store: StoreType = createStore(reducers)
