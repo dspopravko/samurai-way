@@ -2,14 +2,14 @@ import {combineReducers, legacy_createStore as createStore, Store} from "redux";
 import {profileReducer, ProfileReducerACTypes} from "./profile-reducer";
 import {chatsReducer, ChatsReducerACTypes} from "./chats-reducer";
 
-type ActionsTypes = ProfileReducerACTypes | ChatsReducerACTypes
-type ReduxStateType = ReturnType<typeof reducers>
+export type ActionsTypes = ProfileReducerACTypes | ChatsReducerACTypes
+export type ReduxStateType = ReturnType<typeof rootReducer>
 
 export type StoreType = Store<ReduxStateType, ActionsTypes>
 
-const reducers = combineReducers({
+const rootReducer = combineReducers({
     profileReducer,
     chatsReducer
 })
 
-export const store: StoreType = createStore(reducers)
+export const store: StoreType = createStore(rootReducer)

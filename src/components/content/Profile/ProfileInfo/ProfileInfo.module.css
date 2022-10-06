@@ -11,3 +11,19 @@
 .profileInfoWrapper {
     background-color: blanchedalmond;
 }
+.avatarWrapper {
+    padding: 10px;
+    width: 150px;
+    height: 150px;
+}
+
+.avatarWrapper img {
+    object-fit: cover;
+    width: 150px;
+    height: 150px;
+    border-radius: 100px;
+}
+.description {
+    height: 210px;
+    display: flex;
+}

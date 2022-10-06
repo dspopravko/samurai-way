@@ -1,21 +1,20 @@
 import React, {ChangeEvent} from "react";
-import {sendMessageAC, updateNewMessageAC} from "../../../redux/chats-reducer";
 import Messages from "../Messages/Messages";
 import s from "../Dialogs.module.css";
 import {Button} from "../../misc/Button/Button";
-import {ActionsTypes, ChatType} from "../../../redux/store.js";
+import {ChatType} from "../../../redux/chats-reducer";
 
 type DialogType = {
     chat: ChatType
-    dispatch: (action: ActionsTypes) => void
+    inputHandler: (input: string, chatId: number) => void
+    sendMessageHandler: (index: number) => void
 }
-export const Dialog = ({chat, dispatch}: DialogType) => {
-    const onChangeInputHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        dispatch(updateNewMessageAC(e.currentTarget.value, chat.chatHeader.id))
-    }
-    const sendMessageHandler = (index: number) => {
-        dispatch(sendMessageAC(index))
-    }
+export const Dialog = ({chat, inputHandler, sendMessageHandler}: DialogType) => {
+    const onChangeInputHandler = (e: ChangeEvent<HTMLTextAreaElement>) =>
+        inputHandler(e.currentTarget.value, chat.chatHeader.id)
+
+    const onClickSendMessageHandler = (index: number) =>
+        sendMessageHandler(index)
 
     return (
         <>
@@ -32,7 +31,7 @@ export const Dialog = ({chat, dispatch}: DialogType) => {
                 onChange={onChangeInputHandler}
             />
                 <Button name={"Send"} onClick={() => {
-                    sendMessageHandler(chat.chatHeader.id)
+                    onClickSendMessageHandler(chat.chatHeader.id)
                 }}/>
             </div>
         </>

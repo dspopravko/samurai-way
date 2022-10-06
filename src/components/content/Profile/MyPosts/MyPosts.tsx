@@ -1,16 +1,8 @@
 import React, {ChangeEvent, useState} from 'react';
 import s from "./MyPosts.module.css";
 import {Button} from "../../../misc/Button/Button";
-import {PageHeaderType, PostType} from "../../../../redux/store";
 import {Post} from "./Post/Post";
-
-type MyPosts = {
-    pageHeader: PageHeaderType
-    posts: PostType[]
-    inputHandler: (input: string) => void
-    addPostHandler: () => void
-    addLikeHandler: (postId: number) => void
-}
+import {MyPostsPropsType} from "./MyPostsContainer";
 
 function MyPosts({
                      pageHeader,
@@ -18,7 +10,7 @@ function MyPosts({
                      inputHandler,
                      addPostHandler,
                      addLikeHandler
-                 }: MyPosts) {
+                 }: MyPostsPropsType) {
 
     const [errorMsg, setErrorMsg] = useState("")
 

@@ -1,7 +1,7 @@
 import React from "react";
 import s from "./Chats.module.css"
 import {NavLink} from "react-router-dom";
-import {ChatHeaderType} from "../../../redux/store.js";
+import {ChatHeaderType} from "../../../redux/chats-reducer";
 
 export type ChatsPropsType = {
     chatHeader: ChatHeaderType

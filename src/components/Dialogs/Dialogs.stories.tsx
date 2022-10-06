@@ -1,7 +1,8 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import {Dialogs, DialogsPropsType} from './Dialogs';
+import {Dialogs} from './Dialogs';
 import {BrowserRouter} from "react-router-dom";
+import {DialogsPropsType} from "./DialogsContainer";
 
 export default {
     title: 'Dialogs',

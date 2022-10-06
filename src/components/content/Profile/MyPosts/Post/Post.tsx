@@ -1,6 +1,6 @@
 import React from "react";
 import s from "./Post.module.css";
-import {PostType} from "../../../../../redux/store.js";
+import {PostType} from "../../../../../redux/profile-reducer";
 
 type PostPropsType = {
     props: PostType
@@ -8,9 +8,8 @@ type PostPropsType = {
 }
 
 export const Post = ({props, addLikeHandler}: PostPropsType ) => {
-    const likeClickHandler = () => {
-        addLikeHandler(props.id)
-    }
+    const likeClickHandler = () => addLikeHandler(props.id)
+
     const likeClass = props.myLike ? `${s.likes} ${s.active}` : s.likes
     const likeCount = props.myLike ? props.likes + 1 : props.likes
     return (

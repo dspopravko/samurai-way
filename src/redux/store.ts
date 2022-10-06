@@ -8,7 +8,7 @@ export type StoreType = {
     getState: () => RootStateType
     dispatch: (action: ActionsTypes) => void
 }
-export type ActionsTypes = ProfileReducerACTypes | ChatsReducerACTypes
+type ActionsTypes = ProfileReducerACTypes | ChatsReducerACTypes
 
 const store: StoreType = {
     _state: {
@@ -141,7 +141,7 @@ const store: StoreType = {
     }
 }
 
-export type ChatMessagesType = {
+type ChatMessagesType = {
     id: number
     authorId: number
     name: string
@@ -149,21 +149,21 @@ export type ChatMessagesType = {
     date: string
     avatar?: string
 }
-export type ChatHeaderType = {
+type ChatHeaderType = {
     id: number
     author: string
     date: string
     chatLogo: string
 }
-export type ChatNewMessageTextType = {
+type ChatNewMessageTextType = {
     message: string
 }
-export type ChatType = {
+type ChatType = {
     chatHeader: ChatHeaderType
     chatNewMessage: ChatNewMessageTextType
     chatMessages: ChatMessagesType[]
 }
-export type PostType = {
+type PostType = {
     id: number
     name: string
     message: string
@@ -172,18 +172,18 @@ export type PostType = {
     myLike: boolean
     date: string
 }
-export type PageHeaderType = {
+type PageHeaderType = {
     id: number
     avatar: string
     name: string
     dateOfBirth: string
     postInput: string
 }
-export type ProfilePageType = {
+type ProfilePageType = {
     pageHeader: PageHeaderType,
     posts: PostType[]
 }
-export type RootStateType = {
+type RootStateType = {
     profilePage: ProfilePageType,
     chats: ChatType[]
 }
