@@ -34,14 +34,18 @@ function MyPosts({
     return (
         <div className={s.myPostsWrapper}>
             <div className={s.post_new}>
-                <textarea
-                    onChange={onChangeInputHandler}
-                    value={pageHeader.postInput}
-                    // ref={newPostElement}
-                    className={s.input}></textarea>
-                <Button name={"Add Post"} onClick={onClickAddPostHandler}></Button>
+                <div className={s.postNewCanvas}>
+                    <textarea
+                        onChange={onChangeInputHandler}
+                        value={pageHeader.postInput}
+                        // ref={newPostElement}
+                        className={s.textarea}>
+
+                    </textarea>
+                    <Button name={"Add Post"} onClick={onClickAddPostHandler}></Button>
+                </div>
+                <div>{errorMsg}</div>
             </div>
-            <div>{errorMsg}</div>
             {postsList}
         </div>
     );

@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from "react";
 import Messages from "../Messages/Messages";
-import s from "../Dialogs.module.css";
+import s from "./Dialog.module.css";
 import {Button} from "../../misc/Button/Button";
 import {ChatType} from "../../../redux/chats-reducer";
 
@@ -26,10 +26,10 @@ export const Dialog = ({chat, inputHandler, sendMessageHandler}: DialogType) => 
                 />
             </div>
             <div className={s.inputWrapper}>
-            <textarea
+                <textarea
                 value={chat.chatNewMessage.message}
                 onChange={onChangeInputHandler}
-            />
+                />
                 <Button name={"Send"} onClick={() => {
                     onClickSendMessageHandler(chat.chatHeader.id)
                 }}/>

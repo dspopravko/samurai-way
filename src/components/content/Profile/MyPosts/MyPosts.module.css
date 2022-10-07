@@ -1,17 +1,27 @@
+.myPostsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    background: #eaeaea;
+    height: 100%;
+}
 .post_new {
-    margin: 10px 10px 0 10px;
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.postNewCanvas {
     display: flex;
     gap: 10px;
     color: #383b3f;
 }
 
-.myPostsWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background-color: blanchedalmond;
-}
-
-.input {
+.textarea {
+    border: 2px solid #f1f1f1;
+    border-radius: 5px;
+    min-height: 54px;
     flex-grow: 1;
+    background: #fafafa;
 }

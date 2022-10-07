@@ -1,6 +1,6 @@
 .navbar {
     grid-area: navbar;
-    background-color: beige;
+    background: #eaeaea;
 }
 
 .item {

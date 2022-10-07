@@ -8,30 +8,21 @@
     grid-template-columns: 2fr 10fr;
     grid-template-rows: 1fr min-content;
     gap: 10px;
-    --chatPage-height: 800px;
+    height: 100%;
 }
-.chatWrapper{
-    height: var(--chat-height);
-    flex-direction: column;
-    justify-content: flex-start;
-    overflow-y: scroll;
-}
+
 
 .chats {
     display: flex;
     flex-direction: column;
-    background-color: blanchedalmond;
+    background: #eaeaea;
     padding: 10px;
-}
-
-.chats .chat {
-
 }
 
 .messagesPage {
-    background-color: blanchedalmond;
+    background: #eaeaea;
     padding: 10px;
-    height: var(--chatPage-height);
+    height: 100%;
 }
 
 .messagesPage .message {
@@ -41,10 +32,4 @@
 
 .active {
     font-weight: 600;
-}
-.inputWrapper {
-    margin-top: 20px;
-}
-.inputWrapper textarea {
-    width: 500px;
 }

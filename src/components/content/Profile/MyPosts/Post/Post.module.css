@@ -23,8 +23,9 @@
 .post {
     display: flex;
     flex-direction: column;
-    padding: 5px;
-    background-color: #f1ecec;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #ffffff;
     color: var(--grey1)
 }
 

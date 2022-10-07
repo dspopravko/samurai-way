@@ -9,21 +9,46 @@
     object-fit: cover;
 }
 .profileInfoWrapper {
-    background-color: blanchedalmond;
+    background: #eaeaea;
 }
-.avatarWrapper {
-    padding: 10px;
-    width: 150px;
-    height: 150px;
+.description {
+    height: 126px;
+    display: flex;
+    gap: 50px;
+    padding-bottom: 26px;
+    padding-left: 29px;
+}
+.avatarBlock{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
+.avatarWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: -90px;
+    margin-bottom: -90px;
+    background: #eeeeee;
+    padding: 8px;
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+}
 .avatarWrapper img {
     object-fit: cover;
     width: 150px;
     height: 150px;
     border-radius: 100px;
 }
-.description {
-    height: 210px;
-    display: flex;
+
+.nameWrapper {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+.description_2 {
+    align-self: flex-end;
 }
