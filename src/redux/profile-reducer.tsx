@@ -36,7 +36,7 @@ export const postInputHandlerAC = (postInput: string) => {
 export const addLikeAC = (postID: number) => {
     return {
         type: "ADD-LIKE",
-        postID: postID
+        postID
     } as const
 }
 
@@ -74,7 +74,7 @@ let initialState = {
     }]
 }
 
-export const profileReducer = (state: ProfilePageType = initialState, action: ActionsTypes) => {
+export const profileReducer = (state: ProfilePageType = initialState, action: ActionsTypes): ProfilePageType => {
     switch (action.type) {
         case "ADD-POST":
             return {

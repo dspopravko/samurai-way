@@ -12,6 +12,7 @@
 a {
     color: var(--grey1);
     text-decoration: none;
+    user-select: none;
 }
 a.active {
     color: #000000;

@@ -5,7 +5,11 @@ import {Route} from "react-router-dom";
 import {Dialog} from "./Dialog/Dialog";
 import {DialogsPropsType} from "./DialogsContainer";
 
-export const Dialogs = ({chats, inputHandler, sendMessageHandler}: DialogsPropsType) => {
+export const Dialogs = ({chats, inputHandler, sendMessageCallback, pageHeader}: DialogsPropsType) => {
+
+    const sendMessageHandler = (index: number) => {
+        sendMessageCallback(index, pageHeader.avatar, pageHeader.name)
+    }
 
     const chatHeaderItems = chats.map((chat, index) => <Chats key={index} chatHeader={chat.chatHeader}/>)
 

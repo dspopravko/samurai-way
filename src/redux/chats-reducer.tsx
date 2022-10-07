@@ -25,10 +25,12 @@ export type ChatType = {
 
 export type ChatsReducerACTypes = ReturnType<typeof updateNewMessageAC> | ReturnType<typeof sendMessageAC>
 
-export const sendMessageAC = (chatID: number) => {
+export const sendMessageAC = (chatID: number, avatar: string, name: string) => {
     return {
         type: "SEND-MESSAGE",
-        chatID: chatID
+        chatID: chatID,
+        avatar: avatar,
+        name: name
     } as const
 }
 export const updateNewMessageAC = (message: string, chatID: number) => {
@@ -119,7 +121,7 @@ const initialState = [
     },
 ]
 
-export const chatsReducer = (state: ChatType[] = initialState, action: ActionsTypes) => {
+export const chatsReducer = (state: ChatType[] = initialState, action: ActionsTypes): ChatType[] => {
     switch (action.type) {
         case "UPD-NEW-MESSAGE":
             return state.map((c, i) => i === action.chatID ? ({
@@ -128,14 +130,15 @@ export const chatsReducer = (state: ChatType[] = initialState, action: ActionsTy
             }) : ({...c}))
         case "SEND-MESSAGE":
             const text = state[action.chatID].chatNewMessage.message.trim()
+            if (!text) return state
             const date = new Intl.DateTimeFormat('en-GB', {hour: "2-digit", minute: "2-digit"}).format(new Date())
             const message = {
                 id: state[action.chatID].chatMessages.length,
                 authorId: 0,
-                name: "Ellie Martins",
+                name: action.name,
                 message: text,
                 date: date,
-                avatar: "https://images.pexels.com/photos/792725/pexels-photo-792725.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                avatar: action.avatar
             }
             return state.map((c, i) => i === action.chatID
                 ? ({...c,chatNewMessage: {...c.chatNewMessage, message: ""},

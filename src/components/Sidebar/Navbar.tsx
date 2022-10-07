@@ -9,6 +9,10 @@ export default function Navbar() {
                 <div className={s.item}>Profile</div>
             </NavLink>
 
+            <NavLink to={"/users"} activeClassName={s.active}>
+                <div className={s.item}>Users</div>
+            </NavLink>
+
             <NavLink to={"/messages"} activeClassName={s.active}>
                 <div className={s.item}>Messages</div>
             </NavLink>
