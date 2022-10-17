@@ -2,6 +2,7 @@ import {UserType} from "../../../redux/user-reducer";
 import {Button} from "../../misc/Button/Button";
 import s from "./User.module.css"
 import React from "react";
+import logo from "../../../assets/img/defaultUser.png"
 
 type UserPropsType = {
     user: UserType
@@ -13,7 +14,7 @@ export const User = ({user, followCallback, unfollowCallback}: UserPropsType) =>
         <div className={s.user}>
             <div className={s.w1}>
                 <div className={s.imgWrapper}>
-                    <img alt={user.fullName + "-avatar"} src={user.avatar}/>
+                    <img alt={user.name + "-avatar"} src={user.photos.small ? user.photos.small : logo}/>
                 </div>
                 <div className={s.btnWrapper}>
                     {user.followed ? <Button name={"Unfollow"} onClick={() => {
@@ -26,12 +27,12 @@ export const User = ({user, followCallback, unfollowCallback}: UserPropsType) =>
             </div>
             <div className={s.w2}>
                 <div className={s.w2_1}>
-                    <div className={s.fullname}>{user.fullName}</div>
-                    <div className={s.status}>Status: {user.status}</div>
+                    <div className={s.fullname}>{user.name}</div>
+                    <div className={s.status}>Status: {user.status ? user.status : "..."}</div>
                 </div>
                 <div className={s.w2_2}>
                     Location:
-                    <div>{user.location.country}, {user.location.city}</div>
+                    <div>user.location.country, user.location.city</div>
                 </div>
             </div>
     </div>

@@ -34,9 +34,10 @@
     margin-bottom: -90px;
     background: #eeeeee;
     padding: 8px;
-    width: 150px;
-    height: 150px;
+    width: 166px;
+    height: 166px;
     border-radius: 100%;
+    user-select: none;
 }
 .avatarWrapper img {
     object-fit: cover;

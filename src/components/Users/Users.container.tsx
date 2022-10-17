@@ -4,8 +4,8 @@ import {Dispatch} from "redux";
 import {connect} from "react-redux";
 import {Users} from "./Users";
 
-type MapStateToPropsType = ({users: UserType[]})
-type MapDispatchToPropsType = {
+export type MapStateToPropsType = ({users: UserType[]})
+export type MapDispatchToPropsType = {
     followCallback: (userID: number) => void
     unfollowCallback: (userID: number) => void
     setUsers: (users: UserType[]) => void

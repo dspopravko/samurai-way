@@ -1,6 +1,5 @@
 .chatWrapper{
     flex-grow: 1;
-    height: var(--chat-height);
     flex-direction: column;
     justify-content: flex-start;
     overflow-y: scroll;

@@ -1,6 +1,8 @@
 .navbar {
     grid-area: navbar;
     background: #eaeaea;
+    display: flex;
+    flex-direction: column;
 }
 
 .item {

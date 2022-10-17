@@ -8,15 +8,15 @@ export type UserReducerACTypes =
 
 
 export type UserType = {
+    name: string
     id: number
+    uniqueUrlName?: string | null
+    photos: {
+        small: string | null
+        large: string | null
+    },
+    status: string | null
     followed: boolean
-    avatar: string
-    fullName: string
-    status: string
-    location: {
-        city: string
-        country: string
-    }
 }
 
 export const followUserAC = (userID: number) => {
@@ -41,7 +41,6 @@ export const setUsersAC = (users: UserType[]) => {
 
 let initialState = {
     users: [] as Array<UserType>
-
 }
 
 type initialStateType = typeof initialState
