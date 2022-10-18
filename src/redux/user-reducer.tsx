@@ -7,6 +7,7 @@ export type UserReducerACTypes =
     | ReturnType<typeof setUsersAC>
     | ReturnType<typeof setCurrentPageAC>
     | ReturnType<typeof setTotalUsersCountAC>
+    | ReturnType<typeof setFetchingAC>
 
 
 export type UserType = {
@@ -51,13 +52,20 @@ export const setTotalUsersCountAC = (totalUsersCount: number) => {
         totalUsersCount
     } as const
 }
+export const setFetchingAC = (isFetching: boolean) => {
+    return {
+        type: "SET-FETCHING",
+        isFetching
+    } as const
+}
 
 
 let initialState = {
     users: [] as Array<UserType>,
     pageSize: 20,
     totalUsersCount: 20,
-    currentPage: 1
+    currentPage: 1,
+    isFetching: true
 }
 
 type initialStateType = typeof initialState
@@ -78,6 +86,9 @@ export const usersReducer = (state: initialStateType = initialState, action: Act
         }
         case "SET-TOTAL-USERS-COUNT": {
             return {...state, totalUsersCount: action.totalUsersCount}
+        }
+        case "SET-FETCHING": {
+            return {...state, isFetching: action.isFetching}
         }
         default:
             return {...state}

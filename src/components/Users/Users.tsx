@@ -1,13 +1,23 @@
 import React from 'react';
-import {UsersPropsType} from "./Users.container";
 import {User} from "./User/User";
 import s from "./Users.module.css"
-type UsersComponentPropsType = UsersPropsType & {onPageChanged: (page: number) => void}
+import {UserType} from "../../redux/user-reducer";
+import {Loader} from "../misc/Loader/Loader";
 
+type UsersComponentPropsType =  {
+    users: UserType[]
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
+    isFetching: boolean
+    followCallback: (userID: number) => void
+    unfollowCallback: (userID: number) => void
+    onPageChanged: (page: number) => void
+}
 
-export const Users = ({users, unfollowCallback, followCallback, totalUsersCount, pageSize, currentPage, onPageChanged}: UsersComponentPropsType) => {
-    const pagesCount = Math.ceil(totalUsersCount / pageSize)
-
+export const Users = ({users, unfollowCallback, followCallback, totalUsersCount, pageSize, currentPage, onPageChanged, isFetching}: UsersComponentPropsType) => {
+    let pagesCount = Math.ceil(totalUsersCount / pageSize)
+    if (pagesCount > 20) pagesCount = 20;
     let pages = [];
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
@@ -15,8 +25,6 @@ export const Users = ({users, unfollowCallback, followCallback, totalUsersCount,
 
     return (
         <div className={s.usersCanvas}>
-
-
             <div className={s.usersWrapper}>
                 <div>
                     <span>page: </span>
@@ -30,7 +38,7 @@ export const Users = ({users, unfollowCallback, followCallback, totalUsersCount,
                                     </span>
                         )
                     }
-
+                    {isFetching && <div className={s.loaderWrapper}><Loader/></div>}
                 </div>
                 {
                     users.map(u => (
