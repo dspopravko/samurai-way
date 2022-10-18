@@ -10,12 +10,12 @@ type UsersComponentPropsType =  {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
-    followCallback: (userID: number) => void
-    unfollowCallback: (userID: number) => void
+    follow: (userID: number) => void
+    unfollow: (userID: number) => void
     onPageChanged: (page: number) => void
 }
 
-export const Users = ({users, unfollowCallback, followCallback, totalUsersCount, pageSize, currentPage, onPageChanged, isFetching}: UsersComponentPropsType) => {
+export const Users = ({users, unfollow, follow, totalUsersCount, pageSize, currentPage, onPageChanged, isFetching}: UsersComponentPropsType) => {
     let pagesCount = Math.ceil(totalUsersCount / pageSize)
     if (pagesCount > 20) pagesCount = 20;
     let pages = [];
@@ -45,8 +45,8 @@ export const Users = ({users, unfollowCallback, followCallback, totalUsersCount,
                         <User
                             key={u.id}
                             user={u}
-                            followCallback={followCallback}
-                            unfollowCallback={unfollowCallback}/>
+                            follow={follow}
+                            unfollow={unfollow}/>
                     ))
 
                 }

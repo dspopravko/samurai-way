@@ -6,10 +6,10 @@ import logo from "../../../assets/img/defaultUser.png"
 
 type UserPropsType = {
     user: UserType
-    followCallback: (userID: number) => void
-    unfollowCallback: (userID: number) => void
+    follow: (userID: number) => void
+    unfollow: (userID: number) => void
 }
-export const User = ({user, followCallback, unfollowCallback}: UserPropsType) => {
+export const User = ({user, follow, unfollow}: UserPropsType) => {
     return (
         <div className={s.user}>
             <div className={s.w1}>
@@ -18,10 +18,10 @@ export const User = ({user, followCallback, unfollowCallback}: UserPropsType) =>
                 </div>
                 <div className={s.btnWrapper}>
                     {user.followed ? <Button name={"Unfollow"} onClick={() => {
-                            unfollowCallback(user.id)
+                            unfollow(user.id)
                         }}></Button>
                         : <Button name={"Follow"} onClick={() => {
-                            followCallback(user.id)
+                            follow(user.id)
                         }}></Button>}
                 </div>
             </div>
