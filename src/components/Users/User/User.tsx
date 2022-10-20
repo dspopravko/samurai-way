@@ -3,6 +3,7 @@ import {Button} from "../../misc/Button/Button";
 import s from "./User.module.css"
 import React from "react";
 import logo from "../../../assets/img/defaultUser.png"
+import {NavLink} from "react-router-dom";
 
 type UserPropsType = {
     user: UserType
@@ -14,7 +15,9 @@ export const User = ({user, follow, unfollow}: UserPropsType) => {
         <div className={s.user}>
             <div className={s.w1}>
                 <div className={s.imgWrapper}>
-                    <img alt={user.name + "-avatar"} src={user.photos.small ? user.photos.small : logo}/>
+                    <NavLink to={'/profile/' + user.id}>
+                        <img alt={user.name + "-avatar"} src={user.photos.small ? user.photos.small : logo}/>
+                    </NavLink>
                 </div>
                 <div className={s.btnWrapper}>
                     {user.followed ? <Button name={"Unfollow"} onClick={() => {
@@ -35,6 +38,6 @@ export const User = ({user, follow, unfollow}: UserPropsType) => {
                     <div>user.location.country, user.location.city</div>
                 </div>
             </div>
-    </div>
+        </div>
     )
 }

@@ -28,6 +28,7 @@ multipleMessages.args = {
         message: "Hi!",
         name: "My Name",
         date: "23:13",
+        avatar: "https://img-c.udemycdn.com/user/200_H/712832_5e8d_3.jpg",
         authorId: 0
     }, {
         id: 3,

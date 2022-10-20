@@ -1,35 +1,29 @@
 import React, {ChangeEvent, useState} from 'react';
-import s from "./MyPosts.module.css";
+import s from "./Posts.module.css";
 import {Button} from "../../../misc/Button/Button";
 import {Post} from "./Post/Post";
-import {MyPostsPropsType} from "./MyPostsContainer";
+import {MyPostsPropsType} from "./PostsContainer";
 
-function MyPosts({
-                     pageHeader,
-                     posts,
-                     inputHandler,
-                     addPostHandler,
-                     addLikeHandler
-                 }: MyPostsPropsType) {
+function Posts(props: MyPostsPropsType) {
 
     const [errorMsg, setErrorMsg] = useState("")
 
     const onClickAddPostHandler = () => {
-        if (!pageHeader.postInput.trim()) setErrorMsg("Your post is empty!")
+        if (!props.postInput.trim()) setErrorMsg("Your post is empty!")
         else {
-            addPostHandler()
+            props.addPost()
             setErrorMsg("")
         }
     }
 
-    const postsList = posts.map((post, index) => {
+    const postsList = props.posts.map((post, index) => {
         return <Post key={index}
                      props={post}
-                     addLikeHandler={addLikeHandler}
+                     addLikeHandler={props.addLike}
         />
     })
 
-    const onChangeInputHandler = (e: ChangeEvent<HTMLTextAreaElement>) => inputHandler(e.currentTarget.value)
+    const onChangeInputHandler = (e: ChangeEvent<HTMLTextAreaElement>) => props.postInputHandler(e.currentTarget.value)
 
     return (
         <div className={s.myPostsWrapper}>
@@ -37,7 +31,7 @@ function MyPosts({
                 <div className={s.postNewCanvas}>
                     <textarea
                         onChange={onChangeInputHandler}
-                        value={pageHeader.postInput}
+                        value={props.postInput}
                         // ref={newPostElement}
                         className={s.textarea}>
 
@@ -51,4 +45,4 @@ function MyPosts({
     );
 }
 
-export default MyPosts;
+export default Posts;

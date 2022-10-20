@@ -1,17 +1,17 @@
 import React from "react";
 import s from "./Message.module.css"
+import logo from "../../../../assets/img/defaultUser.png";
 
 export type MessagePropsType = {
     id: number
     authorId: number
-    avatar?: string
+    avatar: string | null
     name: string
     message: string
     date: string
 }
 
 export const Message = ({
-                            id,
                             authorId,
                             avatar = "https://180dc.org/wp-content/uploads/2022/04/Blank-Avatar.png",
                             name,
@@ -23,7 +23,7 @@ export const Message = ({
     return <>
         <div className={authorId === 0 ? s.myMessage : s.message}>
             <div className={s.avatar_container}>
-                <img alt="avatar" src={avatar}/>
+                <img alt="avatar" src={avatar || logo}/>
             </div>
             <div className={authorId === 0 ? s.mySvgWrapper : s.svgWrapper}>
                 <svg viewBox="0 0 100 100">

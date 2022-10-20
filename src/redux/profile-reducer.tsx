@@ -4,50 +4,89 @@ export type PostType = {
     id: number
     name: string
     message: string
-    avatar: string
+    avatar: string | null;
     likes: number
     myLike: boolean
     date: string
 }
-export type PageHeaderType = {
-    id: number
-    avatar: string
-    name: string
-    dateOfBirth: string
-    postInput: string
+
+export type ProfileType = { // API TYPE
+    aboutMe?: string | null;
+    contacts: ContactsType;
+    lookingForAJob: boolean;
+    lookingForAJobDescription?: string | null;
+    fullName: string;
+    userId: number;
+    photos: Photos;
 }
-export type ProfilePageType = {
-    pageHeader: PageHeaderType,
-    posts: PostType[]
+
+export type ContactsType = { // API TYPE
+    facebook?: string | null;
+    website?: string | null;
+    vk?: string | null;
+    twitter?: string | null;
+    instagram?: string | null;
+    youtube?: string | null;
+    github?: string | null;
+    mainLink?: string | null;
+}
+
+export type Photos = { // API TYPE
+    small?: string | null;
+    large?: string | null;
 }
 
 export type ProfileReducerACTypes =
-    ReturnType<typeof addPostAC>
-    | ReturnType<typeof postInputHandlerAC>
-    | ReturnType<typeof addLikeAC>
+    ReturnType<typeof addPost>
+    | ReturnType<typeof postInputHandler>
+    | ReturnType<typeof addLike>
+    | ReturnType<typeof setUserProfile>
 
-export const addPostAC = () => ({type: "ADD-POST"}) as const
-export const postInputHandlerAC = (postInput: string) => {
+export const addPost = () => ({type: "ADD-POST"}) as const
+export const postInputHandler = (postInput: string) => {
     return {
         type: "POST-INPUT-HANDLER",
         postMessage: postInput
     } as const
 }
-export const addLikeAC = (postID: number) => {
+export const addLike = (postID: number) => {
     return {
         type: "ADD-LIKE",
-        postID
+        postID: postID
+    } as const
+}
+export const setUserProfile = (profile: ProfileType) => {
+    return {
+        type: "SET-USER-PROFILE",
+        profile
     } as const
 }
 
+
 let initialState = {
-    pageHeader: {
-        id: 0,
-        avatar: "https://images.pexels.com/photos/792725/pexels-photo-792725.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        name: "Ellie Martins",
-        dateOfBirth: "12051996",
-        postInput: "This input field is state-controlled"
-    }, posts: [{
+    profile: {
+        aboutMe: null,
+        contacts: {
+            facebook: null,
+            website: null,
+            vk: null,
+            twitter: null,
+            instagram: null,
+            youtube: null,
+            github: null,
+            mainLink: null
+        },
+        lookingForAJob: false,
+        lookingForAJobDescription: null,
+        fullName: "Default Name",
+        userId: 2,
+        photos: {
+            small: null,
+            large: null
+        }
+    },
+    posts: [
+    {
         id: 2,
         name: "Firat Arellano",
         message: "Great wallpaper!",
@@ -71,18 +110,25 @@ let initialState = {
         likes: 65,
         myLike: false,
         date: "12.03.18 15:54"
-    }]
+    }],
+    postInput: "This input is state controlled"
 }
 
-export const profileReducer = (state: ProfilePageType = initialState, action: ActionsTypes): ProfilePageType => {
+export type ProfileStateType = {
+    profile: ProfileType
+    posts: PostType[]
+    postInput: string
+}
+
+export const profileReducer = (state: ProfileStateType = initialState, action: ActionsTypes): ProfileStateType => {
     switch (action.type) {
         case "ADD-POST":
             return {
-                ...state, pageHeader: {...state.pageHeader, postInput: ""}, posts: [{
+                ...state, postInput: "", posts: [{
                     id: state.posts.length,
-                    name: state.pageHeader.name,
-                    message: state.pageHeader.postInput.trim(),
-                    avatar: state.pageHeader.avatar,
+                    name: state.profile.fullName,
+                    message: state.postInput.trim(),
+                    avatar: state.profile.photos.small || null,
                     likes: 0,
                     myLike: false,
                     date: new Intl.DateTimeFormat('en-GB', {
@@ -95,13 +141,15 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
                 }, ...state.posts]
             }
         case "POST-INPUT-HANDLER":
-            return {...state, pageHeader: {...state.pageHeader, postInput: action.postMessage}}
+            return {...state, postInput: action.postMessage}
         case "ADD-LIKE":
             const newPosts = state.posts.map(p => p.id !== action.postID ? p : {
                 ...p,
                 myLike: !p.myLike
             })
             return {...state, posts: [...newPosts]}
+        case "SET-USER-PROFILE":
+            return {...state, profile: action.profile}
         default:
             return {...state}
     }

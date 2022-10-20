@@ -4,23 +4,23 @@ import {ChatType, sendMessageAC, updateNewMessageAC} from "../../redux/chats-red
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
-import {PageHeaderType} from "../../redux/profile-reducer";
+import {ProfileType} from "../../redux/profile-reducer";
 
 type MapStateToPropsType = {
     chats: ChatType[]
-    pageHeader: PageHeaderType
+    profile: ProfileType
 }
 type MapDispatchToPropsType = {
     inputHandler: (input: string, chatId: number) => void
-    sendMessageCallback: (index: number, avatar: string, name: string) => void
+    sendMessageCallback: (index: number, avatar: string | null, name: string) => void
 }
 export type DialogsPropsType = MapStateToPropsType & MapDispatchToPropsType
 
-const mapStateToProps = (state: ReduxStateType): MapStateToPropsType => ({chats: state.chatsReducer, pageHeader: state.profileReducer.pageHeader})
+const mapStateToProps = (state: ReduxStateType): MapStateToPropsType => ({chats: state.chatsReducer, profile: state.profileReducer.profile})
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
     return {
         inputHandler: (input: string, chatId: number) => dispatch(updateNewMessageAC(input, chatId)),
-        sendMessageCallback: (index: number, avatar: string, name: string) => dispatch(sendMessageAC(index, avatar, name))
+        sendMessageCallback: (index: number, avatar: string | null, name: string) => dispatch(sendMessageAC(index, avatar, name))
     }
 }
 

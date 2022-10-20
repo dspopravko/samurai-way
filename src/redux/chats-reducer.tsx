@@ -6,7 +6,7 @@ type ChatMessagesType = {
     name: string
     message: string
     date: string
-    avatar?: string
+    avatar: string | null
 }
 export type ChatHeaderType = {
     id: number
@@ -25,7 +25,7 @@ export type ChatType = {
 
 export type ChatsReducerACTypes = ReturnType<typeof updateNewMessageAC> | ReturnType<typeof sendMessageAC>
 
-export const sendMessageAC = (chatID: number, avatar: string, name: string) => {
+export const sendMessageAC = (chatID: number, avatar: string | null, name: string) => {
     return {
         type: "SEND-MESSAGE",
         chatID: chatID,
@@ -138,12 +138,16 @@ export const chatsReducer = (state: ChatType[] = initialState, action: ActionsTy
                 name: action.name,
                 message: text,
                 date: date,
-                avatar: action.avatar
+                avatar: action.avatar ? action.avatar : null
             }
             return state.map((c, i) => i === action.chatID
-                ? ({...c,chatNewMessage: {...c.chatNewMessage, message: ""},
-                    chatHeader: {...c.chatHeader, date: date},
-                    chatMessages: [...c.chatMessages, {...message}]})
+                ? ({...c,
+                    chatNewMessage:
+                        {...c.chatNewMessage, message: ""},
+                    chatHeader:
+                        {...c.chatHeader, date: date},
+                    chatMessages:
+                        [...c.chatMessages, {...message}]})
                 : ({...c}))
         default:
             return state

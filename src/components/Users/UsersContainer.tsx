@@ -11,8 +11,7 @@ import React from "react";
 import * as axios from "axios";
 import {Users} from "./Users";
 
-class UsersAPIComponent extends React.Component<UsersPropsType, UsersStateType> {
-
+class UsersClassComponent extends React.Component<UsersPropsType, UsersStateType> {
     componentDidMount() {
         this.props.setFetching(true)
         axios.default.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
@@ -22,7 +21,6 @@ class UsersAPIComponent extends React.Component<UsersPropsType, UsersStateType> 
                 this.props.setFetching(false)
             })
     }
-
     onPageChanged = (n: number) => {
         this.props.setFetching(true)
     console.log(this.props.isFetching)
@@ -80,4 +78,4 @@ const mapDispatchToProps: MapDispatchToPropsType = {
         setFetching
 }
 
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent);
+export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersClassComponent);

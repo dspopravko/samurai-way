@@ -4,28 +4,22 @@ import './App.css';
 import './components/Header/Header';
 import Header from "./components/Header/Header";
 import Navbar from "./components/Sidebar/Navbar";
-import {MyProfile} from "./components/content/Profile/MyProfile";
+import {ProfileContainer} from "./components/content/Profile/ProfileContainer";
 import {Music} from "./components/content/Music/Music";
 import {News} from "./components/content/News/News";
 import {Settings} from "./components/content/Settings/Settings";
 import {Notes} from "./components/content/Notes/Notes";
-import {StoreType} from "./redux/redux-store";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
-import {UsersContainer} from "./components/Users/Users.container";
+import {UsersContainer} from "./components/Users/UsersContainer";
 
-type AppPropsType = {
-    store: StoreType
-}
-
-function App({store}: AppPropsType) {
+function App() {
     return (
         <BrowserRouter>
             <div className={'app-wrapper'}>
                 <Header/>
                 <div className={'app-wrapper-content'}>
-                    <Route path={'/profile'}
-                           render={() => <MyProfile
-                               store={store}
+                    <Route path={'/profile/:userId?'}
+                           render={() => <ProfileContainer
                            />}/>
                     <Route path={'/messages'}
                            render={() => <DialogsContainer

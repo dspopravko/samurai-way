@@ -1,6 +1,7 @@
 import React from "react";
 import s from "./Post.module.css";
 import {PostType} from "../../../../../redux/profile-reducer";
+import logo from "../../../../../assets/img/defaultUser.png";
 
 type PostPropsType = {
     props: PostType
@@ -16,7 +17,7 @@ export const Post = ({props, addLikeHandler}: PostPropsType ) => {
         <div className={s.post}>
             <div className={s.authorWrapper}>
                 <div className={s.avatarWrapper}>
-                    <img alt={"avatar"} src={props.avatar}/>
+                    <img alt={"avatar"} src={props.avatar ? props.avatar : logo}/>
                 </div>
                 <div className={s.name}>{props.name}</div>
                 <div className={s.date}>{props.date}</div>
