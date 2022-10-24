@@ -7,7 +7,8 @@ export type UserReducerACTypes =
     | ReturnType<typeof setUsers>
     | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setTotalUsersCount>
-    | ReturnType<typeof setFetching>
+    | ReturnType<typeof setFetchingUsers>
+    | ReturnType<typeof setFetchingFollow>
 
 
 export type UserType = {
@@ -52,10 +53,17 @@ export const setTotalUsersCount = (totalUsersCount: number) => {
         totalUsersCount
     } as const
 }
-export const setFetching = (isFetching: boolean) => {
+export const setFetchingUsers = (isFetchingUsers: boolean) => {
     return {
-        type: "SET-FETCHING",
-        isFetching
+        type: "SET-FETCHING-USERS",
+        isFetchingUsers
+    } as const
+}
+export const setFetchingFollow = (setType: 'post' | 'delete', userId: number) => {
+    return {
+        type: "SET-FETCHING-FOLLOW",
+        setType,
+        userId
     } as const
 }
 
@@ -65,7 +73,8 @@ let initialState = {
     pageSize: 4,
     totalUsersCount: 20,
     currentPage: 1,
-    isFetching: true
+    isFetchingUsers: true,
+    isFetchingFollow: [0]
 }
 
 export type UsersStateType = typeof initialState
@@ -87,8 +96,13 @@ export const usersReducer = (state: UsersStateType = initialState, action: Actio
         case "SET-TOTAL-USERS-COUNT": {
             return {...state, totalUsersCount: action.totalUsersCount}
         }
-        case "SET-FETCHING": {
-            return {...state, isFetching: action.isFetching}
+        case "SET-FETCHING-USERS": {
+            return {...state, isFetchingUsers: action.isFetchingUsers}
+        }
+        case "SET-FETCHING-FOLLOW": {
+            return action.setType === 'delete' ?
+                {...state, isFetchingFollow: state.isFetchingFollow.filter(id => id != action.userId)}
+                : {...state, isFetchingFollow: [...state.isFetchingFollow, action.userId]}
         }
         default:
             return {...state}

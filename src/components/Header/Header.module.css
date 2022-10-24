@@ -1,9 +1,11 @@
 .header {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     grid-area: header;
     align-items: center;
     background-color: #c3f5e3;
+    padding: 0 30px;
 }
 .imgWrapper {
     margin-left: 7px;
@@ -20,4 +22,8 @@
     font-weight: bold;
     display: block;
     margin-left: 10px;
+}
+.loginBlock {
+    float: right;
+    font-weight: bold;
 }

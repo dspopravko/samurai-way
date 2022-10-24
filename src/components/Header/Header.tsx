@@ -1,6 +1,7 @@
 import s from "./Header.module.css"
+import {NavLink} from "react-router-dom";
 
-export default function Header() {
+export default function Header({resultCode, login}: {resultCode: number, login: string}) {
     return (
         <header className={s.header}>
             <div className={s.imgWrapper}>
@@ -12,6 +13,9 @@ export default function Header() {
             </div>
             <div className={s.titleWrapper}>
                 <p>Project Media</p>
+            </div>
+            <div className={s.loginBlock}>
+                <NavLink to={'/login'}>{resultCode === 0? login : "Login in"}</NavLink>
             </div>
         </header>
     )

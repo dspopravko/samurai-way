@@ -9,15 +9,17 @@ type UsersComponentPropsType =  {
     pageSize: number
     totalUsersCount: number
     currentPage: number
-    isFetching: boolean
+    isFetchingUsers: boolean
+    isFetchingFollow: Array<number>
     follow: (userID: number) => void
     unfollow: (userID: number) => void
     onPageChanged: (page: number) => void
+    setFetchingFollow: (setType: 'post' | 'delete', userId: number) => void
 }
 
-export const Users = ({users, unfollow, follow, totalUsersCount, pageSize, currentPage, onPageChanged, isFetching}: UsersComponentPropsType) => {
+export const Users = ({users, unfollow, follow, totalUsersCount, pageSize, currentPage, onPageChanged, isFetchingUsers, isFetchingFollow, setFetchingFollow}: UsersComponentPropsType) => {
     let pagesCount = Math.ceil(totalUsersCount / pageSize)
-    if (pagesCount > 20) pagesCount = 20;
+    // if (pagesCount > 20) pagesCount = 20;
     let pages = [];
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
@@ -27,18 +29,11 @@ export const Users = ({users, unfollow, follow, totalUsersCount, pageSize, curre
         <div className={s.usersCanvas}>
             <div className={s.usersWrapper}>
                 <div>
-                    <span>page: </span>
-                    {
-                        pages.map(p =>
-                            <span
-                                key={p}
-                                className={p === currentPage ? s.activePage : s.page}
-                                onClick={() => onPageChanged(p)}
-                            >{p}
-                                    </span>
-                        )
-                    }
-                    {isFetching && <div className={s.loaderWrapper}><Loader/></div>}
+                    <span>This is {currentPage} page. </span><br/>
+                    <span>Select page from 1 to {pagesCount}</span>
+                    <input max={pagesCount} min={1} onBlur={(e) => onPageChanged(+e.target.value)}
+                    /> max = {pagesCount}
+                    {isFetchingUsers && <div className={s.loaderWrapper}><Loader/></div>}
                 </div>
                 {
                     users.map(u => (
@@ -46,7 +41,10 @@ export const Users = ({users, unfollow, follow, totalUsersCount, pageSize, curre
                             key={u.id}
                             user={u}
                             follow={follow}
-                            unfollow={unfollow}/>
+                            unfollow={unfollow}
+                            isFetchingFollow={isFetchingFollow}
+                            setFetchingFollow={setFetchingFollow}
+                        />
                     ))
 
                 }

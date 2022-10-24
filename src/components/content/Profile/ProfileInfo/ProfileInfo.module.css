@@ -12,7 +12,7 @@
     background: #eaeaea;
 }
 .description {
-    height: 126px;
+    min-height: 126px;
     display: flex;
     gap: 50px;
     padding-bottom: 26px;
@@ -51,5 +51,8 @@
     font-weight: 600;
 }
 .description_2 {
+    align-self: flex-end;
+}
+.description_3 {
     align-self: flex-end;
 }

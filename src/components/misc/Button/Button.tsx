@@ -5,6 +5,7 @@ export type buttonPropsType = {
     name: string
     onClick?: () => void
     primary?: boolean
+    disabled?: boolean
 }
 
 export const Button = ({

@@ -4,18 +4,24 @@ import s from "./Profile.module.css"
 import {ProfileType} from "../../../redux/profile-reducer";
 
 type ProfileComponentPropsType =  {
+    isFollowed: boolean
+    isMyProfile: boolean
     profile: ProfileType
-    addPost: () => void
-    postInputHandler: (postInput: string) => void
-    addLike: (postID: number) => void
+    follow: (userID: number) => void
+    unfollow: (userID: number) => void
 }
 
-export const Profile = ({profile}: ProfileComponentPropsType) => {
+export const Profile = ({profile, isMyProfile, follow, unfollow, isFollowed}: ProfileComponentPropsType) => {
 
     return (
         <div className={s.profileWrapper}>
             <ProfileInfo
-                profile={profile}/>
+                isFollowed={isFollowed}
+                isMyProfile={isMyProfile}
+                profile={profile}
+                follow={follow}
+                unfollow={unfollow}
+            />
             <PostsContainer/>
         </div>
     )

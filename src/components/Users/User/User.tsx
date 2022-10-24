@@ -4,13 +4,16 @@ import s from "./User.module.css"
 import React from "react";
 import logo from "../../../assets/img/defaultUser.png"
 import {NavLink} from "react-router-dom";
+import {UsersAPI} from "../../../API/API";
 
 type UserPropsType = {
+    isFetchingFollow: Array<number>
     user: UserType
     follow: (userID: number) => void
     unfollow: (userID: number) => void
+    setFetchingFollow: (setType: 'post' | 'delete', userId: number) => void
 }
-export const User = ({user, follow, unfollow}: UserPropsType) => {
+export const User = ({user, follow, unfollow, isFetchingFollow, setFetchingFollow}: UserPropsType) => {
     return (
         <div className={s.user}>
             <div className={s.w1}>
@@ -20,11 +23,16 @@ export const User = ({user, follow, unfollow}: UserPropsType) => {
                     </NavLink>
                 </div>
                 <div className={s.btnWrapper}>
-                    {user.followed ? <Button name={"Unfollow"} onClick={() => {
-                            unfollow(user.id)
+                    {user.followed ?
+                        <Button disabled={isFetchingFollow.some(id=>id ===user.id)} name={'Unfollow'} onClick={async() => {
+                            setFetchingFollow('post', user.id)
+                            await UsersAPI.unfollowUser(user.id) && unfollow(user.id)
+                            setFetchingFollow('delete', user.id)
                         }}></Button>
-                        : <Button name={"Follow"} onClick={() => {
-                            follow(user.id)
+                        : <Button disabled={isFetchingFollow.some(id=>id ===user.id)} name={'Follow'} onClick={async () => {
+                            setFetchingFollow('post', user.id)
+                            await UsersAPI.followUser(user.id) && follow(user.id)
+                            setFetchingFollow('delete', user.id)
                         }}></Button>}
                 </div>
             </div>

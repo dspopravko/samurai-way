@@ -111,13 +111,15 @@ let initialState = {
         myLike: false,
         date: "12.03.18 15:54"
     }],
-    postInput: "This input is state controlled"
+    postInput: "This input is state controlled",
+    isFollowed: false
 }
 
 export type ProfileStateType = {
     profile: ProfileType
     posts: PostType[]
     postInput: string
+    isFollowed: boolean
 }
 
 export const profileReducer = (state: ProfileStateType = initialState, action: ActionsTypes): ProfileStateType => {
@@ -150,6 +152,12 @@ export const profileReducer = (state: ProfileStateType = initialState, action: A
             return {...state, posts: [...newPosts]}
         case "SET-USER-PROFILE":
             return {...state, profile: action.profile}
+        case "FOLLOW-USER": {
+            return {...state, isFollowed: true}
+        }
+        case "UNFOLLOW-USER": {
+            return {...state, isFollowed: false}
+        }
         default:
             return {...state}
     }
