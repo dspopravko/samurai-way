@@ -19,19 +19,19 @@ type UsersComponentPropsType =  {
 
 export const Users = ({users, unfollow, follow, totalUsersCount, pageSize, currentPage, onPageChanged, isFetchingUsers, isFetchingFollow, setFetchingFollow}: UsersComponentPropsType) => {
     let pagesCount = Math.ceil(totalUsersCount / pageSize)
-    // if (pagesCount > 20) pagesCount = 20;
     let pages = [];
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
-
     return (
         <div className={s.usersCanvas}>
             <div className={s.usersWrapper}>
                 <div>
                     <span>This is {currentPage} page. </span><br/>
                     <span>Select page from 1 to {pagesCount}</span>
-                    <input max={pagesCount} min={1} onBlur={(e) => onPageChanged(+e.target.value)}
+                    <input type={'number'}
+                        max={pagesCount}
+                        min={1} onBlur={(e) => onPageChanged(+e.target.value)}
                     /> max = {pagesCount}
                     {isFetchingUsers && <div className={s.loaderWrapper}><Loader/></div>}
                 </div>

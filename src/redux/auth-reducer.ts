@@ -15,7 +15,7 @@ export type AuthType = { //API Type
     resultCode: number
 }
 
-export const authUser = (payload: AuthType, isFetching: boolean) => {
+export const authUser = (payload: AuthType, isFetchingAuth: boolean) => {
     return {
         type: "AUTH-USER",
         data: {
@@ -26,13 +26,13 @@ export const authUser = (payload: AuthType, isFetching: boolean) => {
         messages: payload.messages,
         fieldsErrors: payload.fieldsErrors,
         resultCode: payload.resultCode,
-        isFetchingUsers: isFetching
+        isFetchingAuth: isFetchingAuth
     } as const
 }
-export const setFetching = (isFetchingUsers: boolean) => {
+export const setFetching = (isFetchingAuth: boolean) => {
     return {
         type: "SET-FETCHING",
-        isFetchingUsers
+        isFetchingAuth
     } as const
 }
 
@@ -46,7 +46,7 @@ let initialState = {
     messages: [''],
     fieldsErrors: [''],
     resultCode: 1,
-    isFetchingUsers: true
+    isFetchingAuth: true
 }
 
 export type AuthStateType = typeof initialState
@@ -60,11 +60,11 @@ export const authReducer = (state: AuthStateType = initialState, action: Actions
                 messages: [...action.messages],
                 fieldsErrors: [...action.fieldsErrors],
                 resultCode: action.resultCode,
-                isFetchingUsers: action.isFetchingUsers,
+                isFetchingAuth: action.isFetchingAuth,
             }
         }
         case "SET-FETCHING": {
-            return {...state, isFetchingUsers: action.isFetchingUsers}
+            return {...state, isFetchingAuth: action.isFetchingAuth}
         }
         default:
             return {...state}

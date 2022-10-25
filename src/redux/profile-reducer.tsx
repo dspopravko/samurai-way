@@ -112,7 +112,7 @@ let initialState = {
         date: "12.03.18 15:54"
     }],
     postInput: "This input is state controlled",
-    isFollowed: false
+    isFollowed: false,
 }
 
 export type ProfileStateType = {

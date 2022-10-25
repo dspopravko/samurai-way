@@ -15,23 +15,26 @@ import {follow, unfollow, UsersStateType} from "../../../redux/user-reducer";
 
 class ProfileClassComponent extends React.Component<ProfilePropsType, ProfileStateType> {
     componentDidMount() {
-        const userId = this.props.match.params.userId || this.props.data.id //userId or myId
-        console.log(this.props.data.id)
+        const {setUserProfile, follow, unfollow, data, match, profile, isFollowed, posts, postInput, children, location, staticContext, history, users, isFetchingFollow} = {...this.props}
+
+        const userId = match.params.userId || data.id //userId or myId
+        console.log(data.id)
         UsersAPI.getUser(+userId).then(data => {
-                this.props.setUserProfile(data)
+                setUserProfile(data)
             })
         UsersAPI.isUserFollowed(+userId).then(data => {
-            data ? this.props.follow(+userId) : this.props.unfollow(+userId)
+            data ? follow(+userId) : unfollow(+userId)
         })
     }
     render() {
+        const {follow, unfollow, data, match, profile, isFollowed, posts, postInput, children, location, staticContext, history, users, isFetchingFollow} = {...this.props}
         return (
             <Profile
-                isFollowed={this.props.isFollowed}
-                isMyProfile={!this.props.match.params.userId}
-                profile={this.props.profile}
-                follow={this.props.follow}
-                unfollow={this.props.unfollow}
+                isFollowed={isFollowed}
+                isMyProfile={data.id === profile.userId}
+                profile={profile}
+                follow={follow}
+                unfollow={unfollow}
             />
         )
     }
@@ -42,7 +45,10 @@ export type MapDispatchToPropsType = {
     unfollow: (userID: number) => void
     setUserProfile: (profile: ProfileType) => void
 }
-export type MapStateToPropsType = ProfileStateType & Omit<AuthStateType, "resultCode" | "fieldsErrors" | "messages"> & Omit<UsersStateType, 'fieldsErrors' | 'pageSize' | 'currentPage' | 'totalUsersCount'>
+export type MapStateToPropsType =
+    ProfileStateType
+    & Pick<AuthStateType, 'data'>
+    & Pick<UsersStateType, 'users' | 'isFetchingFollow'>
 
 type PathParamsType = { userId: string | undefined } //path for route
 export type ProfileOwnPropsType = MapStateToPropsType & MapDispatchToPropsType //state & dispatch
@@ -51,12 +57,11 @@ type ProfilePropsType = RouteComponentProps<PathParamsType> & ProfileOwnPropsTyp
 const mapStateToProps = ({profileReducer, authReducer, usersReducer}: ReduxStateType): MapStateToPropsType => {
     return {
         isFollowed: profileReducer.isFollowed,
-        users: usersReducer.users,
         profile: profileReducer.profile,
         posts: profileReducer.posts,
         postInput: profileReducer.postInput,
-        isFetchingUsers: authReducer.isFetchingUsers,
         data: authReducer.data,
+        users: usersReducer.users,
         isFetchingFollow: usersReducer.isFetchingFollow
     }
 }

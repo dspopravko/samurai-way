@@ -13,23 +13,29 @@ import {UsersAPI} from "../../API/API";
 
 class UsersClassComponent extends React.Component<UsersPropsType, UsersStateType> {
     componentDidMount() {
-        this.props.setFetchingUsers(true)
-        UsersAPI.getUsers(this.props.currentPage, this.props.pageSize)
+        const { setFetchingUsers, setUsers, setTotalUsersCount, currentPage, pageSize} = {...this.props}
+
+        setFetchingUsers(true)
+        UsersAPI.getUsers(currentPage, pageSize)
             .then(data => {
-                this.props.setUsers(data.items)
-                this.props.setTotalUsersCount(data.totalCount)
-                this.props.setFetchingUsers(false)
-            })
+                setUsers(data.items)
+                setTotalUsersCount(data.totalCount)
+            }).finally(() => {
+            setFetchingUsers(false)
+        })
     }
 
     onPageChanged = (n: number) => {
-        this.props.setFetchingUsers(true)
-        this.props.setUsers([])
-        this.props.setCurrentPage(n)
+        const { setFetchingUsers, setUsers, setCurrentPage,pageSize} = {...this.props}
 
-        UsersAPI.getUsers(n, this.props.pageSize).then(data => {
-            this.props.setUsers(data.items)
-            this.props.setFetchingUsers(false)
+        setFetchingUsers(true)
+        setUsers([])
+        setCurrentPage(n)
+
+        UsersAPI.getUsers(n, pageSize).then(data => {
+            setUsers(data.items)
+        }).finally(() => {
+            setFetchingUsers(false)
         })
 
     }
@@ -37,16 +43,8 @@ class UsersClassComponent extends React.Component<UsersPropsType, UsersStateType
     render() {
         return (
             <Users
-                users={this.props.users}
-                pageSize={this.props.pageSize}
-                follow={this.props.follow}
-                unfollow={this.props.unfollow}
-                currentPage={this.props.currentPage}
-                totalUsersCount={this.props.totalUsersCount}
+                {...this.props}
                 onPageChanged={this.onPageChanged}
-                isFetchingUsers={this.props.isFetchingUsers}
-                isFetchingFollow={this.props.isFetchingFollow}
-                setFetchingFollow={this.props.setFetchingFollow}
             />
         )
     }
