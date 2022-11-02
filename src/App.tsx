@@ -11,6 +11,7 @@ import {Notes} from "./components/content/Notes/Notes";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
 import {HeaderContainer} from "./components/Header/HeaderContainer";
+import {Login} from "./components/Login/Login";
 
 function App() {
     return (
@@ -30,6 +31,7 @@ function App() {
                     <Route path={'/news'} render={() => <News/>}/>
                     <Route path={'/notes'} render={() => <Notes/>}/>
                     <Route path={'/settings'} render={() => <Settings/>}/>
+                    <Route path={'/login'} render={() => <Login/>}/>
                 </div>
                 <Navbar/>
             </div>

@@ -2,16 +2,25 @@ import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {PostsContainer} from "./MyPosts/PostsContainer";
 import s from "./Profile.module.css"
 import {ProfileType} from "../../../redux/profile-reducer";
+import React from "react";
 
-type ProfileComponentPropsType =  {
+type ProfileComponentPropsType = {
     isFollowed: boolean
     isMyProfile: boolean
     profile: ProfileType
     follow: (userID: number) => void
     unfollow: (userID: number) => void
+    isFetchingProfile: boolean
 }
 
-export const Profile = ({profile, isMyProfile, follow, unfollow, isFollowed}: ProfileComponentPropsType) => {
+export const Profile = ({
+                            profile,
+                            follow,
+                            unfollow,
+                            isMyProfile,
+                            isFollowed,
+                            isFetchingProfile
+                        }: ProfileComponentPropsType) => {
 
     return (
         <div className={s.profileWrapper}>
@@ -21,6 +30,7 @@ export const Profile = ({profile, isMyProfile, follow, unfollow, isFollowed}: Pr
                 profile={profile}
                 follow={follow}
                 unfollow={unfollow}
+                isFetchingProfile={isFetchingProfile}
             />
             <PostsContainer/>
         </div>

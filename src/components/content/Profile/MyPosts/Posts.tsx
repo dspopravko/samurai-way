@@ -25,6 +25,24 @@ function Posts(props: MyPostsPropsType) {
 
     const onChangeInputHandler = (e: ChangeEvent<HTMLTextAreaElement>) => props.postInputHandler(e.currentTarget.value)
 
+    if (props.isFetchingProfile) {
+        return (
+            <div className={s.myPostsWrapper}>
+                <div className={s.post_new}>
+                    <div className={s.postNewCanvas}>
+                    <textarea
+                        onChange={()=>{}}
+                        value={""}
+                        className={s.textarea}>
+                    </textarea>
+                        <Button name={"Add Post"} onClick={onClickAddPostHandler}></Button>
+                    </div>
+                    <div>{errorMsg}</div>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div className={s.myPostsWrapper}>
             <div className={s.post_new}>

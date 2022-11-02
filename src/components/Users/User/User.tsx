@@ -4,18 +4,15 @@ import s from "./User.module.css"
 import React from "react";
 import logo from "../../../assets/img/defaultUser.png"
 import {NavLink} from "react-router-dom";
-import {UsersAPI} from "../../../API/API";
 
 type UserPropsType = {
     isFetchingFollow: Array<number>
     user: UserType
     follow: (userID: number) => void
     unfollow: (userID: number) => void
-    setFetchingFollow: (setType: 'post' | 'delete', userId: number) => void
 }
-export const User = ({user, follow, unfollow, isFetchingFollow, setFetchingFollow}: UserPropsType) => {
-    const {id, name, status, uniqueUrlName, photos, followed} = {...user}
-
+export const User = ({user, follow, unfollow, isFetchingFollow}: UserPropsType) => {
+    const {id, name, status, photos, followed} = {...user}
     return (
         <div className={s.user}>
             <div className={s.w1}>
@@ -26,16 +23,14 @@ export const User = ({user, follow, unfollow, isFetchingFollow, setFetchingFollo
                 </div>
                 <div className={s.btnWrapper}>
                     {followed ?
-                        <Button disabled={isFetchingFollow.some(i=>i === id)} name={'Unfollow'} onClick={async() => {
-                            setFetchingFollow('post', id)
-                            await UsersAPI.unfollowUser(id) && unfollow(id)
-                            setFetchingFollow('delete', id)
-                        }}></Button>
-                        : <Button disabled={isFetchingFollow.some(i=>i === id)} name={'Follow'} onClick={async () => {
-                            setFetchingFollow('post', id)
-                            await UsersAPI.followUser(id) && follow(id)
-                            setFetchingFollow('delete', id)
-                        }}></Button>}
+                        <Button disabled={isFetchingFollow.some(i=>i === id)}
+                                name={'Unfollow'}
+                                onClick={()=>unfollow(id)}
+                        />
+                        : <Button disabled={isFetchingFollow.some(i=>i === id)}
+                                  name={'Follow'}
+                                  onClick={() => {follow(id)}}
+                        />}
                 </div>
             </div>
             <div className={s.w2}>

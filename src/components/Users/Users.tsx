@@ -1,28 +1,18 @@
 import React from 'react';
 import {User} from "./User/User";
 import s from "./Users.module.css"
-import {UserType} from "../../redux/user-reducer";
 import {Loader} from "../misc/Loader/Loader";
+import {UsersPropsType} from "./UsersContainer";
 
-type UsersComponentPropsType =  {
-    users: UserType[]
-    pageSize: number
-    totalUsersCount: number
-    currentPage: number
-    isFetchingUsers: boolean
-    isFetchingFollow: Array<number>
-    follow: (userID: number) => void
-    unfollow: (userID: number) => void
-    onPageChanged: (page: number) => void
-    setFetchingFollow: (setType: 'post' | 'delete', userId: number) => void
-}
+type UsersComponentPropsType = UsersPropsType
 
-export const Users = ({users, unfollow, follow, totalUsersCount, pageSize, currentPage, onPageChanged, isFetchingUsers, isFetchingFollow, setFetchingFollow}: UsersComponentPropsType) => {
+export const Users = ({users, getUsers, unfollow, follow, totalUsersCount, pageSize, currentPage, isFetchingUsers, isFetchingFollow }
+                          : UsersComponentPropsType) => {
+
+    const onPageChanged = (n: number) => getUsers(n, pageSize)
+
     let pagesCount = Math.ceil(totalUsersCount / pageSize)
-    let pages = [];
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i)
-    }
+
     return (
         <div className={s.usersCanvas}>
             <div className={s.usersWrapper}>
@@ -30,8 +20,8 @@ export const Users = ({users, unfollow, follow, totalUsersCount, pageSize, curre
                     <span>This is {currentPage} page. </span><br/>
                     <span>Select page from 1 to {pagesCount}</span>
                     <input type={'number'}
-                        max={pagesCount}
-                        min={1} onBlur={(e) => onPageChanged(+e.target.value)}
+                           max={pagesCount}
+                           min={1} onChange={(e) => onPageChanged(+e.target.value)}
                     /> max = {pagesCount}
                     {isFetchingUsers && <div className={s.loaderWrapper}><Loader/></div>}
                 </div>
@@ -43,7 +33,6 @@ export const Users = ({users, unfollow, follow, totalUsersCount, pageSize, curre
                             follow={follow}
                             unfollow={unfollow}
                             isFetchingFollow={isFetchingFollow}
-                            setFetchingFollow={setFetchingFollow}
                         />
                     ))
 

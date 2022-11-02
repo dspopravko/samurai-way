@@ -1,51 +1,19 @@
-import {
-    follow,
-    setCurrentPage, setFetchingFollow, setFetchingUsers, setTotalUsersCount,
-    setUsers,
-    unfollow, UsersStateType,
-    UserType
-} from "../../redux/user-reducer";
+import {follow, getUsers, unfollow, UsersStateType} from "../../redux/user-reducer";
 import {ReduxStateType} from "../../redux/redux-store";
 import {connect} from "react-redux";
 import React from "react";
 import {Users} from "./Users";
-import {UsersAPI} from "../../API/API";
+import {AuthStateType} from "../../redux/auth-reducer";
+import {Redirect} from "react-router-dom";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 class UsersClassComponent extends React.Component<UsersPropsType, UsersStateType> {
     componentDidMount() {
-        const { setFetchingUsers, setUsers, setTotalUsersCount, currentPage, pageSize} = {...this.props}
-
-        setFetchingUsers(true)
-        UsersAPI.getUsers(currentPage, pageSize)
-            .then(data => {
-                setUsers(data.items)
-                setTotalUsersCount(data.totalCount)
-            }).finally(() => {
-            setFetchingUsers(false)
-        })
+        this.props.getUsers(this.props.currentPage, this.props.pageSize)
     }
-
-    onPageChanged = (n: number) => {
-        const { setFetchingUsers, setUsers, setCurrentPage,pageSize} = {...this.props}
-
-        setFetchingUsers(true)
-        setUsers([])
-        setCurrentPage(n)
-
-        UsersAPI.getUsers(n, pageSize).then(data => {
-            setUsers(data.items)
-        }).finally(() => {
-            setFetchingUsers(false)
-        })
-
-    }
-
     render() {
         return (
-            <Users
-                {...this.props}
-                onPageChanged={this.onPageChanged}
-            />
+            <Users {...this.props} />
         )
     }
 }
@@ -53,33 +21,29 @@ class UsersClassComponent extends React.Component<UsersPropsType, UsersStateType
 export type MapDispatchToPropsType = {
     follow: (userID: number) => void
     unfollow: (userID: number) => void
-    setUsers: (users: UserType[]) => void
-    setCurrentPage: (page: number) => void
-    setTotalUsersCount: (totalUsersCount: number) => void
-    setFetchingUsers: (isFetching: boolean) => void
-    setFetchingFollow: (setType: 'post' | 'delete', userId: number) => void
+    getUsers: (currentPage: number, pageSize: number) => void
 }
 
-export type UsersPropsType = UsersStateType & MapDispatchToPropsType
+export type MapStateToPropsType = UsersStateType & Pick<AuthStateType, 'isAuth'>
 
-const mapStateToProps = ({usersReducer}: ReduxStateType): UsersStateType => {
+export type UsersPropsType = MapStateToPropsType & MapDispatchToPropsType
+
+const mapStateToProps = ({usersReducer, authReducer}: ReduxStateType): MapStateToPropsType => {
     return {
         users: usersReducer.users,
         pageSize: usersReducer.pageSize,
         totalUsersCount: usersReducer.totalUsersCount,
         currentPage: usersReducer.currentPage,
         isFetchingFollow: usersReducer.isFetchingFollow,
-        isFetchingUsers: usersReducer.isFetchingUsers
+        isFetchingUsers: usersReducer.isFetchingUsers,
+        isAuth: authReducer.isAuth
     }
 }
 const mapDispatchToProps: MapDispatchToPropsType = {
     follow,
     unfollow,
-    setUsers,
-    setCurrentPage,
-    setTotalUsersCount,
-    setFetchingUsers,
-    setFetchingFollow
+    getUsers
 }
 
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersClassComponent);
+const AuthRedirectComponent = withAuthRedirect(UsersClassComponent)
+export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent);

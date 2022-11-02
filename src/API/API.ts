@@ -9,36 +9,53 @@ const instance = axios.default.create({
 })
 
 export const UsersAPI = {
-getUsers (currentPage: number = 1, pageSize: number = 5) {
-    return instance.get(`users?page=${currentPage}&count=${pageSize}`)
-        .then(response => response.data)
-},
-getUser (userId: number = 2) {
-    return instance.get(`profile/${userId}`)
-        .then(response => response.data)
-},
-isUserFollowed (userId: number = 2) {
-    return instance.get(`follow/${userId}`)
-        .then(response => response.data)
-},
-followUser (userId: number) {
-    return instance.post(`follow/${userId}`, {})
-        .then(response => {
-       return response.data.resultCode === 0;
-    }).catch(err => {
-        console.log(err)
-        return false
-    })
-},
-unfollowUser (userId: number) {
-    return instance.delete(`follow/${userId}`)
-        .then(response => {
-       return response.data.resultCode === 0;
-    }).catch(err => {
-        console.log(err)
-        return false
-    })
-}
+    getUsers(currentPage: number = 1, pageSize: number = 5) {
+        return instance.get(`users?page=${currentPage}&count=${pageSize}`)
+            .then(response => response.data).catch(err => {
+                console.log(err)
+            })
+    },
+    getUser(userId: number = 2) {
+        return instance.get(`profile/${userId}`)
+            .then(response => response.data).catch(err => {
+                console.log(err)
+            })
+    },
+    isUserFollowed(userId: number = 2) {
+        return instance.get(`follow/${userId}`)
+            .then(response => {
+                return response.data
+            }).catch(err => {
+                console.log(err)
+            })
+    },
+    followUser(userId: number) {
+        return instance.post(`follow/${userId}`, {})
+            .then(response => {
+                return response.data.resultCode === 0;
+            }).catch(err => {
+                console.log(err)
+                return false
+            })
+    },
+    unfollowUser(userId: number) {
+        return instance.delete(`follow/${userId}`)
+            .then(response => {
+                return response.data.resultCode === 0;
+            }).catch(err => {
+                console.log(err)
+                return false
+            })
+    }
 
 }
 
+export const authAPI = {
+    me() {
+        return instance.get(`auth/me`).then(response => {
+            return response.data
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+}

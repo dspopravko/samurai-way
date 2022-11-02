@@ -1,7 +1,17 @@
 import {ActionsTypes} from "./redux-store";
+import {ThunkDispatch} from "redux-thunk";
+import {authAPI, UsersAPI} from "../API/API";
+import {
+    ProfileReducerACTypes,
+    ProfileStateType,
+    setFetchingProfileAC,
+    setUserFollowAC,
+    setUserProfile
+} from "./profile-reducer";
+import * as axios from "axios";
 
 export type AuthReducerACTypes =
-    ReturnType<typeof authUser>
+    ReturnType<typeof setUser>
     | ReturnType<typeof setFetching>
 
 export type AuthType = { //API Type
@@ -15,7 +25,7 @@ export type AuthType = { //API Type
     resultCode: number
 }
 
-export const authUser = (payload: AuthType, isFetchingAuth: boolean) => {
+export const setUser = (payload: AuthType, isFetchingAuth: boolean) => {
     return {
         type: "AUTH-USER",
         data: {
@@ -36,7 +46,6 @@ export const setFetching = (isFetchingAuth: boolean) => {
     } as const
 }
 
-
 let initialState = {
     data: {
         id: 0,
@@ -45,21 +54,23 @@ let initialState = {
     },
     messages: [''],
     fieldsErrors: [''],
-    resultCode: 1,
+    isAuth: false,
     isFetchingAuth: true
 }
 
 export type AuthStateType = typeof initialState
 
 export const authReducer = (state: AuthStateType = initialState, action: ActionsTypes): AuthStateType => {
+    console.log(action)
     switch (action.type) {
         case 'AUTH-USER': {
+            console.log('case: AUTH USER ' + action)
             return {
                 ...state,
                 data: action.data,
                 messages: [...action.messages],
                 fieldsErrors: [...action.fieldsErrors],
-                resultCode: action.resultCode,
+                isAuth: action.resultCode === 0,
                 isFetchingAuth: action.isFetchingAuth,
             }
         }
@@ -69,4 +80,10 @@ export const authReducer = (state: AuthStateType = initialState, action: Actions
         default:
             return {...state}
     }
+}
+
+export const getAuthUserData = () => (dispatch: ThunkDispatch<AuthStateType, void, AuthReducerACTypes>) => {
+    authAPI.me().then(response => {
+        response.resultCode === 0 && dispatch(setUser(response, true))
+    })
 }

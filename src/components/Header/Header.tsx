@@ -1,7 +1,12 @@
 import s from "./Header.module.css"
 import {NavLink} from "react-router-dom";
 
-export default function Header({isAuth, login}: {isAuth: boolean, login: string}) {
+type HeaderPropsType = {
+    isAuth: boolean
+    login: string
+}
+
+export default function Header({isAuth, login}: HeaderPropsType) {
     return (
         <header className={s.header}>
             <div className={s.imgWrapper}>

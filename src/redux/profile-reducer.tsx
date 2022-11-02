@@ -1,4 +1,6 @@
 import {ActionsTypes} from "./redux-store";
+import {ThunkDispatch} from "redux-thunk";
+import {UsersAPI} from "../API/API";
 
 export type PostType = {
     id: number
@@ -41,6 +43,8 @@ export type ProfileReducerACTypes =
     | ReturnType<typeof postInputHandler>
     | ReturnType<typeof addLike>
     | ReturnType<typeof setUserProfile>
+    | ReturnType<typeof setFetchingProfileAC>
+    | ReturnType<typeof setUserFollowAC>
 
 export const addPost = () => ({type: "ADD-POST"}) as const
 export const postInputHandler = (postInput: string) => {
@@ -59,6 +63,19 @@ export const setUserProfile = (profile: ProfileType) => {
     return {
         type: "SET-USER-PROFILE",
         profile
+    } as const
+}
+export const setFetchingProfileAC = (isFetchingProfile: boolean) => {
+    return {
+        type: "SET-FETCHING-PROFILE",
+        isFetchingProfile
+    } as const
+}
+export const setUserFollowAC = (userId: number, followed: boolean) => {
+    return {
+        type: "SET-USER-FOLLOW",
+        userId,
+        followed
     } as const
 }
 
@@ -84,9 +101,8 @@ let initialState = {
             small: null,
             large: null
         }
-    },
-    posts: [
-    {
+    } as ProfileType,
+    posts: [{
         id: 2,
         name: "Firat Arellano",
         message: "Great wallpaper!",
@@ -110,20 +126,19 @@ let initialState = {
         likes: 65,
         myLike: false,
         date: "12.03.18 15:54"
-    }],
+    }] as PostType[],
     postInput: "This input is state controlled",
     isFollowed: false,
+    isFetchingProfile: true
 }
 
-export type ProfileStateType = {
-    profile: ProfileType
-    posts: PostType[]
-    postInput: string
-    isFollowed: boolean
-}
+export type ProfileStateType = typeof initialState
 
 export const profileReducer = (state: ProfileStateType = initialState, action: ActionsTypes): ProfileStateType => {
     switch (action.type) {
+        case "SET-USER-FOLLOW": {
+            return { ...state,isFollowed: action.followed }
+        }
         case "ADD-POST":
             return {
                 ...state, postInput: "", posts: [{
@@ -152,13 +167,29 @@ export const profileReducer = (state: ProfileStateType = initialState, action: A
             return {...state, posts: [...newPosts]}
         case "SET-USER-PROFILE":
             return {...state, profile: action.profile}
-        case "FOLLOW-USER": {
-            return {...state, isFollowed: true}
-        }
-        case "UNFOLLOW-USER": {
-            return {...state, isFollowed: false}
+        // case "FOLLOW-USER": {
+        //     return {...state, isFollowed: true}
+        // }
+        // case "UNFOLLOW-USER": {
+        //     return {...state, isFollowed: false}
+        // }
+        case "SET-FETCHING-PROFILE": {
+            return {...state, isFetchingProfile: action.isFetchingProfile}
         }
         default:
             return {...state}
     }
+}
+
+export const getProfileInfo = (userId: number) => (dispatch: ThunkDispatch<ProfileStateType, void, ProfileReducerACTypes>) => {
+    dispatch(setFetchingProfileAC(true))
+    UsersAPI.getUser(userId).then(data => {
+        dispatch(setUserProfile(data))
+    }).finally(()=> {
+        dispatch(setFetchingProfileAC(false))
+    })
+    UsersAPI.isUserFollowed(+userId).then(data => {
+        console.log(data)
+        dispatch(setUserFollowAC(userId, data))
+    })
 }

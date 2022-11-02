@@ -6,7 +6,6 @@ import {Dialog} from "./Dialog/Dialog";
 import {DialogsPropsType} from "./DialogsContainer";
 
 export const Dialogs = ({chats, inputHandler, sendMessageCallback, profile}: DialogsPropsType) => {
-
     const sendMessageHandler = (index: number) => {
         const photo = profile.photos.small ? profile.photos.small : null
         sendMessageCallback(index, photo, profile.fullName)

@@ -5,10 +5,12 @@ import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {ProfileType} from "../../redux/profile-reducer";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 type MapStateToPropsType = {
     chats: ChatType[]
     profile: ProfileType
+    isAuth: boolean
 }
 type MapDispatchToPropsType = {
     inputHandler: (input: string, chatId: number) => void
@@ -16,7 +18,11 @@ type MapDispatchToPropsType = {
 }
 export type DialogsPropsType = MapStateToPropsType & MapDispatchToPropsType
 
-const mapStateToProps = (state: ReduxStateType): MapStateToPropsType => ({chats: state.chatsReducer, profile: state.profileReducer.profile})
+const mapStateToProps = (state: ReduxStateType): MapStateToPropsType => ({
+    chats: state.chatsReducer,
+    profile: state.profileReducer.profile,
+    isAuth: state.authReducer.isAuth
+})
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
     return {
         inputHandler: (input: string, chatId: number) => dispatch(updateNewMessageAC(input, chatId)),
@@ -24,4 +30,5 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
     }
 }
 
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
+const AuthRedirectComponent = withAuthRedirect(Dialogs)
+export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent);

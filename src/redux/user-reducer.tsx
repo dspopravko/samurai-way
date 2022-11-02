@@ -1,15 +1,16 @@
 import {ActionsTypes} from "./redux-store";
-
+import {UsersAPI} from "../API/API";
+import {ThunkDispatch} from "redux-thunk";
 
 export type UserReducerACTypes =
-    ReturnType<typeof follow>
-    | ReturnType<typeof unfollow>
-    | ReturnType<typeof setUsers>
-    | ReturnType<typeof setCurrentPage>
-    | ReturnType<typeof setTotalUsersCount>
-    | ReturnType<typeof setFetchingUsers>
-    | ReturnType<typeof setFetchingFollow>
-
+    // ReturnType<typeof followAC>
+    // | ReturnType<typeof unfollowAC>
+    | ReturnType<typeof setUsersAC>
+    | ReturnType<typeof setCurrentPageAC>
+    | ReturnType<typeof setTotalUsersCountAC>
+    | ReturnType<typeof setFetchingUsersAC>
+    | ReturnType<typeof setFetchingFollowAC>
+    | ReturnType<typeof setUserFollowAC>
 
 export type UserType = {
     name: string
@@ -23,50 +24,57 @@ export type UserType = {
     followed: boolean
 }
 
-export const follow = (userID: number) => {
-    return {
-        type: "FOLLOW-USER",
-        userID
-    } as const
-}
-export const unfollow = (userID: number) => {
-    return {
-        type: "UNFOLLOW-USER",
-        userID
-    } as const
-}
-export const setUsers = (users: UserType[]) => {
+// export const followAC = (userID: number) => {
+//     return {
+//         type: "FOLLOW-USER",
+//         userID
+//     } as const
+// }
+// export const unfollowAC = (userID: number) => {
+//     return {
+//         type: "UNFOLLOW-USER",
+//         userID
+//     } as const
+// }
+export const setUsersAC = (users: UserType[]) => {
     return {
         type: "SET-USERS",
         users: users
     } as const
 }
-export const setCurrentPage = (page: number) => {
+export const setCurrentPageAC = (page: number) => {
     return {
         type: "SET-CURRENT-PAGE",
         page
     } as const
 }
-export const setTotalUsersCount = (totalUsersCount: number) => {
+export const setTotalUsersCountAC = (totalUsersCount: number) => {
     return {
         type: "SET-TOTAL-USERS-COUNT",
         totalUsersCount
     } as const
 }
-export const setFetchingUsers = (isFetchingUsers: boolean) => {
+export const setFetchingUsersAC = (isFetchingUsers: boolean) => {
     return {
         type: "SET-FETCHING-USERS",
         isFetchingUsers
     } as const
 }
-export const setFetchingFollow = (setType: 'post' | 'delete', userId: number) => {
+export const setFetchingFollowAC = (setType: 'fetching' | 'idle', userId: number) => {
     return {
         type: "SET-FETCHING-FOLLOW",
         setType,
         userId
     } as const
 }
-
+export const setUserFollowAC = (userId: number, followed: boolean) => {
+    console.log(`follow(${followed}) user ${userId} AC`)
+    return {
+        type: "SET-USER-FOLLOW",
+        userId,
+        followed
+    } as const
+}
 
 let initialState = {
     users: [] as Array<UserType>,
@@ -81,12 +89,26 @@ export type UsersStateType = typeof initialState
 
 export const usersReducer = (state: UsersStateType = initialState, action: ActionsTypes): UsersStateType => {
     switch (action.type) {
-        case "FOLLOW-USER": {
-            return {...state, users: state.users.map(u => u.id === action.userID ? {...u, followed: true} : {...u})}
+        case "SET-USER-FOLLOW": {
+            return {
+                ...state,
+                users: state.users.map(u => u.id !== action.userId ? u : {...u, followed: action.followed})
+            }
         }
-        case "UNFOLLOW-USER": {
-            return {...state, users: state.users.map(u => u.id === action.userID ? {...u, followed: false} : {...u})}
-        }
+        // case "FOLLOW-USER": {
+        //     console.log('follow')
+        //     return {
+        //         ...state,
+        //         users: state.users.map(u => u.id === action.userID ? {...u, followed: true} : {...u})
+        //     }
+        // }
+        // case "UNFOLLOW-USER": {
+        //     console.log('unfollow')
+        //     return {
+        //         ...state,
+        //         users: state.users.map(u => u.id === action.userID ? {...u, followed: false} : {...u})
+        //     }
+        // }
         case "SET-USERS": {
             return {...state, users: [...action.users]}
         }
@@ -100,11 +122,52 @@ export const usersReducer = (state: UsersStateType = initialState, action: Actio
             return {...state, isFetchingUsers: action.isFetchingUsers}
         }
         case "SET-FETCHING-FOLLOW": {
-            return action.setType === 'delete' ?
+            return action.setType === 'idle' ?
                 {...state, isFetchingFollow: state.isFetchingFollow.filter(id => id != action.userId)}
                 : {...state, isFetchingFollow: [...state.isFetchingFollow, action.userId]}
         }
         default:
             return {...state}
+    }
+}
+
+export const getUsers = (currentPage: number, pageSize: number) => (dispatch: ThunkDispatch<UsersStateType, void, UserReducerACTypes>) => {
+    dispatch(setFetchingUsersAC(true))
+    dispatch(setUsersAC([]))
+    dispatch(setCurrentPageAC(currentPage))
+    UsersAPI.getUsers(currentPage, pageSize)
+        .then(data => {
+            dispatch(setUsersAC(data.items))
+            dispatch(setTotalUsersCountAC(data.totalCount))
+        }).catch(err => console.log(err))
+        .finally(() => {
+            dispatch(setFetchingUsersAC(false))
+        })
+}
+
+export const follow = (id: number) => {
+    return (dispatch: ThunkDispatch<UsersStateType, void, UserReducerACTypes>) => {
+        dispatch(setFetchingFollowAC('fetching', id))
+        UsersAPI.followUser(id)
+            .then(r => {
+                r && dispatch(setUserFollowAC(id, true))
+            })
+            .finally(() => {
+                    dispatch(setFetchingFollowAC('idle', id))
+                }
+            )
+    }
+}
+export const unfollow = (id: number) => {
+    return (dispatch: ThunkDispatch<UsersStateType, void, UserReducerACTypes>) => {
+        dispatch(setFetchingFollowAC('fetching', id))
+        UsersAPI.unfollowUser(id)
+            .then(r => {
+                r && dispatch(setUserFollowAC(id, false))
+            })
+            .finally(() => {
+                    dispatch(setFetchingFollowAC('idle', id))
+                }
+            )
     }
 }

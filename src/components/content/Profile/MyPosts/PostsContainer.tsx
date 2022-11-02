@@ -14,6 +14,7 @@ type MapStateToPropsType = {
     posts: PostType[]
     profile: ProfileType
     postInput: string
+    isFetchingProfile: boolean
 }
 type MapDispatchToPropsType = {
     addLike: (postId: number) => void
@@ -26,13 +27,14 @@ const mapStateToProps = (state: ReduxStateType): MapStateToPropsType => {
     return {
         posts: state.profileReducer.posts,
         profile: state.profileReducer.profile,
-        postInput: state.profileReducer.postInput
+        postInput: state.profileReducer.postInput,
+        isFetchingProfile: state.profileReducer.isFetchingProfile
     }
 }
 const mapDispatchToProps: MapDispatchToPropsType = {
         addLike,
         addPost,
-    postInputHandler
+        postInputHandler
 }
 
 export const PostsContainer = connect(mapStateToProps, mapDispatchToProps)(Posts)

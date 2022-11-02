@@ -4,35 +4,50 @@ import {Profile} from "./Profile";
 import {
     ProfileStateType,
     ProfileType,
-    setUserProfile
+    setUserProfile, setFetchingProfileAC, getProfileInfo
 } from "../../../redux/profile-reducer";
 import {connect} from "react-redux";
-import {RouteComponentProps, withRouter} from "react-router-dom";
+import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
 import {AuthStateType} from "../../../redux/auth-reducer";
-import {UsersAPI} from "../../../API/API";
-import {follow, unfollow, UsersStateType} from "../../../redux/user-reducer";
+import {UsersStateType, follow, unfollow} from "../../../redux/user-reducer";
+import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
 
 
 class ProfileClassComponent extends React.Component<ProfilePropsType, ProfileStateType> {
     componentDidMount() {
-        const {setUserProfile, follow, unfollow, data, match, profile, isFollowed, posts, postInput, children, location, staticContext, history, users, isFetchingFollow} = {...this.props}
+        const { data, match, isAuth, getProfileInfo } = {...this.props}
+        match.params.userId ?
+            getProfileInfo(+match.params.userId)
+            : isAuth && getProfileInfo(data.id)
 
-        const userId = match.params.userId || data.id //userId or myId
-        console.log(data.id)
-        UsersAPI.getUser(+userId).then(data => {
-                setUserProfile(data)
-            })
-        UsersAPI.isUserFollowed(+userId).then(data => {
-            data ? follow(+userId) : unfollow(+userId)
-        })
     }
+
+    componentDidUpdate(prevProps: Readonly<ProfilePropsType>, prevState: Readonly<ProfileStateType>, snapshot?: any) {
+        const { match, profile, data, getProfileInfo } = {...this.props}
+        /* load profileinfo of user unless otherwise specified in the URL */
+        if (!match.params.userId && profile.userId !== data.id) {
+            getProfileInfo(data.id)
+        }
+
+    }
+
     render() {
-        const {follow, unfollow, data, match, profile, isFollowed, posts, postInput, children, location, staticContext, history, users, isFetchingFollow} = {...this.props}
+
+        const {
+            data,
+            profile,
+            isFollowed,
+            isFetchingProfile,
+            follow,
+            unfollow
+        } = {...this.props}
+
         return (
             <Profile
                 isFollowed={isFollowed}
                 isMyProfile={data.id === profile.userId}
                 profile={profile}
+                isFetchingProfile={isFetchingProfile}
                 follow={follow}
                 unfollow={unfollow}
             />
@@ -41,13 +56,15 @@ class ProfileClassComponent extends React.Component<ProfilePropsType, ProfileSta
 }
 
 export type MapDispatchToPropsType = {
+    setUserProfile: (profile: ProfileType) => void
+    setFetchingProfileAC: (isFetchingProfile: boolean) => void
     follow: (userID: number) => void
     unfollow: (userID: number) => void
-    setUserProfile: (profile: ProfileType) => void
+    getProfileInfo: (userId: number) => void
 }
 export type MapStateToPropsType =
     ProfileStateType
-    & Pick<AuthStateType, 'data'>
+    & Pick<AuthStateType, 'data' | 'isAuth'>
     & Pick<UsersStateType, 'users' | 'isFetchingFollow'>
 
 type PathParamsType = { userId: string | undefined } //path for route
@@ -61,17 +78,21 @@ const mapStateToProps = ({profileReducer, authReducer, usersReducer}: ReduxState
         posts: profileReducer.posts,
         postInput: profileReducer.postInput,
         data: authReducer.data,
+        isAuth: authReducer.isAuth,
         users: usersReducer.users,
-        isFetchingFollow: usersReducer.isFetchingFollow
+        isFetchingFollow: usersReducer.isFetchingFollow,
+        isFetchingProfile: profileReducer.isFetchingProfile
     }
 }
 
 const mapDispatchToProps: MapDispatchToPropsType = {
     setUserProfile,
+    setFetchingProfileAC,
+    getProfileInfo,
     follow,
     unfollow
 }
 
 const WithUrlDataContainerComponent = withRouter(ProfileClassComponent)
-
-export const ProfileContainer = connect(mapStateToProps, mapDispatchToProps)(WithUrlDataContainerComponent);
+const AuthRedirectComponent = withAuthRedirect(WithUrlDataContainerComponent)
+export const ProfileContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent);
