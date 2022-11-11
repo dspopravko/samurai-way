@@ -1,6 +1,6 @@
 import {ActionsTypes} from "./redux-store";
 import {ThunkDispatch} from "redux-thunk";
-import {UsersAPI} from "../API/API";
+import {ProfileAPI, UsersAPI} from "../API/API";
 
 export type PostType = {
     id: number
@@ -20,6 +20,7 @@ export type ProfileType = { // API TYPE
     fullName: string;
     userId: number;
     photos: Photos;
+    status: string
 }
 
 export type ContactsType = { // API TYPE
@@ -45,6 +46,7 @@ export type ProfileReducerACTypes =
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setFetchingProfileAC>
     | ReturnType<typeof setUserFollowAC>
+    | ReturnType<typeof setUserStatusAC>
 
 export const addPost = () => ({type: "ADD-POST"}) as const
 export const postInputHandler = (postInput: string) => {
@@ -78,6 +80,12 @@ export const setUserFollowAC = (userId: number, followed: boolean) => {
         followed
     } as const
 }
+export const setUserStatusAC = (status: string) => {
+    return {
+        type: "SET-USER-STATUS",
+        status
+    } as const
+}
 
 
 let initialState = {
@@ -100,7 +108,8 @@ let initialState = {
         photos: {
             small: null,
             large: null
-        }
+        },
+        status: 'Default status'
     } as ProfileType,
     posts: [{
         id: 2,
@@ -135,6 +144,10 @@ let initialState = {
 export type ProfileStateType = typeof initialState
 
 export const profileReducer = (state: ProfileStateType = initialState, action: ActionsTypes): ProfileStateType => {
+    console.group('Profile Reducer')
+    console.log(state)
+    console.log(action)
+    console.groupEnd()
     switch (action.type) {
         case "SET-USER-FOLLOW": {
             return { ...state,isFollowed: action.followed }
@@ -166,15 +179,12 @@ export const profileReducer = (state: ProfileStateType = initialState, action: A
             })
             return {...state, posts: [...newPosts]}
         case "SET-USER-PROFILE":
-            return {...state, profile: action.profile}
-        // case "FOLLOW-USER": {
-        //     return {...state, isFollowed: true}
-        // }
-        // case "UNFOLLOW-USER": {
-        //     return {...state, isFollowed: false}
-        // }
+            return {...state, profile: {...state.profile, ...action.profile}}
         case "SET-FETCHING-PROFILE": {
             return {...state, isFetchingProfile: action.isFetchingProfile}
+        }
+        case "SET-USER-STATUS": {
+            return {...state, profile: {...state.profile, status: action.status}}
         }
         default:
             return {...state}
@@ -183,13 +193,32 @@ export const profileReducer = (state: ProfileStateType = initialState, action: A
 
 export const getProfileInfo = (userId: number) => (dispatch: ThunkDispatch<ProfileStateType, void, ProfileReducerACTypes>) => {
     dispatch(setFetchingProfileAC(true))
-    UsersAPI.getUser(userId).then(data => {
-        dispatch(setUserProfile(data))
-    }).finally(()=> {
+    ProfileAPI.getUser(userId)
+        .then(data => {dispatch(setUserProfile(data))})
+        .finally(()=> {dispatch(setFetchingProfileAC(false))})
+    UsersAPI.isUserFollowed(+userId).then(data => {
+        dispatch(setUserFollowAC(userId, data))
+    })
+}
+
+export const getStatus = (userId: number) => (dispatch: ThunkDispatch<ProfileStateType, void, ProfileReducerACTypes>) => {
+    dispatch(setFetchingProfileAC(true))
+    ProfileAPI.getStatus(userId)
+        .then(data => {
+            console.log(data)
+            dispatch(setUserStatusAC(data.data))
+        })
+        .finally(()=> {
         dispatch(setFetchingProfileAC(false))
     })
-    UsersAPI.isUserFollowed(+userId).then(data => {
-        console.log(data)
-        dispatch(setUserFollowAC(userId, data))
+}
+export const updateStatus = (status: string) => (dispatch: ThunkDispatch<ProfileStateType, void, ProfileReducerACTypes>) => {
+    dispatch(setFetchingProfileAC(true))
+    ProfileAPI.updateStatus(status)
+        .then(data => {
+            data.status === 200 && dispatch(setUserStatusAC(status))
+        })
+        .finally(()=> {
+        dispatch(setFetchingProfileAC(false))
     })
 }

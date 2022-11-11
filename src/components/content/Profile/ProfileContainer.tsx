@@ -4,29 +4,34 @@ import {Profile} from "./Profile";
 import {
     ProfileStateType,
     ProfileType,
-    setUserProfile, setFetchingProfileAC, getProfileInfo
+    setUserProfile, setFetchingProfileAC, getProfileInfo, getStatus, updateStatus
 } from "../../../redux/profile-reducer";
 import {connect} from "react-redux";
-import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 import {AuthStateType} from "../../../redux/auth-reducer";
 import {UsersStateType, follow, unfollow} from "../../../redux/user-reducer";
 import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 
 class ProfileClassComponent extends React.Component<ProfilePropsType, ProfileStateType> {
     componentDidMount() {
-        const { data, match, isAuth, getProfileInfo } = {...this.props}
-        match.params.userId ?
-            getProfileInfo(+match.params.userId)
-            : isAuth && getProfileInfo(data.id)
-
+        const {data, match, isAuth, getProfileInfo, getStatus} = {...this.props}
+        let userId = match.params.userId ? +match.params.userId : data.id
+        if (match.params.userId || isAuth) {
+            getProfileInfo(userId)
+            getStatus(userId)
+        }
     }
 
     componentDidUpdate(prevProps: Readonly<ProfilePropsType>, prevState: Readonly<ProfileStateType>, snapshot?: any) {
-        const { match, profile, data, getProfileInfo } = {...this.props}
+        const {match, profile, data, getProfileInfo} = {...this.props}
         /* load profileinfo of user unless otherwise specified in the URL */
-        if (!match.params.userId && profile.userId !== data.id) {
-            getProfileInfo(data.id)
+        if (!this.props.isFetchingProfile) {
+            if (!match.params.userId && profile.userId !== data.id) {
+                getProfileInfo(data.id)
+                getStatus(data.id)
+            }
         }
 
     }
@@ -39,7 +44,8 @@ class ProfileClassComponent extends React.Component<ProfilePropsType, ProfileSta
             isFollowed,
             isFetchingProfile,
             follow,
-            unfollow
+            unfollow,
+            updateStatus
         } = {...this.props}
 
         return (
@@ -50,6 +56,7 @@ class ProfileClassComponent extends React.Component<ProfilePropsType, ProfileSta
                 isFetchingProfile={isFetchingProfile}
                 follow={follow}
                 unfollow={unfollow}
+                updateStatus={updateStatus}
             />
         )
     }
@@ -61,6 +68,8 @@ export type MapDispatchToPropsType = {
     follow: (userID: number) => void
     unfollow: (userID: number) => void
     getProfileInfo: (userId: number) => void
+    getStatus: (userId: number) => void
+    updateStatus: (status: string) => void
 }
 export type MapStateToPropsType =
     ProfileStateType
@@ -90,9 +99,14 @@ const mapDispatchToProps: MapDispatchToPropsType = {
     setFetchingProfileAC,
     getProfileInfo,
     follow,
-    unfollow
+    unfollow,
+    updateStatus,
+    getStatus
 }
 
-const WithUrlDataContainerComponent = withRouter(ProfileClassComponent)
-const AuthRedirectComponent = withAuthRedirect(WithUrlDataContainerComponent)
-export const ProfileContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent);
+export const ProfileContainer = compose<React.ComponentType>(
+    withAuthRedirect,
+    withRouter,
+    connect(mapStateToProps, mapDispatchToProps)
+)(ProfileClassComponent)
+

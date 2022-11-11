@@ -6,6 +6,7 @@ import {ReduxStateType} from "../../redux/redux-store";
 
 class HeaderClassComponent extends React.Component<HeaderPropsType, AuthStateType> {
     componentDidMount() {
+        console.log('Header did mount!')
         this.props.getAuthUserData()
     }
 

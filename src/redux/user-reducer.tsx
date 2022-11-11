@@ -3,9 +3,7 @@ import {UsersAPI} from "../API/API";
 import {ThunkDispatch} from "redux-thunk";
 
 export type UserReducerACTypes =
-    // ReturnType<typeof followAC>
-    // | ReturnType<typeof unfollowAC>
-    | ReturnType<typeof setUsersAC>
+    ReturnType<typeof setUsersAC>
     | ReturnType<typeof setCurrentPageAC>
     | ReturnType<typeof setTotalUsersCountAC>
     | ReturnType<typeof setFetchingUsersAC>
@@ -23,19 +21,6 @@ export type UserType = {
     status: string | null
     followed: boolean
 }
-
-// export const followAC = (userID: number) => {
-//     return {
-//         type: "FOLLOW-USER",
-//         userID
-//     } as const
-// }
-// export const unfollowAC = (userID: number) => {
-//     return {
-//         type: "UNFOLLOW-USER",
-//         userID
-//     } as const
-// }
 export const setUsersAC = (users: UserType[]) => {
     return {
         type: "SET-USERS",
@@ -95,20 +80,6 @@ export const usersReducer = (state: UsersStateType = initialState, action: Actio
                 users: state.users.map(u => u.id !== action.userId ? u : {...u, followed: action.followed})
             }
         }
-        // case "FOLLOW-USER": {
-        //     console.log('follow')
-        //     return {
-        //         ...state,
-        //         users: state.users.map(u => u.id === action.userID ? {...u, followed: true} : {...u})
-        //     }
-        // }
-        // case "UNFOLLOW-USER": {
-        //     console.log('unfollow')
-        //     return {
-        //         ...state,
-        //         users: state.users.map(u => u.id === action.userID ? {...u, followed: false} : {...u})
-        //     }
-        // }
         case "SET-USERS": {
             return {...state, users: [...action.users]}
         }

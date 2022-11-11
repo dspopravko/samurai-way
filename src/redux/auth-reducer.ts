@@ -1,20 +1,12 @@
 import {ActionsTypes} from "./redux-store";
 import {ThunkDispatch} from "redux-thunk";
-import {authAPI, UsersAPI} from "../API/API";
-import {
-    ProfileReducerACTypes,
-    ProfileStateType,
-    setFetchingProfileAC,
-    setUserFollowAC,
-    setUserProfile
-} from "./profile-reducer";
-import * as axios from "axios";
+import {authAPI} from "../API/API";
 
 export type AuthReducerACTypes =
     ReturnType<typeof setUser>
     | ReturnType<typeof setFetching>
 
-export type AuthType = { //API Type
+export type AuthAPIType = { //API Type
     data: {
         id: number
         login: string
@@ -25,7 +17,7 @@ export type AuthType = { //API Type
     resultCode: number
 }
 
-export const setUser = (payload: AuthType, isFetchingAuth: boolean) => {
+export const setUser = (payload: AuthAPIType, isFetchingAuth: boolean, isAuth: boolean) => {
     return {
         type: "AUTH-USER",
         data: {
@@ -36,7 +28,8 @@ export const setUser = (payload: AuthType, isFetchingAuth: boolean) => {
         messages: payload.messages,
         fieldsErrors: payload.fieldsErrors,
         resultCode: payload.resultCode,
-        isFetchingAuth: isFetchingAuth
+        isFetchingAuth: isFetchingAuth,
+        isAuth: isAuth
     } as const
 }
 export const setFetching = (isFetchingAuth: boolean) => {
@@ -61,16 +54,23 @@ let initialState = {
 export type AuthStateType = typeof initialState
 
 export const authReducer = (state: AuthStateType = initialState, action: ActionsTypes): AuthStateType => {
-    console.log(action)
+    // console.log(action)
     switch (action.type) {
         case 'AUTH-USER': {
-            console.log('case: AUTH USER ' + action)
+            console.log({
+                ...state,
+                data: action.data,
+                messages: [...action.messages],
+                fieldsErrors: [...action.fieldsErrors],
+                isAuth: action.isAuth,
+                isFetchingAuth: action.isFetchingAuth,
+            })
             return {
                 ...state,
                 data: action.data,
                 messages: [...action.messages],
                 fieldsErrors: [...action.fieldsErrors],
-                isAuth: action.resultCode === 0,
+                isAuth: action.isAuth,
                 isFetchingAuth: action.isFetchingAuth,
             }
         }
@@ -83,7 +83,9 @@ export const authReducer = (state: AuthStateType = initialState, action: Actions
 }
 
 export const getAuthUserData = () => (dispatch: ThunkDispatch<AuthStateType, void, AuthReducerACTypes>) => {
+    console.log('getAuthUser Thunk!')
     authAPI.me().then(response => {
-        response.resultCode === 0 && dispatch(setUser(response, true))
+        console.log('Authenticated')
+        if (response.resultCode === 0) dispatch(setUser(response, false, true))
     })
 }

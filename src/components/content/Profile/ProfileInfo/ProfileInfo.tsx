@@ -2,8 +2,8 @@ import React from "react";
 import s from "./ProfileInfo.module.css"
 import {ProfileType} from "../../../../redux/profile-reducer";
 import logo from "../../../../assets/img/defaultUser.png"
-import {Loader} from "../../../misc/Loader/Loader";
 import {Button} from "../../../misc/Button/Button";
+import {Status} from "./Status/Status";
 
 type ProfileInfoPropsType = {
     isFollowed: boolean
@@ -12,16 +12,10 @@ type ProfileInfoPropsType = {
     follow: (userID: number) => void
     unfollow: (userID: number) => void
     isFetchingProfile: boolean
+    updateStatus: (status: string) => void
 }
 
 export const ProfileInfo = (props: ProfileInfoPropsType) => {
-    if (props.profile.userId === 0) return (
-        <div style={{height: "326px", display: "flex", justifyContent: "center", alignItems: "center"}}>
-            <Loader/>
-        </div>
-    )
-
-
     if (props.isFetchingProfile) {
         return (
             <div className={s.profileInfoWrapper}>
@@ -70,6 +64,7 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
                     </div>
                 </div>
                 <div className={s.description_2}>
+                    <Status status={props.profile.status} updateStatus={props.updateStatus}/>
                     <b>aboutMe:</b> {props.profile.aboutMe} <br/>
                     <b>lookingForAJob:</b> {props.profile.lookingForAJob}<br/>
                     <b>lookingForAJobDescription:</b> {props.profile.lookingForAJobDescription}

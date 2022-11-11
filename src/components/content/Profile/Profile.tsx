@@ -11,6 +11,7 @@ type ProfileComponentPropsType = {
     follow: (userID: number) => void
     unfollow: (userID: number) => void
     isFetchingProfile: boolean
+    updateStatus: (status: string) => void
 }
 
 export const Profile = ({
@@ -19,9 +20,9 @@ export const Profile = ({
                             unfollow,
                             isMyProfile,
                             isFollowed,
-                            isFetchingProfile
+                            isFetchingProfile,
+                            updateStatus
                         }: ProfileComponentPropsType) => {
-
     return (
         <div className={s.profileWrapper}>
             <ProfileInfo
@@ -31,6 +32,7 @@ export const Profile = ({
                 follow={follow}
                 unfollow={unfollow}
                 isFetchingProfile={isFetchingProfile}
+                updateStatus={updateStatus}
             />
             <PostsContainer/>
         </div>

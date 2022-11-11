@@ -16,10 +16,8 @@ export const UsersAPI = {
             })
     },
     getUser(userId: number = 2) {
-        return instance.get(`profile/${userId}`)
-            .then(response => response.data).catch(err => {
-                console.log(err)
-            })
+        console.warn("This method is deprecated, use ProfileAPI")
+        return ProfileAPI.getUser(userId)
     },
     isUserFollowed(userId: number = 2) {
         return instance.get(`follow/${userId}`)
@@ -47,7 +45,22 @@ export const UsersAPI = {
                 return false
             })
     }
+}
 
+export const ProfileAPI = {
+    getUser(userId: number = 2) {
+        return instance.get(`profile/${userId}`)
+            .then(response => response.data).catch(err => {
+                console.log(err)
+            })
+    },
+    getStatus(userId: number) {
+        console.log('getting user status...')
+        return instance.get(`profile/status/${userId}`)
+    },
+    updateStatus(status: string) {
+        return instance.put(`profile/status`,{status})
+    }
 }
 
 export const authAPI = {
