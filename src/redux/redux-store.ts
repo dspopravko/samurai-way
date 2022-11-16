@@ -4,6 +4,7 @@ import {chatsReducer, ChatsReducerACTypes} from "./chats-reducer";
 import {UserReducerACTypes, usersReducer} from "./user-reducer";
 import {authReducer, AuthReducerACTypes} from "./auth-reducer";
 import thunkMiddleware from "redux-thunk"
+import { reducer as formReducer } from 'redux-form'
 
 declare global {
     interface Window {
@@ -17,11 +18,12 @@ export type ReduxStateType = ReturnType<typeof rootReducer>
 
 export type StoreType = Store<ReduxStateType, ActionsTypes>
 
-const rootReducer = combineReducers({
+const rootReducer = combineReducers( {
     profileReducer,
     chatsReducer,
     usersReducer,
-    authReducer
+    authReducer,
+    form: formReducer
 })
 
 export const store: StoreType = createStore(rootReducer, applyMiddleware(thunkMiddleware))

@@ -36,10 +36,7 @@ DialogsExample.args = {
                 message: "I miss you",
                 date: "12:46",
                 avatar: "https://images.pexels.com/photos/7860704/pexels-photo-7860704.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            }],
-            chatNewMessage: {
-                message: "State controlled input"
-            }
+            }]
         },
         {
             chatHeader: {
@@ -62,10 +59,7 @@ DialogsExample.args = {
                 message: "7pm is ok?",
                 date: "09:14",
                 avatar: "https://images.pexels.com/photos/7646458/pexels-photo-7646458.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            }],
-            chatNewMessage: {
-                message: "State controlled input"
-            }
+            }]
         }, {
             chatHeader: {
                 id: 3,
@@ -87,10 +81,7 @@ DialogsExample.args = {
                 message: "Choose that's best and chat me",
                 date: "13:10",
                 avatar: "https://images.pexels.com/photos/3209639/pexels-photo-3209639.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            }],
-            chatNewMessage: {
-                message: "State controlled input"
-            }
+            }]
         },
     ]
 };

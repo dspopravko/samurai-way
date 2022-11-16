@@ -41,18 +41,16 @@ export type Photos = { // API TYPE
 
 export type ProfileReducerACTypes =
     ReturnType<typeof addPost>
-    | ReturnType<typeof postInputHandler>
     | ReturnType<typeof addLike>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setFetchingProfileAC>
     | ReturnType<typeof setUserFollowAC>
     | ReturnType<typeof setUserStatusAC>
 
-export const addPost = () => ({type: "ADD-POST"}) as const
-export const postInputHandler = (postInput: string) => {
+export const addPost = (post: string) => {
     return {
-        type: "POST-INPUT-HANDLER",
-        postMessage: postInput
+        type: "ADD-POST",
+        post: post
     } as const
 }
 export const addLike = (postID: number) => {
@@ -136,7 +134,6 @@ let initialState = {
         myLike: false,
         date: "12.03.18 15:54"
     }] as PostType[],
-    postInput: "This input is state controlled",
     isFollowed: false,
     isFetchingProfile: true
 }
@@ -144,20 +141,16 @@ let initialState = {
 export type ProfileStateType = typeof initialState
 
 export const profileReducer = (state: ProfileStateType = initialState, action: ActionsTypes): ProfileStateType => {
-    console.group('Profile Reducer')
-    console.log(state)
-    console.log(action)
-    console.groupEnd()
     switch (action.type) {
         case "SET-USER-FOLLOW": {
             return { ...state,isFollowed: action.followed }
         }
         case "ADD-POST":
             return {
-                ...state, postInput: "", posts: [{
+                ...state, posts: [{
                     id: state.posts.length,
                     name: state.profile.fullName,
-                    message: state.postInput.trim(),
+                    message: action.post.trim(),
                     avatar: state.profile.photos.small || null,
                     likes: 0,
                     myLike: false,
@@ -170,8 +163,6 @@ export const profileReducer = (state: ProfileStateType = initialState, action: A
                     }).format(new Date())
                 }, ...state.posts]
             }
-        case "POST-INPUT-HANDLER":
-            return {...state, postInput: action.postMessage}
         case "ADD-LIKE":
             const newPosts = state.posts.map(p => p.id !== action.postID ? p : {
                 ...p,

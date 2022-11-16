@@ -14,30 +14,20 @@ export type ChatHeaderType = {
     date: string
     chatLogo: string
 }
-type ChatNewMessageTextType = {
-    message: string
-}
 export type ChatType = {
     chatHeader: ChatHeaderType
-    chatNewMessage: ChatNewMessageTextType
     chatMessages: ChatMessagesType[]
 }
 
-export type ChatsReducerACTypes = ReturnType<typeof updateNewMessageAC> | ReturnType<typeof sendMessageAC>
+export type ChatsReducerACTypes = ReturnType<typeof sendMessageAC>
 
-export const sendMessageAC = (chatID: number, avatar: string | null, name: string) => {
+export const sendMessageAC = (chatID: number, avatar: string | null, name: string, message: string) => {
     return {
         type: "SEND-MESSAGE",
         chatID: chatID,
         avatar: avatar,
-        name: name
-    } as const
-}
-export const updateNewMessageAC = (message: string, chatID: number) => {
-    return {
-        type: "UPD-NEW-MESSAGE",
-        message: message,
-        chatID: chatID
+        name: name,
+        message: message
     } as const
 }
 
@@ -89,10 +79,7 @@ const initialState = [
             message: "7pm is ok?",
             date: "09:14",
             avatar: "https://images.pexels.com/photos/7646458/pexels-photo-7646458.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        }],
-        chatNewMessage: {
-            message: "Still thinking about it.."
-        }
+        }]
     }, {
         chatHeader: {
             id: 2,
@@ -114,22 +101,14 @@ const initialState = [
             message: "Choose that's best and chat me",
             date: "13:10",
             avatar: "https://images.pexels.com/photos/3209639/pexels-photo-3209639.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        }],
-        chatNewMessage: {
-            message: "Honestly I like all of them"
-        }
+        }]
     },
 ]
 
 export const chatsReducer = (state: ChatType[] = initialState, action: ActionsTypes): ChatType[] => {
     switch (action.type) {
-        case "UPD-NEW-MESSAGE":
-            return state.map((c, i) => i === action.chatID ? ({
-                ...c,
-                chatNewMessage: {...c.chatNewMessage, message: action.message}
-            }) : ({...c}))
         case "SEND-MESSAGE":
-            const text = state[action.chatID].chatNewMessage.message.trim()
+            const text = action.message.trim()
             if (!text) return state
             const date = new Intl.DateTimeFormat('en-GB', {hour: "2-digit", minute: "2-digit"}).format(new Date())
             const message = {
@@ -142,8 +121,6 @@ export const chatsReducer = (state: ChatType[] = initialState, action: ActionsTy
             }
             return state.map((c, i) => i === action.chatID
                 ? ({...c,
-                    chatNewMessage:
-                        {...c.chatNewMessage, message: ""},
                     chatHeader:
                         {...c.chatHeader, date: date},
                     chatMessages:

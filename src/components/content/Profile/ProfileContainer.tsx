@@ -85,7 +85,6 @@ const mapStateToProps = ({profileReducer, authReducer, usersReducer}: ReduxState
         isFollowed: profileReducer.isFollowed,
         profile: profileReducer.profile,
         posts: profileReducer.posts,
-        postInput: profileReducer.postInput,
         data: authReducer.data,
         isAuth: authReducer.isAuth,
         users: usersReducer.users,

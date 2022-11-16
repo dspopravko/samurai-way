@@ -1,6 +1,6 @@
 import React from "react";
 import {ReduxStateType} from "../../redux/redux-store";
-import {ChatType, sendMessageAC, updateNewMessageAC} from "../../redux/chats-reducer";
+import {ChatType, sendMessageAC} from "../../redux/chats-reducer";
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
@@ -13,8 +13,7 @@ type MapStateToPropsType = {
     isAuth: boolean
 }
 type MapDispatchToPropsType = {
-    inputHandler: (input: string, chatId: number) => void
-    sendMessageCallback: (index: number, avatar: string | null, name: string) => void
+    sendMessageCallback: (index: number, avatar: string | null, name: string, message: string) => void
 }
 export type DialogsPropsType = MapStateToPropsType & MapDispatchToPropsType
 
@@ -25,8 +24,7 @@ const mapStateToProps = (state: ReduxStateType): MapStateToPropsType => ({
 })
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
     return {
-        inputHandler: (input: string, chatId: number) => dispatch(updateNewMessageAC(input, chatId)),
-        sendMessageCallback: (index: number, avatar: string | null, name: string) => dispatch(sendMessageAC(index, avatar, name))
+        sendMessageCallback: (index: number, avatar: string | null, name: string, message: string) => dispatch(sendMessageAC(index, avatar, name, message))
     }
 }
 

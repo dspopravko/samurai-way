@@ -3,7 +3,6 @@ import {ReduxStateType} from "../../../../redux/redux-store";
 import {
     addLike,
     addPost,
-    postInputHandler,
     PostType,
     ProfileType
 } from "../../../../redux/profile-reducer";
@@ -13,13 +12,11 @@ import {connect} from "react-redux";
 type MapStateToPropsType = {
     posts: PostType[]
     profile: ProfileType
-    postInput: string
     isFetchingProfile: boolean
 }
 type MapDispatchToPropsType = {
     addLike: (postId: number) => void
-    addPost: () => void
-    postInputHandler: (input: string) => void
+    addPost: (post: string) => void
 }
 export type MyPostsPropsType = MapDispatchToPropsType & MapStateToPropsType
 
@@ -27,14 +24,12 @@ const mapStateToProps = (state: ReduxStateType): MapStateToPropsType => {
     return {
         posts: state.profileReducer.posts,
         profile: state.profileReducer.profile,
-        postInput: state.profileReducer.postInput,
         isFetchingProfile: state.profileReducer.isFetchingProfile
     }
 }
 const mapDispatchToProps: MapDispatchToPropsType = {
         addLike,
-        addPost,
-        postInputHandler
+        addPost
 }
 
 export const PostsContainer = connect(mapStateToProps, mapDispatchToProps)(Posts)
