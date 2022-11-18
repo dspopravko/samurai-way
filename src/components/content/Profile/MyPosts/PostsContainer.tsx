@@ -18,7 +18,7 @@ type MapStateToPropsType = {
 }
 type MapDispatchToPropsType = {
     addLike: (postId: number) => void
-    addPost: () => void
+    addPost: (postMessage: string) => void
     postInputHandler: (input: string) => void
 }
 export type MyPostsPropsType = MapDispatchToPropsType & MapStateToPropsType

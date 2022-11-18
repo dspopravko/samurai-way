@@ -25,12 +25,13 @@ export type ChatType = {
 
 export type ChatsReducerACTypes = ReturnType<typeof updateNewMessageAC> | ReturnType<typeof sendMessageAC>
 
-export const sendMessageAC = (chatID: number, avatar: string | null, name: string) => {
+export const sendMessageAC = (chatID: number, avatar: string | null, name: string, messageText: string) => {
     return {
         type: "SEND-MESSAGE",
         chatID: chatID,
         avatar: avatar,
-        name: name
+        name: name,
+        messageText: messageText
     } as const
 }
 export const updateNewMessageAC = (message: string, chatID: number) => {
@@ -129,14 +130,13 @@ export const chatsReducer = (state: ChatType[] = initialState, action: ActionsTy
                 chatNewMessage: {...c.chatNewMessage, message: action.message}
             }) : ({...c}))
         case "SEND-MESSAGE":
-            const text = state[action.chatID].chatNewMessage.message.trim()
-            if (!text) return state
+            if (!action.messageText) return state
             const date = new Intl.DateTimeFormat('en-GB', {hour: "2-digit", minute: "2-digit"}).format(new Date())
             const message = {
                 id: state[action.chatID].chatMessages.length,
                 authorId: 0,
                 name: action.name,
-                message: text,
+                message: action.messageText,
                 date: date,
                 avatar: action.avatar ? action.avatar : null
             }

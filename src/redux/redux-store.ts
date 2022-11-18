@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers, compose, legacy_createStore as createStore, Store} from "redux";
+import {applyMiddleware, combineReducers, compose, createStore, Store} from "redux";
 import {profileReducer, ProfileReducerACTypes} from "./profile-reducer";
 import {chatsReducer, ChatsReducerACTypes} from "./chats-reducer";
 import {UserReducerACTypes, usersReducer} from "./user-reducer";

@@ -14,7 +14,7 @@ type MapStateToPropsType = {
 }
 type MapDispatchToPropsType = {
     inputHandler: (input: string, chatId: number) => void
-    sendMessageCallback: (index: number, avatar: string | null, name: string) => void
+    sendMessageCallback: (index: number, avatar: string | null, name: string, messageText: string) => void
 }
 export type DialogsPropsType = MapStateToPropsType & MapDispatchToPropsType
 
@@ -26,7 +26,7 @@ const mapStateToProps = (state: ReduxStateType): MapStateToPropsType => ({
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
     return {
         inputHandler: (input: string, chatId: number) => dispatch(updateNewMessageAC(input, chatId)),
-        sendMessageCallback: (index: number, avatar: string | null, name: string) => dispatch(sendMessageAC(index, avatar, name))
+        sendMessageCallback: (index: number, avatar: string | null, name: string, messageText: string) => dispatch(sendMessageAC(index, avatar, name, messageText))
     }
 }
 

@@ -48,7 +48,12 @@ export type ProfileReducerACTypes =
     | ReturnType<typeof setUserFollowAC>
     | ReturnType<typeof setUserStatusAC>
 
-export const addPost = () => ({type: "ADD-POST"}) as const
+export const addPost = (postMessage: string) => {
+    return {
+        type: "ADD-POST",
+        postMessage
+    } as const
+}
 export const postInputHandler = (postInput: string) => {
     return {
         type: "POST-INPUT-HANDLER",
@@ -144,10 +149,6 @@ let initialState = {
 export type ProfileStateType = typeof initialState
 
 export const profileReducer = (state: ProfileStateType = initialState, action: ActionsTypes): ProfileStateType => {
-    console.group('Profile Reducer')
-    console.log(state)
-    console.log(action)
-    console.groupEnd()
     switch (action.type) {
         case "SET-USER-FOLLOW": {
             return { ...state,isFollowed: action.followed }
@@ -157,7 +158,7 @@ export const profileReducer = (state: ProfileStateType = initialState, action: A
                 ...state, postInput: "", posts: [{
                     id: state.posts.length,
                     name: state.profile.fullName,
-                    message: state.postInput.trim(),
+                    message: action.postMessage.trim(),
                     avatar: state.profile.photos.small || null,
                     likes: 0,
                     myLike: false,

@@ -1,7 +1,7 @@
 .dialogsWrapper {
     display: grid;
     grid-template-columns: 2fr 10fr;
-    grid-template-rows: 1fr min-content;
+    grid-template-rows: 90vh;
     gap: 10px;
     height: 100%;
 }

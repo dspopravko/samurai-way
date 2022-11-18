@@ -54,7 +54,6 @@ let initialState = {
 export type AuthStateType = typeof initialState
 
 export const authReducer = (state: AuthStateType = initialState, action: ActionsTypes): AuthStateType => {
-    // console.log(action)
     switch (action.type) {
         case 'AUTH-USER': {
             console.log({

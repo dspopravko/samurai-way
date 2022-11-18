@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {ComponentType} from 'react';
+import {Redirect} from 'react-router-dom';
 import {ReduxStateType} from "../redux/redux-store";
 import {connect} from "react-redux";
-import {Redirect} from "react-router-dom";
 
 interface WithAuthProps { isAuth: boolean }
 
@@ -9,12 +9,12 @@ const mapStateToPropsAuth = ({authReducer}: ReduxStateType): WithAuthProps => {
     return { isAuth: authReducer.isAuth }
 }
 
-export function withAuthRedirect <WRP>(Component: React.ComponentType<WRP>) {
-
-    const WithRedirect: React.FC<WithAuthProps> = (props) => {
-        const {isAuth, ...restProps} = props
-        return isAuth ? <Component {...restProps as WRP} /> : <Redirect to={'/login/'}/>
+export function withAuthRedirect<T>(Component: ComponentType<T>) {
+    function RedirectComponent(props: WithAuthProps) {
+        let {isAuth, ...restProps} = props
+        if (!isAuth) return <Redirect to="/login"/>
+        return <Component {...restProps as T} />
     }
 
-    return connect<WithAuthProps, {}, WRP, ReduxStateType>(mapStateToPropsAuth)(WithRedirect)
+    return connect(mapStateToPropsAuth)(RedirectComponent)
 }
