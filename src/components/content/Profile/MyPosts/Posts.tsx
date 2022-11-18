@@ -2,11 +2,7 @@ import React, {useState} from 'react';
 import s from "./Posts.module.css";
 import {Post} from "./Post/Post";
 import {MyPostsPropsType} from "./PostsContainer";
-import {Field, InjectedFormProps, reduxForm} from "redux-form";
-
-type FormDataType = {
-    postText: string
-}
+import {FormDataType, SendMessageForm} from "../../../misc/MessageForm/MessageForm";
 
 function Posts(props: MyPostsPropsType) {
 
@@ -19,11 +15,10 @@ function Posts(props: MyPostsPropsType) {
         />
     })
 
-
     const onSubmitPostForm = (form: FormDataType) => {
-        if (!form.postText.trim()) setErrorMsg("Your post is empty!")
+        if (!form.messageText.trim()) setErrorMsg("Your post is empty!")
         else {
-            props.addPost(form.postText)
+            props.addPost(form.messageText)
             setErrorMsg("")
         }
     }
@@ -33,7 +28,7 @@ function Posts(props: MyPostsPropsType) {
             <div className={s.myPostsWrapper}>
                 <div className={s.post_new}>
                     <div className={s.postNewCanvas}>
-                        <SendPostFormRedux
+                        <SendMessageForm
                             onSubmit={onSubmitPostForm}
                         />
                     </div>
@@ -47,7 +42,8 @@ function Posts(props: MyPostsPropsType) {
         <div className={s.myPostsWrapper}>
             <div className={s.post_new}>
                 <div className={s.postNewCanvas}>
-                    <SendPostFormRedux
+                    <SendMessageForm
+                        placeholder={'Write a post...'}
                         onSubmit={onSubmitPostForm}
                     />
                 </div>
@@ -59,20 +55,3 @@ function Posts(props: MyPostsPropsType) {
 }
 
 export default Posts;
-
-const SendPostForm = (props: InjectedFormProps<FormDataType>) => {
-    return (
-        <form onSubmit={props.handleSubmit}>
-                    <Field
-                        component={"textarea"}
-                        name={"postText"}
-                        className={s.textarea}>
-
-                    </Field>
-            <button>Add Post</button>
-
-        </form>
-    )
-}
-
-const SendPostFormRedux = reduxForm<FormDataType>({form: 'SendPostForm'})(SendPostForm)

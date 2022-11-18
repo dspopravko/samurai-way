@@ -5,7 +5,7 @@ import {Route} from "react-router-dom";
 import {Dialog} from "./Dialog/Dialog";
 import {DialogsPropsType} from "./DialogsContainer";
 
-export const Dialogs = ({chats, inputHandler, sendMessageCallback, profile}: DialogsPropsType) => {
+export const Dialogs = ({chats, sendMessageCallback, profile}: DialogsPropsType) => {
     const sendMessageHandler = (index: number, messageText: string) => {
         const photo = profile.photos.small ? profile.photos.small : null
         sendMessageCallback(index, photo, profile.fullName, messageText)
@@ -19,7 +19,6 @@ export const Dialogs = ({chats, inputHandler, sendMessageCallback, profile}: Dia
                       render={() => (
                           <Dialog
                               chat={chat}
-                              inputHandler={inputHandler}
                               sendMessageHandler={sendMessageHandler}
                           />)
                       }/>

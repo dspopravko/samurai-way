@@ -14,12 +14,12 @@ export type ChatHeaderType = {
     date: string
     chatLogo: string
 }
-type ChatNewMessageTextType = {
+type ChatSavedMessageType = {
     message: string
 }
 export type ChatType = {
     chatHeader: ChatHeaderType
-    chatNewMessage: ChatNewMessageTextType
+    chatNewMessage: ChatSavedMessageType
     chatMessages: ChatMessagesType[]
 }
 
