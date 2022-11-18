@@ -1,20 +1,20 @@
-import React, {ChangeEvent} from "react";
+import React from "react";
 import Messages from "../Messages/Messages";
 import s from "./Dialog.module.css";
-import {Button} from "../../misc/Button/Button";
 import {ChatType} from "../../../redux/chats-reducer";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 
 type DialogType = {
     chat: ChatType
-    inputHandler: (input: string, chatId: number) => void
-    sendMessageHandler: (index: number) => void
+    sendMessageHandler: (index: number, message: string) => void
 }
-export const Dialog = ({chat, inputHandler, sendMessageHandler}: DialogType) => {
-    const onChangeInputHandler = (e: ChangeEvent<HTMLTextAreaElement>) =>
-        inputHandler(e.currentTarget.value, chat.chatHeader.id)
-
-    const onClickSendMessageHandler = (index: number) =>
-        sendMessageHandler(index)
+type FromDataType = {
+    message: string
+}
+export const Dialog = ({chat, sendMessageHandler}: DialogType) => {
+    const onSubmitMessageForm = (form: FromDataType) => {
+        sendMessageHandler(chat.chatHeader.id, form.message)
+    }
 
     return (
         <>
@@ -22,18 +22,26 @@ export const Dialog = ({chat, inputHandler, sendMessageHandler}: DialogType) => 
                 <Messages key={chat.chatHeader.id}
                           chatMessages={chat.chatMessages}
                           chatHeader={chat.chatHeader}
-                          chatNewMessage={chat.chatNewMessage}
                 />
             </div>
-            <div className={s.inputWrapper}>
-                <textarea
-                value={chat.chatNewMessage.message}
-                onChange={onChangeInputHandler}
-                />
-                <Button name={"Send"} onClick={() => {
-                    onClickSendMessageHandler(chat.chatHeader.id)
-                }}/>
-            </div>
+            <SendMessageFormRedux
+                onSubmit={onSubmitMessageForm}
+            />
         </>
     )
 }
+
+const SendMessageForm = (props: InjectedFormProps<FromDataType>) => {
+    return (
+        <form onSubmit={props.handleSubmit} className={s.inputWrapper}>
+                <Field
+                    component={"textarea"}
+                    name={"message"}
+                    placeholder={"Enter your message..."}
+                />
+            <button>Send</button>
+        </form>
+    )
+}
+
+const SendMessageFormRedux = reduxForm<FromDataType>({form: 'SendMessageForm'})(SendMessageForm)
