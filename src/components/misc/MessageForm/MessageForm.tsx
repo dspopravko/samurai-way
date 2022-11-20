@@ -11,7 +11,7 @@ interface SendMessageFormInterface {
     onSubmit: (data: FormDataType) => void
 }
 
-export const SendMessageForm = (props: SendMessageFormInterface ) => {
+export const SendMessageForm = (props: SendMessageFormInterface) => {
     return (
         <Formik
             initialValues={{

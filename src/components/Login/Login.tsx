@@ -1,44 +1,29 @@
 import React from 'react';
-import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {connect} from "react-redux";
+import {login, logout} from "../../redux/auth-reducer";
+import {LoginForm} from "./LoginForm/LoginForm";
+import {ReduxStateType} from "../../redux/redux-store";
+import {Redirect} from "react-router-dom";
 
 type FromDataType = {
-    login: string,
+    email: string,
     password: string,
     rememberMe: boolean
 }
 
-export const Login = () => {
+const Login = (props: {login: (email: string, password: string, rememberMe: boolean) => void, isAuth: boolean}) => {
     const onSubmitHandler = (formData: FromDataType) => {
-        console.log(formData)
+       props.login(formData.email, formData.password, formData.rememberMe)
     }
+    if (props.isAuth) return <Redirect to={'profile'}></Redirect>
     return (
         <div>
             <h2>Login</h2>
-            <LoginReduxForm onSubmit={onSubmitHandler}/>
+            <LoginForm onSubmit={onSubmitHandler}/>
         </div>
     );
 }
 
-const LoginForm: React.FC<InjectedFormProps<FromDataType>> = (props) => {
+const mapStateToProps = ({authReducer}: ReduxStateType) => ({isAuth: authReducer.isAuth})
 
-    return (
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field placeholder={'Login'} name={'login'} component={'input'}/>
-            </div>
-            <div>
-                <Field placeholder={'Password'} name={'password'} component={'input'}/>
-            </div>
-            <div>
-                <Field type={'checkbox'} name={'rememberMe'} component={'input'}/> remember me
-            </div>
-            <div>
-                <button>Login</button>
-            </div>
-        </form>
-        )
-}
-
-const LoginReduxForm = reduxForm<FromDataType>({
-    form: 'login'
-})(LoginForm)
+export default connect(mapStateToProps, {login, logout})(Login)

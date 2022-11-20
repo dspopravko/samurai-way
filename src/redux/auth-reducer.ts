@@ -56,14 +56,6 @@ export type AuthStateType = typeof initialState
 export const authReducer = (state: AuthStateType = initialState, action: ActionsTypes): AuthStateType => {
     switch (action.type) {
         case 'AUTH-USER': {
-            console.log({
-                ...state,
-                data: action.data,
-                messages: [...action.messages],
-                fieldsErrors: [...action.fieldsErrors],
-                isAuth: action.isAuth,
-                isFetchingAuth: action.isFetchingAuth,
-            })
             return {
                 ...state,
                 data: action.data,
@@ -86,5 +78,23 @@ export const getAuthUserData = () => (dispatch: ThunkDispatch<AuthStateType, voi
     authAPI.me().then(response => {
         console.log('Authenticated')
         if (response.resultCode === 0) dispatch(setUser(response, false, true))
+    })
+}
+export const login = (email: string, password: string, rememberMe: boolean) => (dispatch: ThunkDispatch<AuthStateType, void, AuthReducerACTypes>) => {
+    console.log('Login thunk', email, password)
+    authAPI.login(email, password, rememberMe).then(response => {
+        console.log('Authenticated')
+        if (response.resultCode === 0) {
+            dispatch(getAuthUserData())
+        }
+    })
+}
+export const logout = () => (dispatch: ThunkDispatch<AuthStateType, void, AuthReducerACTypes>) => {
+    authAPI.logout().then(response => {
+        console.log('Authenticated')
+        if (response.resultCode === 0) {
+            dispatch(setUser(
+                { ...response, data: {id: 0, email: '', login: ''}}, false, false))
+        }
     })
 }
