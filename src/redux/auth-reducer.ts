@@ -80,13 +80,13 @@ export const getAuthUserData = () => (dispatch: ThunkDispatch<AuthStateType, voi
         if (response.resultCode === 0) dispatch(setUser(response, false, true))
     })
 }
-export const login = (email: string, password: string, rememberMe: boolean) => (dispatch: ThunkDispatch<AuthStateType, void, AuthReducerACTypes>) => {
-    console.log('Login thunk', email, password)
+export const login = (email: string, password: string, rememberMe: boolean, setSubmitting: (isSubmitting: boolean) => void) => (dispatch: ThunkDispatch<AuthStateType, void, AuthReducerACTypes>) => {
     authAPI.login(email, password, rememberMe).then(response => {
-        console.log('Authenticated')
         if (response.resultCode === 0) {
             dispatch(getAuthUserData())
         }
+    }).finally(() => {
+        setSubmitting(false)
     })
 }
 export const logout = () => (dispatch: ThunkDispatch<AuthStateType, void, AuthReducerACTypes>) => {
@@ -94,7 +94,7 @@ export const logout = () => (dispatch: ThunkDispatch<AuthStateType, void, AuthRe
         console.log('Authenticated')
         if (response.resultCode === 0) {
             dispatch(setUser(
-                { ...response, data: {id: 0, email: '', login: ''}}, false, false))
+                {...response, data: {id: 0, email: '', login: ''}}, false, false))
         }
     })
 }

@@ -5,11 +5,6 @@ import {getAuthUserData, AuthStateType, logout} from "../../redux/auth-reducer";
 import {ReduxStateType} from "../../redux/redux-store";
 
 class HeaderClassComponent extends React.Component<HeaderPropsType, AuthStateType> {
-    componentDidMount() {
-        console.log('Header did mount!')
-        this.props.getAuthUserData()
-    }
-
     render() {
         const {isAuth,isFetchingAuth,messages,data,fieldsErrors,children, logout} = {...this.props} // delete this props?
         return <Header

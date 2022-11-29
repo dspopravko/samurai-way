@@ -101,8 +101,9 @@ export const usersReducer = (state: UsersStateType = initialState, action: Actio
             return {...state}
     }
 }
+export type userReducerType = ReturnType<typeof usersReducer>
 
-export const getUsers = (currentPage: number, pageSize: number) => (dispatch: ThunkDispatch<UsersStateType, void, UserReducerACTypes>) => {
+export const getUsersTC = (currentPage: number, pageSize: number) => (dispatch: ThunkDispatch<UsersStateType, void, UserReducerACTypes>) => {
     dispatch(setFetchingUsersAC(true))
     dispatch(setUsersAC([]))
     dispatch(setCurrentPageAC(currentPage))

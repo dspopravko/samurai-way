@@ -11,9 +11,14 @@ type FromDataType = {
     rememberMe: boolean
 }
 
-const Login = (props: {login: (email: string, password: string, rememberMe: boolean) => void, isAuth: boolean}) => {
-    const onSubmitHandler = (formData: FromDataType) => {
-       props.login(formData.email, formData.password, formData.rememberMe)
+interface LoginInterface {
+    login: (email: string, password: string, rememberMe: boolean, setSubmitting: (isSubmitting: boolean) => void) => void,
+    isAuth: boolean
+}
+
+const Login = (props: LoginInterface) => {
+    const onSubmitHandler = (formData: FromDataType, setSubmitting: (isSubmitting: boolean) => void) => {
+        props.login(formData.email, formData.password, formData.rememberMe, setSubmitting)
     }
     if (props.isAuth) return <Redirect to={'profile'}></Redirect>
     return (

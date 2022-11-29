@@ -1,11 +1,11 @@
-import {follow, getUsers, unfollow, UsersStateType} from "../../redux/user-reducer";
+import {follow, getUsersTC, unfollow, UsersStateType} from "../../redux/user-reducer";
 import {ReduxStateType} from "../../redux/redux-store";
 import {connect} from "react-redux";
 import React from "react";
 import {Users} from "./Users";
 import {AuthStateType} from "../../redux/auth-reducer";
-import {Redirect} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {getUsers} from "../../redux/user-selector";
 
 class UsersClassComponent extends React.Component<UsersPropsType, UsersStateType> {
     componentDidMount() {
@@ -30,7 +30,7 @@ export type UsersPropsType = MapStateToPropsType & MapDispatchToPropsType
 
 const mapStateToProps = ({usersReducer, authReducer}: ReduxStateType): MapStateToPropsType => {
     return {
-        users: usersReducer.users,
+        users: getUsers(usersReducer),
         pageSize: usersReducer.pageSize,
         totalUsersCount: usersReducer.totalUsersCount,
         currentPage: usersReducer.currentPage,
@@ -42,7 +42,7 @@ const mapStateToProps = ({usersReducer, authReducer}: ReduxStateType): MapStateT
 const mapDispatchToProps: MapDispatchToPropsType = {
     follow,
     unfollow,
-    getUsers
+    getUsers: getUsersTC
 }
 
 const AuthRedirectComponent = withAuthRedirect(UsersClassComponent)

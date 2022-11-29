@@ -8,7 +8,7 @@ export interface FormDataType {
 }
 
 interface SendMessageFormInterface {
-    onSubmit: (data: FormDataType) => void
+    onSubmit: (data: FormDataType, setSubmitting: (isSubmitting: boolean) => void ) => void
 }
 
 export const LoginForm = (props: SendMessageFormInterface) => {
@@ -17,13 +17,14 @@ export const LoginForm = (props: SendMessageFormInterface) => {
         <>
             <Formik
                 initialValues={{email: "", password: "", rememberMe: false}}
-                onSubmit={(values: FormDataType, {resetForm}) => {
-                    props.onSubmit(values)
+                onSubmit={(values: FormDataType, {resetForm, setSubmitting, setErrors}) => {
+                    props.onSubmit(values, setSubmitting)
                     resetForm()
+                    setSubmitting(true)
                 }}
             >
                 {({handleSubmit, handleChange, values, touched, errors, isSubmitting}) => (
-                    <Form>
+                    <Form name={'loginForm'}>
                             <span>Login:</span>
                         <div>
                             <Field type="email" name="email" placeholder="smith@gmail.com"/>
