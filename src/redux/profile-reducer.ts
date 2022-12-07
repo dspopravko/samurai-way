@@ -11,7 +11,6 @@ export type PostType = {
     myLike: boolean
     date: string
 }
-
 export type ProfileType = { // API TYPE
     aboutMe?: string | null;
     contacts: ContactsType;
@@ -22,7 +21,6 @@ export type ProfileType = { // API TYPE
     photos: Photos;
     status: string
 }
-
 export type ContactsType = { // API TYPE
     facebook?: string | null;
     website?: string | null;
@@ -33,7 +31,6 @@ export type ContactsType = { // API TYPE
     github?: string | null;
     mainLink?: string | null;
 }
-
 export type Photos = { // API TYPE
     small?: string | null;
     large?: string | null;

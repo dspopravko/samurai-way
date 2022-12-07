@@ -1,6 +1,8 @@
 import {ActionsTypes} from "./redux-store";
 import {UsersAPI} from "../API/API";
 import {ThunkDispatch} from "redux-thunk";
+import {Dispatch} from "redux";
+import {updateObjInArray} from "../utils/updateObjectShallowProperty";
 
 export type UserReducerACTypes =
     ReturnType<typeof setUsersAC>
@@ -77,7 +79,7 @@ export const usersReducer = (state: UsersStateType = initialState, action: Actio
         case "SET-USER-FOLLOW": {
             return {
                 ...state,
-                users: state.users.map(u => u.id !== action.userId ? u : {...u, followed: action.followed})
+                users: updateObjInArray(state.users, "id", action.userId, {followed: true} )
             }
         }
         case "SET-USERS": {
@@ -117,29 +119,26 @@ export const getUsersTC = (currentPage: number, pageSize: number) => (dispatch: 
         })
 }
 
+const followUnfollowFlow = async (dispatch: Dispatch, userId: number, apiMethod: (userId: number) => Promise<boolean>) => {
+    dispatch(setFetchingFollowAC('fetching', userId))
+    let res;
+    try {
+        res = await apiMethod(userId)
+        res && dispatch(setUserFollowAC(userId, true))
+    } catch (e) {
+
+    }
+    dispatch(setFetchingFollowAC('idle', userId))
+}
+
 export const follow = (id: number) => {
     return (dispatch: ThunkDispatch<UsersStateType, void, UserReducerACTypes>) => {
-        dispatch(setFetchingFollowAC('fetching', id))
-        UsersAPI.followUser(id)
-            .then(r => {
-                r && dispatch(setUserFollowAC(id, true))
-            })
-            .finally(() => {
-                    dispatch(setFetchingFollowAC('idle', id))
-                }
-            )
+        followUnfollowFlow(dispatch, id, UsersAPI.followUser)
     }
 }
 export const unfollow = (id: number) => {
     return (dispatch: ThunkDispatch<UsersStateType, void, UserReducerACTypes>) => {
-        dispatch(setFetchingFollowAC('fetching', id))
-        UsersAPI.unfollowUser(id)
-            .then(r => {
-                r && dispatch(setUserFollowAC(id, false))
-            })
-            .finally(() => {
-                    dispatch(setFetchingFollowAC('idle', id))
-                }
-            )
+        followUnfollowFlow(dispatch, id, UsersAPI.unfollowUser)
+
     }
 }

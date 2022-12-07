@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import s from './Status.module.css'
 
 interface StatusProps {
@@ -6,59 +6,66 @@ interface StatusProps {
     updateStatus: (status: string) => void
 }
 
-export class Status extends React.Component<StatusProps, any> {
+export const Status = (props: StatusProps) => {
 
-    state = {
-        editMode: false,
-        status: this.props.status
+    const [editMode, setEditMode] = useState(false)
+    const [input, updateInput] = useState(props.status)
+
+    useEffect(() => {
+        updateInput(props.status)
+    }, [props.status])
+    // state = {
+    //     editMode: false,
+    //     status: this.props.status
+    // }
+    //
+    // componentDidUpdate(prevProps: Readonly<StatusProps>, prevState: Readonly<any>, snapshot?: any) {
+    //     if (prevProps.status !== this.props.status) {
+    //         this.setState({
+    //           status: this.props.status
+    //         })
+    //     }
+    // }
+    //
+    // activateEditMode = () => {
+    //     this.setState({
+    //         editMode: true
+    //     })
+    // }
+    // deactivateEditMode = () => {
+    //     this.setState({
+    //         editMode: false
+    //     })
+    //     this.props.updateStatus(this.state.status)
+    // }
+    // onStatusChange = (event: React.FormEvent<HTMLInputElement>) => {
+    //     this.setState({
+    //         status: event.currentTarget.value
+    //     })
+    // }
+    // sendStatus = () => {
+    //     this.props.updateStatus(this.state.status)
+    // }
+    const onBlurHandler = () => {
+        setEditMode(false)
+        props.updateStatus(input)
     }
 
-    componentDidUpdate(prevProps: Readonly<StatusProps>, prevState: Readonly<any>, snapshot?: any) {
-        if (prevProps.status !== this.props.status) {
-            this.setState({
-              status: this.props.status
-            })
-        }
-    }
-
-    activateEditMode = () => {
-        this.setState({
-            editMode: true
-        })
-    }
-    deactivateEditMode = () => {
-        this.setState({
-            editMode: false
-        })
-        this.props.updateStatus(this.state.status)
-    }
-    onStatusChange = (event: React.FormEvent<HTMLInputElement>) => {
-        this.setState({
-            status: event.currentTarget.value
-        })
-    }
-    sendStatus = () => {
-        this.props.updateStatus(this.state.status)
-    }
-
-    render() {
-        console.log(this.props.status)
-        return (
-            <div className={s.container}>
-                {!this.state.editMode &&
-                    <div onDoubleClick={this.activateEditMode}>
-                        <span>{this.props.status || "Double click to edit status.."}</span>
-                    </div>
-                }
-                {this.state.editMode &&
-                    <div>
-                        <input autoFocus onChange={this.onStatusChange} onBlur={this.deactivateEditMode}
-                               value={this.state.status}/>
-                        <button onClick={this.sendStatus}>save status</button>
-                    </div>
-                }
-            </div>
-        );
-    }
+    return (
+        <div className={s.container}>
+            {!editMode &&
+                <div onDoubleClick={()=>setEditMode(true)}>
+                    <span>{props.status || "Double click to edit status.."}</span>
+                </div>
+            }
+            {editMode &&
+                <div>
+                    <input autoFocus onChange={(e)=> updateInput(e.currentTarget.value)} onBlur={()=>onBlurHandler()}
+                           value={input}/>
+                    <button onClick={()=>props.updateStatus(input)}>save status</button>
+                </div>
+            }
+        </div>
+    );
 
 }
