@@ -1,23 +1,34 @@
 import React from 'react';
+import Paginate, {ReactPaginateProps} from 'react-paginate'
+import s from './Paginator.module.css'
 
-type PaginatorPropsType = {
-    getUsers: (n: number, m: number) => void
-    pageSize: number
-    totalUsersCount: number
-    currentPage: number
+
+export type OnPageChangeCallback = ReactPaginateProps['onPageChange']
+
+type PaginationPropsType = {
+	currentPage: number
+	pageCount: number
+	pageSize: number
+	onPageChange?: OnPageChangeCallback
 }
 
-export const Paginator = ({getUsers, totalUsersCount,pageSize, currentPage}: PaginatorPropsType) => {
-    const onPageChanged = (n: number) => getUsers(n, pageSize)
-    let pagesCount = Math.ceil(totalUsersCount / pageSize)
-    return (
-        <div>
-            <span>This is {currentPage} page. </span><br/>
-            <span>Select page from 1 to {pagesCount}</span>
-            <input type={'number'}
-                   max={pagesCount}
-                   min={1} onChange={(e) => onPageChanged(+e.target.value)}
-            /> max = {pagesCount}
-        </div>
-    );
+export const Pagination = ({
+														 currentPage,
+														 pageCount,
+														 onPageChange,
+														 pageSize,
+													 }: PaginationPropsType) => {
+	return (
+		<div className={s.pagination}>
+			<Paginate
+				forcePage={currentPage - 1}
+				pageCount={pageCount}
+				marginPagesDisplayed={2}
+				pageRangeDisplayed={pageSize}
+				onPageChange={onPageChange}
+				nextLabel="&rarr;"
+				previousLabel="&larr;"
+			/>
+		</div>
+	)
 }

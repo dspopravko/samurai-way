@@ -3,7 +3,7 @@ import {User} from "./User/User";
 import s from "./Users.module.css"
 import {Loader} from "../misc/Loader/Loader";
 import {UsersPropsType} from "./UsersContainer";
-import {Paginator} from "./Paginator";
+import {Pagination} from "./Paginator";
 
 type UsersComponentPropsType = UsersPropsType
 
@@ -14,11 +14,11 @@ export const Users = ({users, getUsers, unfollow, follow, totalUsersCount, pageS
         <div className={s.usersCanvas}>
             <div className={s.usersWrapper}>
                 <div>
-                    <Paginator
-                        getUsers={getUsers}
-                        pageSize={pageSize}
-                        currentPage={currentPage}
-                        totalUsersCount={totalUsersCount}
+                    <Pagination
+                      pageCount={totalUsersCount}
+                      onPageChange={(selectedItem)=>getUsers(selectedItem.selected + 1, pageSize)}
+                      currentPage={currentPage}
+                      pageSize={pageSize}
                     />
                     {isFetchingUsers && <div className={s.loaderWrapper}><Loader/></div>}
                 </div>
