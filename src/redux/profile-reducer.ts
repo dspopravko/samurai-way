@@ -1,6 +1,7 @@
-import {ActionsTypes} from "./redux-store";
+import {ActionsTypes, AppRootStateType} from "./redux-store";
 import {ThunkDispatch} from "redux-thunk";
-import {ProfileAPI, UsersAPI} from "../API/API";
+import {UsersApi} from "../api/users-api";
+import {ProfileApi} from "../api/profile-api";
 
 export type PostType = {
     id: number
@@ -11,7 +12,7 @@ export type PostType = {
     myLike: boolean
     date: string
 }
-export type ProfileType = { // API TYPE
+export type ProfileType = { // api TYPE
     aboutMe?: string | null;
     contacts: ContactsType;
     lookingForAJob: boolean;
@@ -21,7 +22,7 @@ export type ProfileType = { // API TYPE
     photos: Photos;
     status: string
 }
-export type ContactsType = { // API TYPE
+export type ContactsType = { // api TYPE
     facebook?: string | null;
     website?: string | null;
     vk?: string | null;
@@ -31,7 +32,7 @@ export type ContactsType = { // API TYPE
     github?: string | null;
     mainLink?: string | null;
 }
-export type Photos = { // API TYPE
+export type Photos = { // api TYPE
     small?: string | null;
     large?: string | null;
 }
@@ -88,7 +89,6 @@ export const setUserStatusAC = (status: string) => {
         status
     } as const
 }
-
 
 let initialState = {
     profile: {
@@ -191,17 +191,17 @@ export const profileReducer = (state: ProfileStateType = initialState, action: A
 
 export const getProfileInfo = (userId: number) => (dispatch: ThunkDispatch<ProfileStateType, void, ProfileReducerACTypes>) => {
     dispatch(setFetchingProfileAC(true))
-    ProfileAPI.getUser(userId)
+    ProfileApi.getUser(userId)
         .then(data => {dispatch(setUserProfile(data))})
         .finally(()=> {dispatch(setFetchingProfileAC(false))})
-    UsersAPI.isUserFollowed(+userId).then(data => {
+    UsersApi.isUserFollowed(+userId).then(data => {
         dispatch(setUserFollowAC(userId, data))
     })
 }
 
 export const getStatus = (userId: number) => (dispatch: ThunkDispatch<ProfileStateType, void, ProfileReducerACTypes>) => {
     dispatch(setFetchingProfileAC(true))
-    ProfileAPI.getStatus(userId)
+    ProfileApi.getStatus(userId)
         .then(data => {
             console.log(data)
             dispatch(setUserStatusAC(data.data))
@@ -212,9 +212,20 @@ export const getStatus = (userId: number) => (dispatch: ThunkDispatch<ProfileSta
 }
 export const updateStatus = (status: string) => (dispatch: ThunkDispatch<ProfileStateType, void, ProfileReducerACTypes>) => {
     dispatch(setFetchingProfileAC(true))
-    ProfileAPI.updateStatus(status)
+    ProfileApi.updateStatus(status)
         .then(data => {
             data.status === 200 && dispatch(setUserStatusAC(status))
+        })
+        .finally(()=> {
+        dispatch(setFetchingProfileAC(false))
+    })
+}
+export const updatePhoto = (photoFile: File) => (dispatch: ThunkDispatch<ProfileStateType, void, ProfileReducerACTypes>, getState: ()=>AppRootStateType) => {
+    dispatch(setFetchingProfileAC(true))
+    const state = getState()
+    ProfileApi.updatePhoto(photoFile)
+        .then(data => {
+            data.status === 200 && dispatch(getProfileInfo(state.profileReducer.profile.userId))
         })
         .finally(()=> {
         dispatch(setFetchingProfileAC(false))

@@ -1,0 +1,93 @@
+.contentImgWrapper {
+    background-color: #dfcdf1;
+    width: 100%;
+    height: 200px;
+}
+
+.contentImgWrapper img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.profileInfoWrapper {
+    background: #eaeaea;
+}
+.description {
+    min-height: 126px;
+    display: flex;
+    gap: 50px;
+    padding-bottom: 26px;
+    padding-left: 29px;
+}
+.avatarBlock{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px
+}
+
+.avatarWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: -90px;
+    margin-bottom: -90px;
+    background: #eeeeee;
+    padding: 8px;
+    width: 166px;
+    height: 166px;
+    border-radius: 100%;
+    user-select: none;
+}
+.avatarWrapper img {
+    object-fit: cover;
+    width: 150px;
+    height: 150px;
+    border-radius: 100px;
+}
+
+.nameWrapper {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+.description_2 {
+    align-self: flex-end;
+}
+.description_3 {
+    align-self: flex-end;
+}
+.avatarMenuOnHover{
+    opacity: 0;
+    position: absolute;
+    transition: ease 0.2s;
+}
+.avatarMenuOnHover:hover, .avatarMenuOnHover:active{
+    opacity: 1;
+    position: absolute;
+}
+.avatarMenuOnHover button{
+    background-color: #383b3f;
+    border-radius: 18px;
+    color: white;
+    margin: 0;
+    width: 130px
+}
+.changePhotoModal {
+    background-color: white;
+    border-radius: 12px;
+    height: 400px;
+    width: 500px;
+    transform: translate(200px, -100px);
+    position: absolute;
+    box-shadow: 0 0 18px 4px rgba(0,0,0,0.15);
+}
+.fileInput {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

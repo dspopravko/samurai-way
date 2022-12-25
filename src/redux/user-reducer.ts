@@ -1,8 +1,8 @@
 import {ActionsTypes} from "./redux-store";
-import {UsersAPI} from "../API/API";
 import {ThunkDispatch} from "redux-thunk";
 import {Dispatch} from "redux";
 import {updateObjInArray} from "../utils/updateObjectShallowProperty";
+import {UsersApi} from "../api/users-api";
 
 export type UserReducerACTypes =
     ReturnType<typeof setUsersAC>
@@ -96,7 +96,7 @@ export const usersReducer = (state: UsersStateType = initialState, action: Actio
         }
         case "SET-FETCHING-FOLLOW": {
             return action.setType === 'idle' ?
-                {...state, isFetchingFollow: state.isFetchingFollow.filter(id => id != action.userId)}
+                {...state, isFetchingFollow: state.isFetchingFollow.filter(id => id !== action.userId)}
                 : {...state, isFetchingFollow: [...state.isFetchingFollow, action.userId]}
         }
         default:
@@ -109,7 +109,7 @@ export const getUsersTC = (currentPage: number, pageSize: number) => (dispatch: 
     dispatch(setFetchingUsersAC(true))
     dispatch(setUsersAC([]))
     dispatch(setCurrentPageAC(currentPage))
-    UsersAPI.getUsers(currentPage, pageSize)
+    UsersApi.getUsers(currentPage, pageSize)
         .then(data => {
             dispatch(setUsersAC(data.items))
             dispatch(setTotalUsersCountAC(data.totalCount))
@@ -133,12 +133,12 @@ const followUnfollowFlow = async (dispatch: Dispatch, userId: number, apiMethod:
 
 export const follow = (id: number) => {
     return (dispatch: ThunkDispatch<UsersStateType, void, UserReducerACTypes>) => {
-        followUnfollowFlow(dispatch, id, UsersAPI.followUser)
+        followUnfollowFlow(dispatch, id, UsersApi.followUser)
     }
 }
 export const unfollow = (id: number) => {
     return (dispatch: ThunkDispatch<UsersStateType, void, UserReducerACTypes>) => {
-        followUnfollowFlow(dispatch, id, UsersAPI.unfollowUser)
+        followUnfollowFlow(dispatch, id, UsersApi.unfollowUser)
 
     }
 }

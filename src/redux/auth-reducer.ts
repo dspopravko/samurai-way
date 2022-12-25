@@ -1,12 +1,12 @@
 import {ActionsTypes} from "./redux-store";
 import {ThunkDispatch} from "redux-thunk";
-import {authAPI} from "../API/API";
+import {authAPI} from "../api/auth-api";
 
 export type AuthReducerACTypes =
     ReturnType<typeof setUser>
     | ReturnType<typeof setFetching>
 
-export type AuthAPIType = { //API Type
+export type AuthAPIType = { //api Type
     data: {
         id: number
         login: string

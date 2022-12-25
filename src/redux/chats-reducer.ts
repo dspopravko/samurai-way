@@ -2,10 +2,10 @@ import {ActionsTypes} from "./redux-store";
 
 type ChatMessagesType = {
     id: number
+    body: string
+    date: string
     authorId: number
     name: string
-    message: string
-    date: string
     avatar: string | null
 }
 export type ChatHeaderType = {
@@ -15,7 +15,7 @@ export type ChatHeaderType = {
     chatLogo: string
 }
 type ChatSavedMessageType = {
-    message: string
+    body: string
 }
 export type ChatType = {
     chatHeader: ChatHeaderType
@@ -54,19 +54,12 @@ const initialState = [
             id: 1,
             authorId: 2645,
             name: "Maisy",
-            message: "How are you?",
+            body: "How are you?",
             date: "12:45",
-            avatar: "https://images.pexels.com/photos/7860704/pexels-photo-7860704.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        }, {
-            id: 2,
-            authorId: 2645,
-            name: "Maisy",
-            message: "I miss you",
-            date: "12:46",
             avatar: "https://images.pexels.com/photos/7860704/pexels-photo-7860704.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         }],
         chatNewMessage: {
-            message: "I'm fine, and you?"
+            body: "I'm fine, and you?"
         }
     },
     {
@@ -80,19 +73,19 @@ const initialState = [
             id: 1,
             authorId: 2645,
             name: "Reo",
-            message: "Let's go out tomorrow!",
+            body: "Let's go out tomorrow!",
             date: "09:14",
             avatar: "https://images.pexels.com/photos/7646458/pexels-photo-7646458.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         }, {
             id: 2,
             authorId: 2645,
             name: "Reo",
-            message: "7pm is ok?",
+            body: "7pm is ok?",
             date: "09:14",
             avatar: "https://images.pexels.com/photos/7646458/pexels-photo-7646458.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         }],
         chatNewMessage: {
-            message: "Still thinking about it.."
+            body: "Still thinking about it.."
         }
     }, {
         chatHeader: {
@@ -105,19 +98,19 @@ const initialState = [
             id: 1,
             authorId: 2645,
             name: "Loui",
-            message: "Here some picks from past weekends /someurl/",
+            body: "Here some picks from past weekends /someurl/",
             date: "13:08",
             avatar: "https://images.pexels.com/photos/3209639/pexels-photo-3209639.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         }, {
             id: 2,
             authorId: 2645,
             name: "Loui",
-            message: "Choose that's best and chat me",
+            body: "Choose that's best and chat me",
             date: "13:10",
             avatar: "https://images.pexels.com/photos/3209639/pexels-photo-3209639.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         }],
         chatNewMessage: {
-            message: "Honestly I like all of them"
+            body: "Honestly I like all of them"
         }
     },
 ]
@@ -136,14 +129,14 @@ export const chatsReducer = (state: ChatType[] = initialState, action: ActionsTy
                 id: state[action.chatID].chatMessages.length,
                 authorId: 0,
                 name: action.name,
-                message: action.messageText,
+                body: action.messageText,
                 date: date,
                 avatar: action.avatar ? action.avatar : null
             }
             return state.map((c, i) => i === action.chatID
                 ? ({...c,
                     chatNewMessage:
-                        {...c.chatNewMessage, message: ""},
+                        {...c.chatNewMessage, body: ""},
                     chatHeader:
                         {...c.chatHeader, date: date},
                     chatMessages:
