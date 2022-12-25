@@ -104,7 +104,7 @@ const mapDispatchToProps: MapDispatchToPropsType = {
     getStatus
 }
 
-export const ProfileContainer = compose<React.ComponentType>(
+export default compose<React.ComponentType>(
     withAuthRedirect,
     withRouter,
     connect(mapStateToProps, mapDispatchToProps)

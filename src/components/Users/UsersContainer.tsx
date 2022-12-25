@@ -46,4 +46,4 @@ const mapDispatchToProps: MapDispatchToPropsType = {
 }
 
 const AuthRedirectComponent = withAuthRedirect(UsersClassComponent)
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent);
