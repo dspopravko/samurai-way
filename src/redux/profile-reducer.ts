@@ -203,7 +203,6 @@ export const getStatus = (userId: number) => (dispatch: ThunkDispatch<ProfileSta
     dispatch(setFetchingProfileAC(true))
     ProfileApi.getStatus(userId)
         .then(data => {
-            console.log(data)
             dispatch(setUserStatusAC(data.data))
         })
         .finally(()=> {

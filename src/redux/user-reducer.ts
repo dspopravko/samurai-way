@@ -55,7 +55,6 @@ export const setFetchingFollowAC = (setType: 'fetching' | 'idle', userId: number
     } as const
 }
 export const setUserFollowAC = (userId: number, followed: boolean) => {
-    console.log(`follow(${followed}) user ${userId} AC`)
     return {
         type: "SET-USER-FOLLOW",
         userId,
@@ -113,7 +112,7 @@ export const getUsersTC = (currentPage: number, pageSize: number) => (dispatch: 
         .then(data => {
             dispatch(setUsersAC(data.items))
             dispatch(setTotalUsersCountAC(data.totalCount))
-        }).catch(err => console.log(err))
+        })
         .finally(() => {
             dispatch(setFetchingUsersAC(false))
         })

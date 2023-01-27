@@ -14,38 +14,7 @@ export const Status = (props: StatusProps) => {
     useEffect(() => {
         updateInput(props.status)
     }, [props.status])
-    // state = {
-    //     editMode: false,
-    //     status: this.props.status
-    // }
-    //
-    // componentDidUpdate(prevProps: Readonly<StatusProps>, prevState: Readonly<any>, snapshot?: any) {
-    //     if (prevProps.status !== this.props.status) {
-    //         this.setState({
-    //           status: this.props.status
-    //         })
-    //     }
-    // }
-    //
-    // activateEditMode = () => {
-    //     this.setState({
-    //         editMode: true
-    //     })
-    // }
-    // deactivateEditMode = () => {
-    //     this.setState({
-    //         editMode: false
-    //     })
-    //     this.props.updateStatus(this.state.status)
-    // }
-    // onStatusChange = (event: React.FormEvent<HTMLInputElement>) => {
-    //     this.setState({
-    //         status: event.currentTarget.value
-    //     })
-    // }
-    // sendStatus = () => {
-    //     this.props.updateStatus(this.state.status)
-    // }
+
     const onBlurHandler = () => {
         setEditMode(false)
         props.updateStatus(input)

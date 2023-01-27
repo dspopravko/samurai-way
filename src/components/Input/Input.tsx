@@ -33,7 +33,6 @@ export const Input = ({
         onEnter && e.key === 'Enter' && onEnter()
     }
 
-    // const finalSpanClassName = `${s.error} ${spanClassName ? spanClassName : ''}`
     const finalInputClassName = `${error ? s.errorInput : s.superInput} ${className}`
     return (
         <div>

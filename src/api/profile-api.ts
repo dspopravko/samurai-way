@@ -3,12 +3,9 @@ import {apiInstance} from "./api-instance";
 export const ProfileApi = {
     getUser(userId: number = 2) {
         return apiInstance.get(`profile/${userId}`)
-            .then(response => response.data).catch(err => {
-                console.log(err)
-            })
+            .then(response => response.data)
     },
     getStatus(userId: number) {
-        console.log('getting user status...')
         return apiInstance.get(`profile/status/${userId}`)
     },
     updateStatus(status: string) {

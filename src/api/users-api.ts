@@ -4,9 +4,7 @@ import {ProfileApi} from "./profile-api";
 export const UsersApi = {
     getUsers(currentPage: number = 1, pageSize: number = 5) {
         return apiInstance.get(`users?page=${currentPage}&count=${pageSize}`)
-            .then(response => response.data).catch(err => {
-                console.log(err)
-            })
+            .then(response => response.data)
     },
     getUser(userId: number = 2) {
         console.warn("This method is deprecated, use ProfileApi")
@@ -16,16 +14,13 @@ export const UsersApi = {
         return apiInstance.get(`follow/${userId}`)
             .then(response => {
                 return response.data
-            }).catch(err => {
-                console.log(err)
             })
     },
     followUser(userId: number) {
         return apiInstance.post(`follow/${userId}`, {})
             .then(response => {
                 return response.data.resultCode === 0;
-            }).catch(err => {
-                console.log(err)
+            }).catch(() => {
                 return false
             })
     },
@@ -33,8 +28,7 @@ export const UsersApi = {
         return apiInstance.delete(`follow/${userId}`)
             .then(response => {
                 return response.data.resultCode === 0;
-            }).catch(err => {
-                console.log(err)
+            }).catch(() => {
                 return false
             })
     }

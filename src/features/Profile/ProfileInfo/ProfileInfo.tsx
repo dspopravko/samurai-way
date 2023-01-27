@@ -38,9 +38,9 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
 				<div className={s.contentImgWrapper}>
 					<img
 						alt={"profile-wallpaper"}
-						src={'https://asset.berita24.id/wallpaper/20220115/3200x1080-macos-extended-wallpaper-for-ultrawide-monitors-thumb.jpg'}/>
+						src={'https://upload.wikimedia.org/wikipedia/commons/f/f6/Swiss_National_Park_131.JPG'}/>
 				</div>
-				<div className={s.description}>
+				<div className={s.profileInfo}>
 					<div className={s.avatarBlock}>
 						<div className={s.avatarWrapper}>
 							<img alt={"avatar"}
@@ -50,9 +50,9 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
 						<div className={s.nameWrapper}>
 						</div>
 					</div>
-					<div className={s.description_2}>
+					<div className={s.aboutMe}>
 					</div>
-					<div className={s.description_3}>
+					<div className={s.profileAction}>
 						<div className={s.btnWrapper}>
 						</div>
 					</div>
@@ -67,15 +67,15 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
 					alt={"profile-wallpaper"}
 					src={'https://asset.berita24.id/wallpaper/20220115/3200x1080-macos-extended-wallpaper-for-ultrawide-monitors-thumb.jpg'}/>
 			</div>
-			<div className={s.description}>
+			<div className={s.profileInfo}>
 				<div className={s.avatarBlock}>
 					<div className={s.avatarWrapper}>
 						<img alt={"avatar"}
 								 src={props.profile.photos.large || logo}>
 						</img>
-						<div className={s.avatarMenuOnHover}>
+						{props.isMyProfile && <div className={s.avatarMenuOnHover}>
 							<button onClick={() => setModal(true)}>Change photo</button>
-						</div>
+						</div>}
 					</div>
 					<div className={s.nameWrapper}>
 						{props.profile.fullName}
@@ -88,13 +88,13 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
                 <button onClick={updatePhotoHandler}>Update Photo</button>
             </div>
         </div>}
-				<div className={s.description_2}>
+				<div className={s.aboutMe}>
 					<Status status={props.profile.status} updateStatus={props.updateStatus}/>
-					<b>aboutMe:</b> {props.profile.aboutMe} <br/>
-					<b>lookingForAJob:</b> {props.profile.lookingForAJob}<br/>
-					<b>lookingForAJobDescription:</b> {props.profile.lookingForAJobDescription}
+					<b>About me</b> {props.profile.aboutMe} <br/>
+					{props.profile.lookingForAJob && <b>Open to work </b>}
+					<p>{props.profile.lookingForAJobDescription}</p>
 				</div>
-				<div className={s.description_3}>
+				<div className={s.profileAction}>
 
 					{props.isMyProfile ? 'Current user account' : ''}
 					{props.isMyProfile ? ''
@@ -108,7 +108,6 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
 								></Button>}
 						</div>
 					}
-
 				</div>
 			</div>
 		</div>

@@ -1,5 +1,6 @@
-import {Field, Form, Formik} from "formik";
+import {Form, Formik} from "formik";
 import React from "react";
+import s from "./MessageForm.module.css"
 
 export interface FormDataType {
     messageText: string
@@ -22,8 +23,8 @@ export const SendMessageForm = (props: SendMessageFormInterface) => {
                 resetForm()
             }}
         >
-            <Form>
-                <Field id="messageText" name="messageText" placeholder={props.placeholder} />
+            <Form className={s.form}>
+                <textarea id="messageText" name="messageText" placeholder={props.placeholder} />
                 <button type="submit">Send</button>
             </Form>
         </Formik>

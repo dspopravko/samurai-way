@@ -1,5 +1,4 @@
 import {ActionsTypes, AppThunkType} from "./redux-store";
-import {Dispatch} from "redux";
 import {getAuthUserData} from "./auth-reducer";
 
 export type AppReducerACTypes =
@@ -45,7 +44,6 @@ export const initializeApp = (): AppThunkType => (dispatch) => {
     const getAuth = dispatch(getAuthUserData());
     Promise.all([getAuth])
         .then(() => {
-            console.log('initialized!')
             dispatch(setAppStatus(AppStatus.initialized))
         })
 }
