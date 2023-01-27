@@ -22,7 +22,7 @@ export const Pagination = ({
 		<div className={s.pagination}>
 			<Paginate
 				forcePage={currentPage - 1}
-				pageCount={pageCount}
+				pageCount={Math.ceil(pageCount/pageSize)}
 				marginPagesDisplayed={2}
 				pageRangeDisplayed={pageSize}
 				onPageChange={onPageChange}

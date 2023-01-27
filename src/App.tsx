@@ -58,7 +58,7 @@ class AppClassComponent extends React.Component<AppPropsType, MapStateToPropsTyp
 						<Route path={'/news'} render={() => <News/>}/>
 						<Route path={'/notes'} render={() => <Notes/>}/>
 						<Route path={'/settings'} render={() => <Settings/>}/>
-						<Route path={'/login'} render={() => <Login/>}/>
+						<Route path={['/login', '*']} render={() => <Login/>}/>
 					</div>
 					<Navbar/>
 				</div>

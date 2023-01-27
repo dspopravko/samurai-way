@@ -89,8 +89,8 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
             </div>
         </div>}
 				<div className={s.aboutMe}>
-					<Status status={props.profile.status} updateStatus={props.updateStatus}/>
-					<b>About me</b> {props.profile.aboutMe} <br/>
+					{props.isMyProfile && <Status status={props.profile.status} updateStatus={props.updateStatus}/>}
+					{props.profile.aboutMe && <><b>About me</b> {props.profile.aboutMe} <br/></>}
 					{props.profile.lookingForAJob && <b>Open to work </b>}
 					<p>{props.profile.lookingForAJobDescription}</p>
 				</div>

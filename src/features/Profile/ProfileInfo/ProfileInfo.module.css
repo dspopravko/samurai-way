@@ -15,9 +15,9 @@
 .profileInfo {
     min-height: 126px;
     display: flex;
+    justify-content: space-between;
     gap: 50px;
-    padding-bottom: 26px;
-    padding-left: 29px;
+    padding:0 29px 26px 29px;
 }
 .avatarBlock{
     display: flex;
@@ -54,6 +54,7 @@
     font-weight: 600;
 }
 .aboutMe {
+    min-width: 300px;
     font-size: 1rem;
     align-self: flex-end;
 }
