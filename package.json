@@ -1,8 +1,8 @@
 {
   "name": "samurai-way",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
-  "homepage": "",
+  "homepage": "https://dspopravko.github.io/samurai-way",
   "dependencies": {
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "12.0.0",
@@ -12,7 +12,7 @@
     "axios": "0.26.0",
     "classnames": "2.3.1",
     "formik": "2.2.9",
-    "gh-pages": "^4.0.0",
+    "gh-pages": "^5.0.0",
     "jest": "27.5.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -30,14 +30,12 @@
     "web-vitals": "2.1.0"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
