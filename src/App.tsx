@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route} from "react-router-dom";
+import { HashRouter, Route } from "react-router-dom";
 import './App.css';
 import './layout/Header/Header';
 import Navbar from "./layout/Sidebar/Navbar";
@@ -29,7 +29,7 @@ class AppClassComponent extends React.Component<AppPropsType, MapStateToPropsTyp
 		if (this.props.initialized === AppStatus.pending) return <Loader/>
 
 		return (
-			<BrowserRouter>
+			<HashRouter>
 				<div className={'app-wrapper'}>
 					<HeaderContainer/>
 					<div className={'app-wrapper-content'}>
@@ -62,7 +62,7 @@ class AppClassComponent extends React.Component<AppPropsType, MapStateToPropsTyp
 					</div>
 					<Navbar/>
 				</div>
-			</BrowserRouter>
+			</HashRouter>
 		);
 	}
 }
