@@ -1,0 +1,28 @@
+.formContainer {
+    width: 100%;
+    display: grid;
+    place-content: center;
+}
+.formContainer > form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.formContainer > form > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px
+}
+.formContainer > form > div > input,button {
+    padding: 5px;
+    border-radius: 7px;
+    border: 1px solid #c1c1c1;
+}
+.formContainer > form > div > button {
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+.formContainer > form > div > button:hover {
+    background-color: #1f1f1f;
+    color: #FFF;
+}

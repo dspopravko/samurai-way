@@ -1,5 +1,6 @@
 import React from "react";
 import {Field, Form, Formik} from "formik";
+import s from './LoginFrom.module.css'
 
 export interface FormDataType {
     email: string
@@ -12,12 +13,11 @@ interface SendMessageFormInterface {
 }
 
 export const LoginForm = (props: SendMessageFormInterface) => {
-
     return (
-        <>
+        <div className={s.formContainer}>
             <Formik
                 initialValues={{email: "demid1498@gmail.com", password: "Ex2X8KUZPbRnC!4", rememberMe: false}}
-                onSubmit={(values: FormDataType, {resetForm, setSubmitting, setErrors}) => {
+                onSubmit={(values: FormDataType, {resetForm, setSubmitting}) => {
                     props.onSubmit(values, setSubmitting)
                     resetForm()
                     setSubmitting(true)
@@ -25,14 +25,14 @@ export const LoginForm = (props: SendMessageFormInterface) => {
             >
                 {({touched, errors, isSubmitting}) => (
                     <Form name={'loginForm'}>
-                            <span>Login:</span>
                         <div>
-                            <Field type="email" name="email" placeholder="smith@gmail.com"/>
+                          <span>Login:</span>
+                          <Field type="email" name="email" placeholder="smith@gmail.com"/>
                             {touched.email && errors.email && <div>{errors.email}</div>}
                         </div>
-                            <span>Password:</span>
                         <div>
-                            <Field type="password" name="password" placeholder="secret!password"/>
+                          <span>Password:</span>
+                          <Field type="password" name="password" placeholder="secret!password"/>
                             {touched.password && errors.password && <div>{errors.password}</div>}
                         </div>
                         <div>
@@ -44,6 +44,6 @@ export const LoginForm = (props: SendMessageFormInterface) => {
             </Formik>
 
 
-        </>
+        </div>
     )
 }
